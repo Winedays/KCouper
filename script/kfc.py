@@ -93,7 +93,8 @@ def main():
 
     coupon_dict = {}
     for coupon_code in range(22000, 25000):
-        print(f'{coupon_code=}')
+        if coupon_code % 500 == 0:
+            print(f'getting coupun {(coupon_code-22000)/3000}%...')
         # coupon_code = '23501'
         resp = session.post(f'https://www.kfcclub.com.tw/GetCouponData/{coupon_code}')
         '''

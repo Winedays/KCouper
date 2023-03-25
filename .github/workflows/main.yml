@@ -1,0 +1,39 @@
+name: Save output to GitHub
+
+on:
+  schedule:
+  - cron: "30 16 * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  save-output:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Caching pipenv dependencies:
+    - name: Install pipenv
+      run: pipx install pipenv
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+        cache: 'pipenv'
+    - run: pipenv install
+
+    - name: Run program and generate output
+      run: |
+        pipenv run python script/kfc.py
+        mv -f coupon_dict.js js/coupon_dict.js
+        mv -f coupon_list.js js/coupon_list.js
+
+    - name: Commit and push changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: 'js/coupon_dict.js js/coupon_list.js'
+        message: 'daily update cpupon informations'
+        committer_name: GitHub Actions
+        committer_email: 41898282+github-actions[bot]@users.noreply.github.com
