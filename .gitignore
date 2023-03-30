@@ -1,4 +1,9 @@
 coupon.json
+coupon.js
+template.html
+/coupon_list.js
+/coupon_dict.js
+/test.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
