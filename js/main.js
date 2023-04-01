@@ -155,7 +155,10 @@ function prepareButtons() {
 $(document).ready(function() {
     $("#myTags").tagit({
         allowDuplicates: true,
-        placeholderText: "你想找...",
+        placeholderText: "我想找...",
+        beforeTagAdded: function(event, ui) {
+            $(".tagit-new > input").removeAttr("placeholder")
+        },
         afterTagAdded: function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
             findCouponsWithNames(names)
@@ -163,6 +166,9 @@ $(document).ready(function() {
         afterTagRemoved:  function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
             findCouponsWithNames(names)
+            if($('#myTags').tagit('assignedTags').length == 0) {
+                $(".tagit-new > input").attr("placeholder", "我想找...")
+            }
         },
     });
     prepareInitData();
