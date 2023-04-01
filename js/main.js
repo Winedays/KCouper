@@ -28,6 +28,37 @@ const COUPONS = COUPON_LIST
 const COUPONS_BY_CODE = COUPON_DICT
 
 /**
+ * @type {Object<string, string>}
+ */
+const filterItem = {
+    '原味蛋撻': '蛋撻',
+    '咔啦脆雞': '炸雞',
+    '青花椒香麻脆雞': '椒麻雞',
+    '義式香草紙包雞': '紙包雞',
+    '咔啦雞腿堡': '咔啦雞堡',
+    '花生熔岩卡啦雞腿堡': '花生熔岩卡啦雞堡',
+    '美式煙燻咔脆雞堡': '煙燻雞堡',
+    '紐奧良烙烤雞腿堡': '烤雞腿堡',
+    '墨西哥莎莎雞腿捲': '莎莎雞腿捲',
+    '上校雞塊': '雞塊',
+    '香酥脆薯': '脆薯',
+    '雙色轉轉QQ球': 'QQ球',
+    '經典玉米': '經典玉米',
+    '點心盒-上校雞塊+香酥脆薯': '點心盒',
+    '鮮蔬沙拉': '沙拉',
+}
+
+const filterItemByKey = {};
+for (const [key, value] of Object.entries(filterItem)) {
+    filterItemByKey[value] = key;
+}
+
+/**
+ * @type {Set<string>}
+ */
+const filterKeySet = new Set(Object.keys(filterItem))
+
+/**
  * @param {string} string 
  * @returns {string}
  */
@@ -42,7 +73,7 @@ function escapeRegex(string) {
  */
 function findCouponsWithNames(names) {
     COUPONS.filter((coupon) => {
-        if(!names.every((name) => coupon.items.some((item) => item.name.includes(name)))){
+        if(!names.every((name) => coupon.items.some((item) => item.name.includes(filterItemByKey[name])))){
             $(`#coupon-${coupon.coupon_code}`).hide()
         } else {
             $(`#coupon-${coupon.coupon_code}`).show()
@@ -63,10 +94,18 @@ function couponsArrayToObject(couponsArray) {
     }, {});
 }
 
-function addTagEvent(event) {
-    $("#myTags").tagit("createTag", event.currentTarget.textContent);
+function filterClickEvent(event) {
+    const e = $(event.currentTarget)
+    if(e.attr('class').includes('active')) {
+        $("#myTags").tagit("removeTagByLabel", e.text());
+        e.removeClass('btn-info active')
+        e.addClass('btn-light')
+    } else {
+        $("#myTags").tagit("createTag", e.text());
+        e.removeClass('btn-light')
+        e.addClass('btn-info active')
+    }
 }
-
 
 function prepareInitData() {
     const row = $('#row');
@@ -95,17 +134,20 @@ function prepareInitData() {
 function prepareButtons() {
     const exceptCase = new RegExp('可樂|七喜|玉米濃湯|綠茶|紅茶')
     const siteCase = new RegExp(/\([大中小辣]\)|[0-9]塊/)
-    const names = new Set();
     COUPONS.forEach(({items}) => {
         items.forEach(({name}) => {
             if(exceptCase.exec(name)) return;
-            names.add(name.replace(siteCase, ''))
+            const renderName = name.replace(siteCase, '')
+            if(filterKeySet.has(renderName)) return;
+
+            filterKeySet.add(renderName)
+            filterItem[renderName] = renderName
         })
     })
 
     let btn_html = "";
-    names.forEach(name => {
-        btn_html += `<button type="button" class="btn btn-info item-btn">${name}</button>`
+    filterKeySet.forEach(name => {
+        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${name}">${filterItem[name]}</button>`
     })
     $('#buttons').html(btn_html);
 }
@@ -125,6 +167,6 @@ $(document).ready(function() {
     });
     prepareInitData();
     prepareButtons();
-    $(".btn").click(addTagEvent);
+    $(".btn").click(filterClickEvent);
 })
 

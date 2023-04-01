@@ -17,6 +17,11 @@
 
 .item-btn {
   margin: 5px;
+  border-color: #17a2b8;
+}
+
+.item-btn:hover {
+  border-color: #17a2b8;
 }
 
 .btn-area {
