@@ -28,6 +28,25 @@
   text-align: center;
 }
 
+.clear-btn {
+  border-color: #28a745;
+  float: right;
+  margin-top: 2px;
+}
+
+.clear-btn:hover {
+  width: 58px;
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.tagit-bar {
+  width: calc(100% - 63px);
+  display: inline-block;
+  margin: 0;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }

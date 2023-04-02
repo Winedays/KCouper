@@ -115,6 +115,10 @@ function filterClickEvent(event) {
     }
 }
 
+function clearTagsEvent(event) {
+    $("#myTags").tagit("removeAll");
+}
+
 function prepareInitData() {
     const row = $('#row');
 
@@ -185,6 +189,7 @@ $(document).ready(function() {
     });
     prepareInitData();
     prepareButtons();
-    $(".btn").click(filterClickEvent);
+    $(".item-btn").click(filterClickEvent);
+    $(".clear-btn").click(clearTagsEvent);
 })
 
