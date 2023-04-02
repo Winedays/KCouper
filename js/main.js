@@ -73,7 +73,7 @@ function escapeRegex(string) {
  */
 function findCouponsWithNames(names) {
     COUPONS.filter((coupon) => {
-        if(!names.every((name) => coupon.items.some((item) => item.name.includes(filterItemByKey[name])))){
+        if(!names.every((name) => coupon.items.some((item) => item.name.includes(filterItemByKey[name] || name)))){
             $(`#coupon-${coupon.coupon_code}`).hide()
         } else {
             $(`#coupon-${coupon.coupon_code}`).show()
@@ -94,16 +94,24 @@ function couponsArrayToObject(couponsArray) {
     }, {});
 }
 
+function activeFilterButton(button) {
+    button.removeClass('btn-light')
+    button.addClass('btn-info active')
+}
+
+function inactiveFilterButton(button) {
+    button.removeClass('btn-info active')
+    button.addClass('btn-light')
+}
+
 function filterClickEvent(event) {
     const e = $(event.currentTarget)
     if(e.attr('class').includes('active')) {
         $("#myTags").tagit("removeTagByLabel", e.text());
-        e.removeClass('btn-info active')
-        e.addClass('btn-light')
+        inactiveFilterButton(e)
     } else {
         $("#myTags").tagit("createTag", e.text());
-        e.removeClass('btn-light')
-        e.addClass('btn-info active')
+        activeFilterButton(e)
     }
 }
 
@@ -147,7 +155,7 @@ function prepareButtons() {
 
     let btn_html = "";
     filterKeySet.forEach(name => {
-        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${name}">${filterItem[name]}</button>`
+        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${name}" data-value="${filterItem[name]}">${filterItem[name]}</button>`
     })
     $('#buttons').html(btn_html);
 }
@@ -166,6 +174,10 @@ $(document).ready(function() {
         afterTagRemoved:  function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
             findCouponsWithNames(names)
+            filterBtn = $(`[data-value="${ui.tagLabel}"]`)
+            if (filterBtn) {
+                inactiveFilterButton(filterBtn)
+            }
             if($('#myTags').tagit('assignedTags').length == 0) {
                 $(".tagit-new > input").attr("placeholder", "我想找...")
             }
