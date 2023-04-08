@@ -13,9 +13,9 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.8.12/themes/smoothness/jquery-ui.css">
-    <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
-    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.12/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link href="./css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <link href="./css/main.css" rel="stylesheet">
   </head>
 
@@ -26,48 +26,71 @@
         <div class="container d-flex justify-content-between">
           <!-- <a href="https://getbootstrap.com/docs/4.0/examples/album/#" class="navbar-brand d-flex align-items-center"> -->
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
-          <strong style="color: aliceblue;">KCouper</strong>
+          <strong>KCouper</strong>
 
+          <div class="info">
+            <div type="button" class="bi bi-info-circle" title="聯絡資訊" data-toggle="modal" data-target="#contactModal"></div>
+            <div type="button" class="bi bi-journal-text" title="更新日誌" data-toggle="modal" data-target="#updateLogModal"></div>
+          </div>
         </div>
       </div>
     </header>
 
     <main role="main">
-
-      <div class="album py-5 bg-light">
+      <div class="album py-2 bg-light">
         <div class="container" id="container">
-
           <div>
             <ul id="myTags" class="tagit-bar">
               <!-- Existing list items will be pre-added to the tags -->
             </ul>
             <button type="button" class="btn btn-light clear-btn">清除</button>
           </div>
-          <div id="buttons" class="btn-area">
-          </div>
+          <div id="buttons" class="btn-area"></div>
           <hr>
 
-          <div class="row" id="row">
-            <!-- <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22348%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20348%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18719d80436%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A17pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18719d80436%22%3E%3Crect%20width%3D%22348%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22116.71875%22%20y%3D%22120.3%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div> -->
-            </div>
+          <div class="row" id="row"></div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="updateLogModal" tabindex="-1" aria-labelledby="updateLogModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateLogModalLabel"><strong>更新日誌</strong></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>2023-04-08</h6>
+            <ul>
+              <li>新增聯絡方式及更新日誌</li>
+            </ul>
+            <h6>2023-04-01</h6>
+            <ul><li>初版上線</li></ul>
           </div>
         </div>
       </div>
+    </div>
 
-    </main>
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="contactModalLabel"><strong>聯絡資訊</strong></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center contact-body">
+            <div><i class="bi bi-github"></i> : <a href="https://github.com/Winedays" target="_blank">https://github.com/Winedays</a></div>
+            <div></div><img src="images/gmail.png"> : <a href="mailto:xxx">adler011014@gmail.com</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -78,6 +101,5 @@
     <script src="./js/coupon_list.js"></script>
     <script src="./js/coupon_dict.js"></script>
     <script src="./js/main.js"></script>
-
   </body>
 </html>

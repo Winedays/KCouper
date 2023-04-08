@@ -47,6 +47,27 @@
   margin: 0;
 }
 
+header {
+  color: aliceblue;
+  font-size: 18px;
+}
+
+.info {
+  display: flex;
+}
+
+.info > div {
+  margin: 0 5px;
+}
+
+.contact-body img {
+  width: 20px;
+}
+
+.contact-body i {
+  font-size: 20px;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }

@@ -192,4 +192,3 @@ $(document).ready(function() {
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
 })
-
