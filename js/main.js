@@ -20,43 +20,44 @@
 /**
  * @type {Coupon[]}
  */
-const COUPONS = COUPON_LIST
+const COUPONS = COUPON_DICT.coupon_list
 
 /**
  * @type {Object.<number, Coupon>}
  */
-const COUPONS_BY_CODE = COUPON_DICT
+const COUPONS_BY_CODE = COUPON_DICT.coupon_by_code
 
 /**
  * @type {Object<string, string>}
  */
 const filterItem = {
-    '原味蛋撻': '蛋撻',
-    '咔啦脆雞': '炸雞',
-    '青花椒香麻脆雞': '椒麻雞',
-    '義式香草紙包雞': '紙包雞',
-    '咔啦雞腿堡': '咔啦雞堡',
-    '花生熔岩卡啦雞腿堡': '花生熔岩卡啦雞堡',
-    '美式煙燻咔脆雞堡': '煙燻雞堡',
-    '紐奧良烙烤雞腿堡': '烤雞腿堡',
-    '墨西哥莎莎雞腿捲': '莎莎雞腿捲',
-    '上校雞塊': '雞塊',
-    '香酥脆薯': '脆薯',
-    '雙色轉轉QQ球': 'QQ球',
-    '經典玉米': '經典玉米',
-    '點心盒-上校雞塊+香酥脆薯': '點心盒',
-    '鮮蔬沙拉': '沙拉',
-}
-
-const filterItemByKey = {};
-for (const [key, value] of Object.entries(filterItem)) {
-    filterItemByKey[value] = key;
+    '蛋撻': ['原味蛋撻', '蛋撻'],
+    '炸雞': ['咔啦脆雞', '卡啦脆雞'],
+    '椒麻雞': ['青花椒香麻脆雞'],
+    '紙包雞': ['義式香草紙包雞', '紙包雞'],
+    '咔啦雞堡': ['咔啦雞腿堡', '卡啦雞腿堡'],
+    '花生熔岩雞腿堡': ['花生熔岩卡啦雞腿堡', '花生熔岩咔啦雞腿堡'],
+    '椒麻雞腿堡': ['青花椒香麻咔啦雞腿堡', '青花椒香麻卡啦雞腿堡'],
+    '煙燻雞堡': ['美式煙燻咔脆雞堡', '美式煙燻卡脆雞堡'],
+    '烤雞腿堡': ['紐奧良烙烤雞腿堡', '紐奧良烤腿堡'],
+    '莎莎雞腿捲': ['墨西哥莎莎雞腿捲'],
+    '雞柳捲': ['花生起司雞柳捲'],
+    '燻雞捲': ['原味起司燻雞捲'],
+    '雞塊': ['上校雞塊'],
+    '脆薯': ['香酥脆薯'],
+    'QQ球': ['雙色轉轉QQ球'],
+    '經典玉米': ['經典玉米'],
+    '點心盒': ['點心盒-上校雞塊+香酥脆薯', '點心盒'],
+    '雞汁飯': ['20:00前供應雞汁風味飯', '雞汁風味飯'],
+    '大福': ['草苺起司冰淇淋大福'],
+    '黑糖白玉蛋撻': ['黑糖白玉Q蛋撻'],
+    '沙拉': ['鮮蔬沙拉'],
 }
 
 /**
  * @type {Set<string>}
  */
-const filterKeySet = new Set(Object.keys(filterItem))
+const AllFilterNamesSet = new Set([].concat(...Object.values(filterItem)))
 
 /**
  * @param {string} string 
@@ -67,31 +68,26 @@ function escapeRegex(string) {
 }
 
 /**
- * Find all the coupons that have an item with the target name.
+ * Filter all the coupons that have an item with the target name.
  * @param {string[]} names - Names of the CouponItem to search for.
- * @returns {Coupon[]} - The array of coupons that have an item with the target name.
  */
-function findCouponsWithNames(names) {
-    COUPONS.filter((coupon) => {
-        if(!names.every((name) => coupon.items.some((item) => item.name.includes(filterItemByKey[name] || name)))){
-            $(`#coupon-${coupon.coupon_code}`).hide()
-        } else {
+function filterCouponsWithNames(names) {
+    if(names.length === 0) {
+        $('div[id^="coupon-"]').show()
+        return
+    }
+
+    COUPONS.forEach((coupon) => {
+        if(names.every(
+            (name) => coupon.items.some(
+                (item) => filterItem[name].some(
+                    search => item.name.includes(search))))
+        ){
             $(`#coupon-${coupon.coupon_code}`).show()
+        } else {
+            $(`#coupon-${coupon.coupon_code}`).hide()
         }
     });
-}
-
-/**
- * Converts an array of Coupon objects into an object where the keys are the coupon_code property
- * and the values are the Coupon objects themselves.
- * @param {Coupon[]} couponsArray - Array of Coupon objects.
- * @returns {Object.<number, Coupon>} Object with coupon_code keys and Coupon object values.
- */
-function couponsArrayToObject(couponsArray) {
-    return couponsArray.reduce((result, coupon) => {
-        result[coupon.coupon_code] = coupon;
-        return result;
-    }, {});
 }
 
 function activeFilterButton(button) {
@@ -144,22 +140,22 @@ function prepareInitData() {
 }
 
 function prepareButtons() {
-    const exceptCase = new RegExp('可樂|七喜|玉米濃湯|綠茶|紅茶')
+    const exceptCase = new RegExp('可樂|七喜|玉米濃湯|綠茶|紅茶|奶茶|上校雞塊分享盒')
     const siteCase = new RegExp(/\([大中小辣]\)|[0-9]塊/)
     COUPONS.forEach(({items}) => {
         items.forEach(({name}) => {
             if(exceptCase.exec(name)) return;
             const renderName = name.replace(siteCase, '')
-            if(filterKeySet.has(renderName)) return;
+            if(AllFilterNamesSet.has(renderName)) return;
 
-            filterKeySet.add(renderName)
-            filterItem[renderName] = renderName
+            AllFilterNamesSet.add(renderName)
+            filterItem[renderName] = [renderName]
         })
     })
 
     let btn_html = "";
-    filterKeySet.forEach(name => {
-        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${name}" data-value="${filterItem[name]}">${filterItem[name]}</button>`
+    Object.keys(filterItem).forEach(key => {
+        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${key}">${key}</button>`
     })
     $('#buttons').html(btn_html);
 }
@@ -173,12 +169,12 @@ $(document).ready(function() {
         },
         afterTagAdded: function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
-            findCouponsWithNames(names)
+            filterCouponsWithNames(names)
         },
         afterTagRemoved:  function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
-            findCouponsWithNames(names)
-            filterBtn = $(`[data-value="${ui.tagLabel}"]`)
+            filterCouponsWithNames(names)
+            filterBtn = $(`[data-key="${ui.tagLabel}"]`)
             if (filterBtn) {
                 inactiveFilterButton(filterBtn)
             }
@@ -189,6 +185,7 @@ $(document).ready(function() {
     });
     prepareInitData();
     prepareButtons();
+    $("#lastUpdate").html(COUPON_DICT.last_update)
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
 })

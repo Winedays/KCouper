@@ -68,6 +68,10 @@ header {
   font-size: 20px;
 }
 
+.last-update-time {
+  font-size: 1rem;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }

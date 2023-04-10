@@ -1,8 +1,8 @@
 coupon.json
-coupon.js
 template.html
-/coupon_list.js
-/coupon_dict.js
+coupon_list.js
+coupon_dict.js
+/coupon.js
 /test.html
 
 # Byte-compiled / optimized / DLL files

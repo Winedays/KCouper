@@ -27,8 +27,7 @@ jobs:
     - name: Run program and generate output
       run: |
         pipenv run python script/kfc.py
-        mv -f coupon_dict.js js/coupon_dict.js
-        mv -f coupon_list.js js/coupon_list.js
+        mv -f coupon.js js/coupon.js
 
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9

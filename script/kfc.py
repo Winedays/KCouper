@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import json
 import xml.etree.ElementTree as ET
@@ -77,7 +77,7 @@ def main():
     session = requests.Session()
     session.headers['User-Agent'] = USER_AGENT
     session.headers['origin'] = 'https://www.kfcclub.com.tw'
-    session.headers['referer'] = 'https://www.kfcclub.com.tw/' # 'https://www.kfcclub.com.tw/Coupon'
+    session.headers['referer'] = 'https://www.kfcclub.com.tw/'
 
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/JsonGetData', data={'data': '{"ordertype":"2","time":"15:00","_APIMethod":"GetMeal_PeriodID"}'})
     '''
@@ -91,72 +91,77 @@ def main():
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"OrderType","Value":"2"}'})
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI074"}'})
 
-    coupon_dict = {}
-    for coupon_code in range(22000, 25000):
-        if coupon_code % 500 == 0:
-            print(f'getting coupun {(coupon_code-22000)/3000}%...')
-        # coupon_code = '23501'
-        resp = session.post(f'https://www.kfcclub.com.tw/GetCouponData/{coupon_code}')
-        '''
-        '<NewDataSet>\r\n  <tablename>\r\n    <Column1>tablename</Column1>\r\n    <Column2>Coupon</Column2>\r\n    <Column3>Coupon_Product</Column3>\r\n    <Column4>Coupon_SpecificProducts</Column4>\r\n  </tablename>\r\n  <Coupon>\r\n    
-        <CouponID>3773</CouponID>\r\n    <CouponCode>23501</CouponCode>\r\n    <Title>23501-MOMO春季野餐</Title>\r\n    <Title1 />\r\n    <DataType>2</DataType>\r\n    <StartDate>2023-02-10 00:00:00</StartDate>\r\n    <EndDate>2023-04-30 23:59:59</EndDate>\r\n    
-        <MealPeriod_ID>2,3,4,5</MealPeriod_ID>\r\n    <SpecifiedDate />\r\n    <LimitQuantity>0</LimitQuantity>\r\n    <UsageQuantity>0</UsageQuantity>\r\n    <OptionalItems>1</OptionalItems>\r\n   
-        <Delivery>False</Delivery>\r\n    <TakeOut>True</TakeOut>\r\n    <SpecifiedAmount>0</SpecifiedAmount>\r\n    <MemberOnly>False</MemberOnly>\r\n    <GiftWithPurchase>False</GiftWithPurchase>\r\n    <ExcludeShops />\r\n    
-        <ProductLimitQuantity>20</ProductLimitQuantity>\r\n  </Coupon>\r\n  <Coupon_Product>\r\n    <ProductCode>TA3509</ProductCode>\r\n    <Sort>1</Sort>\r\n  </Coupon_Product>\r\n</NewDataSet>'
-        '''
-        if resp.status_code != 200:
-            print(f'get coupon data status error: {resp.text}')
-            continue
+    coupon_by_code = {}
+    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), )
 
-        root = ET.fromstring(resp.text)
+    for r in ranges:
+        print(f'getting coupun {r}...')
+        for coupon_code in range(r[0], r[1]):
+            resp = session.post(f'https://www.kfcclub.com.tw/GetCouponData/{coupon_code}')
+            '''
+            '<NewDataSet>\r\n  <tablename>\r\n    <Column1>tablename</Column1>\r\n    <Column2>Coupon</Column2>\r\n    <Column3>Coupon_Product</Column3>\r\n    <Column4>Coupon_SpecificProducts</Column4>\r\n  </tablename>\r\n  <Coupon>\r\n    
+            <CouponID>3773</CouponID>\r\n    <CouponCode>23501</CouponCode>\r\n    <Title>23501-MOMO春季野餐</Title>\r\n    <Title1 />\r\n    <DataType>2</DataType>\r\n    <StartDate>2023-02-10 00:00:00</StartDate>\r\n    <EndDate>2023-04-30 23:59:59</EndDate>\r\n    
+            <MealPeriod_ID>2,3,4,5</MealPeriod_ID>\r\n    <SpecifiedDate />\r\n    <LimitQuantity>0</LimitQuantity>\r\n    <UsageQuantity>0</UsageQuantity>\r\n    <OptionalItems>1</OptionalItems>\r\n   
+            <Delivery>False</Delivery>\r\n    <TakeOut>True</TakeOut>\r\n    <SpecifiedAmount>0</SpecifiedAmount>\r\n    <MemberOnly>False</MemberOnly>\r\n    <GiftWithPurchase>False</GiftWithPurchase>\r\n    <ExcludeShops />\r\n    
+            <ProductLimitQuantity>20</ProductLimitQuantity>\r\n  </Coupon>\r\n  <Coupon_Product>\r\n    <ProductCode>TA3509</ProductCode>\r\n    <Sort>1</Sort>\r\n  </Coupon_Product>\r\n</NewDataSet>'
+            '''
+            if resp.status_code != 200:
+                print(f'get coupon data status error: {resp.text}')
+                continue
 
-        # Extracting values for the first Coupon element    
-        coupon = root.find("./Coupon")
-        if coupon is None:
-            # print(f'get Coupon error: {resp.text}')
-            continue
-        title = coupon.find("Title").text
-        start_date = coupon.find("StartDate").text
-        end_date = coupon.find("EndDate").text
-        coupon_id = coupon.find("CouponID").text
+            root = ET.fromstring(resp.text)
 
-        # Getting the value of ProductCode for Coupon_Product elements
-        coupon_product = root.find("./Coupon_Product")
-        if coupon_product is None:
-            # print(f'get Coupon_Product error: {resp.text}')
-            continue
-        product_code = coupon_product.find("ProductCode").text # outputs "TA3509"
+            # Extracting values for the first Coupon element    
+            coupon = root.find("./Coupon")
+            if coupon is None:
+                # print(f'get Coupon error: {resp.text}')
+                continue
+            title = coupon.find("Title").text
+            start_date = coupon.find("StartDate").text
+            end_date = coupon.find("EndDate").text
+            coupon_id = coupon.find("CouponID").text
 
-        resp = session.post(f'https://www.kfcclub.com.tw/meal/{product_code}')
-        if resp.status_code != 200:
-            print(f'get product data error: {resp.text}')
-            continue
+            # Getting the value of ProductCode for Coupon_Product elements
+            coupon_product = root.find("./Coupon_Product")
+            if coupon_product is None:
+                # print(f'get Coupon_Product error: {resp.text}')
+                continue
+            product_code = coupon_product.find("ProductCode").text # outputs "TA3509"
 
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        if food_data := get_default_items(soup):
-            coupon_dict[coupon_code] = {
-                'name': title,
-                'product_code': product_code,
-                'coupon_code': coupon_code,
-                'coupon_id': coupon_id,
-                'price': food_data['price'],
-                'items': food_data['items'],
-                'start_date': get_date(start_date),
-                'end_date': get_date(end_date),
-            }
-        time.sleep(0.25)
+            resp = session.post(f'https://www.kfcclub.com.tw/meal/{product_code}')
+            if resp.status_code != 200:
+                print(f'get product data error: {resp.text}')
+                continue
 
-    with open('coupon.json', 'w', encoding='utf-8') as fp:
-        json.dump(coupon_dict, fp, ensure_ascii=False)
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            if food_data := get_default_items(soup):
+                coupon_by_code[coupon_code] = {
+                    'name': title,
+                    'product_code': product_code,
+                    'coupon_code': coupon_code,
+                    'coupon_id': coupon_id,
+                    'price': food_data['price'],
+                    'items': food_data['items'],
+                    'start_date': get_date(start_date),
+                    'end_date': get_date(end_date),
+                }
+            time.sleep(0.25)
 
-    with open('coupon_dict.js', 'w', encoding='utf-8') as fp:
+    coupon_list = sorted(coupon_by_code.values(), key=lambda x: x["price"])
+    utc_plus_eight_time = datetime.utcnow() + timedelta(hours=8)
+    coupon_dict = {
+        'coupon_by_code': coupon_by_code,
+        'coupon_list': coupon_list,
+        'count': len(coupon_list),
+        'last_update': utc_plus_eight_time.strftime('%Y-%m-%d %H:%M:%S')
+    }
+
+    # with open('coupon.json', 'w', encoding='utf-8') as fp:
+    #     json.dump(coupon_dict, fp, ensure_ascii=False)
+
+    with open('coupon.js', 'w', encoding='utf-8') as fp:
         j_str = json.dumps(coupon_dict, ensure_ascii=False)
         fp.write(f'const COUPON_DICT={j_str}')
-
-    coupon_list = sorted(coupon_dict.values(), key=lambda x: x["price"])
-    with open('coupon_list.js', 'w', encoding='utf-8') as fp:
-        j_str = json.dumps(coupon_list, ensure_ascii=False)
-        fp.write(f'const COUPON_LIST={j_str}')
 
 if __name__ == '__main__':
     main()
