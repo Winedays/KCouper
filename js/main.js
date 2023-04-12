@@ -18,6 +18,11 @@
  */
 
 /**
+ * @type {string}
+ */
+const ORDER_LINK = 'https://www.kfcclub.com.tw/meal'
+
+/**
  * @type {Coupon[]}
  */
 const COUPONS = COUPON_DICT.coupon_list
@@ -128,11 +133,13 @@ function prepareInitData() {
             items += `<div>${name} x ${count}</div>`;
         })
         items = `<div class="card-text items">${items}</div>`;
+        const body = `<div class="card-body">${title + items}</div>`;
 
-        const date = `<small class="text-muted text-right date">${data.start_date} ~ ${data.end_date}</small>`;
+        const date = `<div class="text-right"><small class="text-muted">${data.start_date} ~ ${data.end_date}</small></div>`;
+        const order = `<div class="text-right"><a href="${ORDER_LINK}/${data.product_code}" target="_blank">線上點餐</a></div>`;
+        const footer = `<div class="card-footer">${date + order}</div>`;
 
-        const body = `<div class="card-body">${title + items + date}</div>`;
-        const box = `<div class="card mb-4 box">${body}</div>`;
+        const box = `<div class="card mb-4 box">${body + footer}</div>`;
         products += `<div class="col-md-4" id="coupon-${data.coupon_code}">${box}</div>`;
     })
     row.html(products);

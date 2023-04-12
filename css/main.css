@@ -1,8 +1,11 @@
-.date {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 10px;
+.card-body {
+  padding-bottom: 0;
+}
+
+.card-footer {
+  background-color: transparent;
+  border: 0;
+  padding-top: 0;
 }
 
 .box {
