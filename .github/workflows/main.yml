@@ -32,7 +32,7 @@ jobs:
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
       with:
-        add: 'js/coupon_dict.js js/coupon_list.js'
+        add: 'js/coupon.js'
         message: 'daily update cpupon informations'
         committer_name: GitHub Actions
         committer_email: 41898282+github-actions[bot]@users.noreply.github.com
