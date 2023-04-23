@@ -140,7 +140,7 @@ function prepareInitData() {
         const footer = `<div class="card-footer">${date + order}</div>`;
 
         const box = `<div class="card mb-4 box">${body + footer}</div>`;
-        products += `<div class="col-md-4" id="coupon-${data.coupon_code}">${box}</div>`;
+        products += `<div class="col-lg-4 col-md-6" id="coupon-${data.coupon_code}">${box}</div>`;
     })
     row.html(products);
 }
