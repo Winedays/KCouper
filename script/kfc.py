@@ -48,26 +48,48 @@ def get_default_items(soup: BeautifulSoup) -> Dict:
             buy_type = food_data.get('BuyType', '')
             base_price = int(food_data.get('BasePrice', 0))
 
-            # 設定餐點的預設值
+            # 設定餐點的預設值, ref: FoodSelected function
             if min_item > 0:
-                if product_div := soup.find('div', f"divMList_{mtype}"):
-                    if product := json.loads(product_div.get("mlist-data")):
-                        name = product.get("Name", "")
-                        # mcode = product.get("MCode", "")
-                        # scale = product.get("Scale", "")
-                        new_price = int(product.get("Price_New", 0))
-                        addition_price = min_item * (new_price + base_price)
+                if product_divs := soup.find_all('div', f"divMList_{mtype}"):
+                    # 餐點預設值
+                    default_product = product_divs[0]
+                    product = json.loads(default_product.get("mlist-data"))
+                    if not product:
+                        continue
+                    
+                    name = product.get("Name", "")
+                    # mcode = product.get("MCode", "")
+                    # scale = product.get("Scale", "")
+                    new_price = int(product.get("Price_New", 0))
+                    addition_price = min_item * (new_price + base_price)
+                    if buy_type == "Mtype":
+                        total_price += addition_price
 
-                        if buy_type == "Mtype":
-                            total_price += addition_price
-                        # else:
-                        #     promotion_price += addition_price
+                    food = {
+                        'name': name,
+                        'count': min_item,
+                        'addition_price': addition_price,
+                    }
 
-                        default_foods.append({
-                            'name': name,
-                            'count': min_item,
-                            'addition_price': addition_price,
-                        })
+                    # 餐點口味, ref: ChangeMealFlavorType fuction
+                    # 暫時忽略Promotion加購產品
+                    addition_flavors = []
+                    if buy_type != "Promotion":
+                        flavor_divs = product_divs[1:] if len(product_divs) > 1 else []
+                        for _flavor in flavor_divs:
+                                product = json.loads(_flavor.get("mlist-data"))
+                                name = product.get("Name", "")
+                                new_price = int(product.get("Price_New", 0))
+                                scale = int(product.get("Scale", 1))
+                                addition_price = scale * (base_price + new_price)
+                                addition_flavors.append({
+                                'name': name,
+                                'addition_price': addition_price, 
+                                })
+
+                    food['flavors'] = addition_flavors
+                    default_foods.append(food)
+
     return {
         'price': total_price,
         'items': default_foods,
