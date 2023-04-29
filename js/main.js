@@ -84,7 +84,7 @@ function filterCouponsWithNames(names) {
     COUPONS.forEach((coupon) => {
         if(names.every(
             (name) => coupon.items.some(
-                (item) => filterItem[name].some(
+                (item) => (filterItem[name] || [name]).some(
                     search => item.name.includes(search))))
         ){
             $(`#coupon-${coupon.coupon_code}`).show()
