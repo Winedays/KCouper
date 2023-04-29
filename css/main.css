@@ -78,3 +78,16 @@ header {
 :root {
   --jumbotron-padding-y: 3rem;
 }
+
+@media (max-width: 575px) {
+  .hander {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .last-update-time .hide-small-screen {
+    display: none;
+  }
+}

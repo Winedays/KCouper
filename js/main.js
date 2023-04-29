@@ -191,7 +191,7 @@ $(document).ready(function() {
     });
     prepareInitData();
     prepareButtons();
-    $("#lastUpdate").html(COUPON_DICT.last_update)
+    $("#lastUpdate").html(`${COUPON_DICT.last_update.substring(0, 10)}<span class="hide-small-screen">${COUPON_DICT.last_update.substring(10)}</span>`)
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
 })
