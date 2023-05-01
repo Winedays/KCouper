@@ -75,6 +75,24 @@ header {
   font-size: 1rem;
 }
 
+.detail-model-label {
+  width: 100%;
+}
+
+.coupon-detail-link {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.coupon-detail-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.text-gray {
+  color: gray;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }

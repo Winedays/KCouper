@@ -3,6 +3,13 @@
  * @property {string} name - The name of the item.
  * @property {number} count - The count of this item that can be purchased.
  * @property {addition_price} min_item - The addition price of this item that need to pay.
+ * @property {ItemFlavors[]} flavors - The addition flavors of this item that can change. 
+ */
+
+/**
+ * @typedef {Object} ItemFlavors
+ * @property {string} name - The name of the flavors.
+ * @property {addition_price} min_item - The addition price of this flavors that need to pay.
  */
 
 /**
@@ -119,6 +126,32 @@ function clearTagsEvent(event) {
     $("#myTags").tagit("removeAll");
 }
 
+function couponDetailEvent(event) {
+    const e = $(event.currentTarget)
+    const coupon_code = e.attr('data-key')
+    const coupon = COUPONS_BY_CODE[coupon_code]
+    $("#detail-title").html(`<div class="d-flex justify-content-between"><span>${coupon.name}</span><spen>$${coupon.price}</spen></div>`)
+    
+    let base_content = `<div class="d-flex justify-content-between"><span>餐點可以更換的品項：</span><a href="${ORDER_LINK}/${coupon.product_code}" target="_blank">線上點餐</a></div>`
+    base_content += `<small class="text-gray">品項價格為一件的價錢</small>`
+
+    let items = "";
+    coupon.items.forEach(({name, count, flavors}) => {
+        const default_flavors = `<div>${name} x ${count}</div>`
+        let options = "<ul>"
+        if(flavors.length > 0){
+            flavors.forEach(({name, addition_price}) =>{
+                options += `<li><div class="d-flex justify-content-between"><span>${name}</span><spen>+$${addition_price}</spen></div></li>`
+            })
+        } else {
+            options += `<li class="text-gray"><div>沒有可以更換的品項</div></li>`
+        }
+        options += "</ul>"
+        items += `${default_flavors}${options}`;
+    })
+    $("#detail-body").html(`${base_content}<div class="pt-3 ml-2">${items}</div>`)
+}
+
 function prepareInitData() {
     const row = $('#row');
 
@@ -136,8 +169,9 @@ function prepareInitData() {
         const body = `<div class="card-body">${title + items}</div>`;
 
         const date = `<div class="text-right"><small class="text-muted">${data.start_date} ~ ${data.end_date}</small></div>`;
-        const order = `<div class="text-right"><a href="${ORDER_LINK}/${data.product_code}" target="_blank">線上點餐</a></div>`;
-        const footer = `<div class="card-footer">${date + order}</div>`;
+        const detail = `<div class="coupon-detail-link" data-key="${data.coupon_code}" data-toggle="modal" data-target="#detailModel">查看餐點選項</div>`;
+        const order = `<div><a href="${ORDER_LINK}/${data.product_code}" target="_blank">線上點餐</a></div>`;
+        const footer = `<div class="card-footer">${date}<div class="d-flex justify-content-between">${detail + order}</div></div>`;
 
         const box = `<div class="card mb-4 box">${body + footer}</div>`;
         products += `<div class="col-lg-4 col-md-6" id="coupon-${data.coupon_code}">${box}</div>`;
@@ -194,4 +228,5 @@ $(document).ready(function() {
     $("#lastUpdate").html(`${COUPON_DICT.last_update.substring(0, 10)}<span class="hide-small-screen">${COUPON_DICT.last_update.substring(10)}</span>`)
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
+    $('div[data-target="#detailModel"]').click(couponDetailEvent);
 })
