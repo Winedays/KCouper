@@ -91,7 +91,7 @@ function filterCouponsWithNames(names) {
     COUPONS.forEach((coupon) => {
         if(names.every(
             (name) => coupon.items.some(
-                (item) => filterItem[name].some(
+                (item) => (filterItem[name] || [name]).some(
                     search => item.name.includes(search))))
         ){
             $(`#coupon-${coupon.coupon_code}`).show()
@@ -225,7 +225,7 @@ $(document).ready(function() {
     });
     prepareInitData();
     prepareButtons();
-    $("#lastUpdate").html(COUPON_DICT.last_update)
+    $("#lastUpdate").html(`${COUPON_DICT.last_update.substring(0, 10)}<span class="hide-small-screen">${COUPON_DICT.last_update.substring(10)}</span>`)
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
     $('div[data-target="#detailModel"]').click(couponDetailEvent);
