@@ -185,7 +185,7 @@ function prepareButtons() {
     COUPONS.forEach(({items}) => {
         items.forEach(({name}) => {
             if(exceptCase.exec(name)) return;
-            const renderName = name.replace(siteCase, '')
+            const renderName = name.replace(siteCase, '').trim()
             if(AllFilterNamesSet.has(renderName)) return;
 
             AllFilterNamesSet.add(renderName)
