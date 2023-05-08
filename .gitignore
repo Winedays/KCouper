@@ -5,6 +5,9 @@ coupon_dict.js
 /coupon.js
 /test.html
 
+# mac
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
