@@ -66,6 +66,23 @@ const filterItem = {
 }
 
 /**
+ * @type {string[]}
+ */
+const excludeCases = [
+    '可樂',
+    '七喜',
+    '玉米濃湯',
+    '綠茶',
+    '紅茶',
+    '奶茶',
+    '上校雞塊分享盒',
+]
+/**
+ * @type {string}
+ */
+const excludeCasesRegStr = excludeCases.join('|')
+
+/**
  * @type {Set<string>}
  */
 const AllFilterNamesSet = new Set([].concat(...Object.values(filterItem)))
@@ -180,7 +197,7 @@ function prepareInitData() {
 }
 
 function prepareButtons() {
-    const exceptCase = new RegExp('可樂|七喜|玉米濃湯|綠茶|紅茶|奶茶|上校雞塊分享盒')
+    const exceptCase = new RegExp(excludeCasesRegStr)
     const siteCase = new RegExp(/\([大中小辣]\)|[0-9]塊/)
     COUPONS.forEach(({items}) => {
         items.forEach(({name}) => {

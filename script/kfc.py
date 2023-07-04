@@ -10,6 +10,8 @@ import requests
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
 
+EXCLUDE_NAMES = ['不需刀叉及手套', '需要刀叉及手套']
+
 def get_date(dt: str) -> str:
     date_obj = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
     return datetime.strftime(date_obj, '%Y-%m-%d')
@@ -58,6 +60,9 @@ def get_default_items(soup: BeautifulSoup) -> Dict:
                         continue
                     
                     name = product.get("Name", "")
+                    if name in EXCLUDE_NAMES:
+                        continue
+
                     # mcode = product.get("MCode", "")
                     # scale = product.get("Scale", "")
                     new_price = int(product.get("Price_New", 0))
