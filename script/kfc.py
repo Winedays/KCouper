@@ -10,7 +10,7 @@ import requests
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
 
-EXCLUDE_NAMES = ['不需刀叉及手套', '需要刀叉及手套']
+EXCLUDE_NAMES = ['不需刀叉及手套', '需要刀叉及手套', '響應環保不需叉子', '需要叉子']
 
 def get_date(dt: str) -> str:
     date_obj = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
@@ -119,7 +119,7 @@ def main():
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI074"}'})
 
     coupon_by_code = {}
-    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), )
+    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 14000))
 
     for r in ranges:
         print(f'getting coupun {r}...')
