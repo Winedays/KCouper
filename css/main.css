@@ -93,6 +93,20 @@ header {
   color: gray;
 }
 
+.top-btn {
+  font-size: 40px;
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  z-index: 99;
+  cursor: pointer;
+  opacity: 75%;
+}
+
+.top-btn:active {
+  opacity: 100%;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }

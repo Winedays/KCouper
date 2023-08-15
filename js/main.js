@@ -169,6 +169,11 @@ function couponDetailEvent(event) {
     $("#detail-body").html(`${base_content}<div class="pt-3 ml-2">${items}</div>`)
 }
 
+function scrollToTopEvent() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 function prepareInitData() {
     const row = $('#row');
 
@@ -246,4 +251,5 @@ $(document).ready(function() {
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
     $('div[data-target="#detailModel"]').click(couponDetailEvent);
+    $(".top-btn").click(scrollToTopEvent);
 })
