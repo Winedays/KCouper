@@ -56,7 +56,7 @@ const filterItem = {
     '雞柳捲': ['花生起司雞柳捲'],
     '燻雞捲': ['原味起司燻雞捲'],
     '雞塊': ['上校雞塊'],
-    '脆薯': ['香酥脆薯'],
+    '脆薯': ['香酥脆薯', '20:00後供應香酥脆薯', '小薯', '薯條'],
     'QQ球': ['雙色轉轉QQ球'],
     '經典玉米': ['經典玉米'],
     '點心盒': ['點心盒-上校雞塊+香酥脆薯', '點心盒'],
@@ -68,7 +68,7 @@ const filterItem = {
 /**
  * @type {string[]}
  */
-const excludeCases = [
+const EXCLUDE_CASES = [
     '可樂',
     '七喜',
     '玉米濃湯',
@@ -77,10 +77,20 @@ const excludeCases = [
     '奶茶',
     '上校雞塊分享盒',
 ]
+
 /**
  * @type {string}
  */
-const excludeCasesRegStr = excludeCases.join('|')
+const EXCLUDE_CASES_REG_STR = EXCLUDE_CASES.join('|')
+
+/**
+ * @type {string[]}
+ */
+const UNIT_WORD = [
+    '塊',
+    '份',
+    '顆',
+]
 
 /**
  * @type {Set<string>}
@@ -202,16 +212,18 @@ function prepareInitData() {
 }
 
 function prepareButtons() {
-    const exceptCase = new RegExp(excludeCasesRegStr)
-    const siteCase = new RegExp(/\([大中小辣]\)|[0-9]塊/)
+    const exceptCase = new RegExp(EXCLUDE_CASES_REG_STR)
+    const siteCase = new RegExp(`\\([大中小辣]\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
     COUPONS.forEach(({items}) => {
-        items.forEach(({name}) => {
-            if(exceptCase.exec(name)) return;
-            const renderName = name.replace(siteCase, '').trim()
-            if(AllFilterNamesSet.has(renderName)) return;
-
-            AllFilterNamesSet.add(renderName)
-            filterItem[renderName] = [renderName]
+        items.forEach(({name: names}) => {
+            names.split('+').forEach(name =>{
+                if(exceptCase.exec(name)) return;
+                const renderName = name.replace(siteCase, '').trim()
+                if(AllFilterNamesSet.has(renderName)) return;
+    
+                AllFilterNamesSet.add(renderName)
+                filterItem[renderName] = [renderName]
+            })
         })
     })
 

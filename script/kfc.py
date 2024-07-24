@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import time
 import json
 import xml.etree.ElementTree as ET
 from typing import Dict
+import os
  
 from bs4 import BeautifulSoup
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
 
-EXCLUDE_NAMES = ['不需刀叉及手套', '需要刀叉及手套', '響應環保不需叉子', '需要叉子']
+EXCLUDE_NAMES = os.getenv('EXCLUDE_NAMES').split(',')
 
 def get_date(dt: str) -> str:
     date_obj = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
@@ -175,7 +179,7 @@ def main():
             time.sleep(0.25)
 
     coupon_list = sorted(coupon_by_code.values(), key=lambda x: x["price"])
-    utc_plus_eight_time = datetime.utcnow() + timedelta(hours=8)
+    utc_plus_eight_time = datetime.now(timezone.utc) + timedelta(hours=8)
     coupon_dict = {
         'coupon_by_code': coupon_by_code,
         'coupon_list': coupon_list,
