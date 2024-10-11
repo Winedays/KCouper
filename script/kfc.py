@@ -123,7 +123,7 @@ def main():
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI074"}'})
 
     coupon_by_code = {}
-    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 14000))
+    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 15000))
 
     for r in ranges:
         print(f'getting coupun {r}...')
