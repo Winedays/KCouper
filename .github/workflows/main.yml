@@ -1,11 +1,11 @@
 name: Save output to GitHub
 
 on:
-  schedule:
-    - cron: "30 16 * * *"
-  push:
-    branches:
-      - master
+  # schedule:
+  #   - cron: "30 16 * * *"
+  # push:
+  #   branches:
+  #     - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
