@@ -120,7 +120,7 @@ def main():
     # resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',  data={'data': f'"Key":"MealPeriodInfo_Temp","Value": {json.dumps(resp.json(), ensure_ascii=False)}'})
 
     resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"OrderType","Value":"2"}'})
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI074"}'})
+    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI217"}'})
 
     coupon_by_code = {}
     ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 15000))
