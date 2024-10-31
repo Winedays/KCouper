@@ -5,6 +5,8 @@ import json
 import xml.etree.ElementTree as ET
 from typing import Dict
 import os
+import logging
+import sys
  
 from bs4 import BeautifulSoup
 import requests
@@ -14,7 +16,14 @@ load_dotenv()  # take environment variables from .env.
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
 
+FORMAT = '[%(levelname)s] %(asctime)s %(filename)s(%(lineno)d): %(message)s'
+fileHandler = logging.FileHandler('debug.log', mode='w')
+streamHandler = logging.StreamHandler(sys.stdout)
+logging.basicConfig(level=logging.INFO, format=FORMAT, handlers=[fileHandler, streamHandler])
+LOG = logging.getLogger('kcouper')
 EXCLUDE_NAMES = os.getenv('EXCLUDE_NAMES').split(',')
+SHOP_CODE = os.getenv('SHOP_CODE')
+
 
 def get_date(dt: str) -> str:
     date_obj = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
@@ -119,14 +128,25 @@ def main():
     '''
     # resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',  data={'data': f'"Key":"MealPeriodInfo_Temp","Value": {json.dumps(resp.json(), ensure_ascii=False)}'})
 
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"OrderType","Value":"2"}'})
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage', data = {'data': '{"Key":"ShopCode","Value":"TWI217"}'})
+    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',
+                        data = {'data': '{"Key":"OrderType","Value":"2"}'})
+    if resp.status_code != 204:
+        msg = f'set order type error, status code: {resp.status_code}, text: {resp.text}'
+        LOG.error(msg)
+        raise Exception(msg)
+
+    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',
+                        data={'data': json.dumps({"Key":"ShopCode","Value":SHOP_CODE})})
+    if resp.status_code != 204:
+        msg = f'set shop code error, status code: {resp.status_code}, text: {resp.text}'
+        LOG.error(msg)
+        raise Exception(msg)
 
     coupon_by_code = {}
     ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 15000))
 
     for r in ranges:
-        print(f'getting coupun {r}...')
+        LOG.info(f'getting coupun {r}...')
         for coupon_code in range(r[0], r[1]):
             resp = session.post(f'https://www.kfcclub.com.tw/GetCouponData/{coupon_code}')
             '''
@@ -137,8 +157,9 @@ def main():
             <ProductLimitQuantity>20</ProductLimitQuantity>\r\n  </Coupon>\r\n  <Coupon_Product>\r\n    <ProductCode>TA3509</ProductCode>\r\n    <Sort>1</Sort>\r\n  </Coupon_Product>\r\n</NewDataSet>'
             '''
             if resp.status_code != 200:
-                print(f'get coupon data status error: {resp.text}')
-                continue
+                msg = f'get coupon data error, status code: {resp.status_code}, text: {resp.text}'
+                LOG.error(msg)
+                raise Exception(resp)
 
             root = ET.fromstring(resp.text)
 
@@ -161,7 +182,8 @@ def main():
 
             resp = session.post(f'https://www.kfcclub.com.tw/meal/{product_code}')
             if resp.status_code != 200:
-                print(f'get product data error: {resp.text}')
+                msg = f'get product data error, status code: {resp.status_code}, text: {resp.text}'
+                LOG.error(msg)
                 continue
 
             soup = BeautifulSoup(resp.text, 'html.parser')
