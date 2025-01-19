@@ -143,7 +143,7 @@ def main():
         raise Exception(msg)
 
     coupon_by_code = {}
-    ranges = ((22000, 25000), (40000, 41000), (50000, 51000), (13000, 15000))
+    ranges = ((24000, 26000), (40000, 41000), (50000, 51000), (13000, 15000))
 
     for r in ranges:
         LOG.info(f'getting coupun {r}...')
