@@ -2,13 +2,10 @@
 from datetime import datetime, timedelta, timezone
 import time
 import json
-import xml.etree.ElementTree as ET
-from typing import Dict
 import os
 import logging
 import sys
  
-from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
 
@@ -26,179 +23,201 @@ SHOP_CODE = os.getenv('SHOP_CODE')
 
 
 def get_date(dt: str) -> str:
-    date_obj = datetime.strptime(dt, '%Y-%m-%d %H:%M:%S')
+    date_obj = datetime.strptime(dt, '%Y/%m/%d %H:%M:%S')
     return datetime.strftime(date_obj, '%Y-%m-%d')
 
-def parseIntComma(int_str):
-    return int(int_str.replace(',', ''))
 
-def get_default_items(soup: BeautifulSoup) -> Dict:
-    '''
-    <div class="divFoodData divFoodData_Mtype_AA" food-data='{"Code":"AA","Name":"炸雞","ImageName":"咔啦脆雞(中辣).png","UI":"塊","Max_d":2,"Min_d":2,"BuyType":"Mtype","BasePrice":"0"}' style="display:none"></div>
-    <div class="divFoodData divFoodData_Mtype_VV" food-data='{"Code":"VV","Name":"配餐","ImageName":"原味蛋撻.png","UI":"份","Max_d":1,"Min_d":1,"BuyType":"Mtype","BasePrice":"0"}' style="display:none"></div>
-    <span class="small-price">
-        <span class="singleM">餐點 </span>$<span class="integer"><span id="MealTotalPriceNoDiscount">100</span></span>
-    </span>
-    '''
-    default_foods = []
+def api_caller(session: requests.Session, url: str, body: dict, msg_prefix: str, retry: int = 0):
+    resp = session.post(url, json=body)
+    if resp.status_code == 502:
+        if retry > 10:
+            raise Exception('abort with api retry count > 10')
+        retry += 1
+        LOG.warning(f'{msg_prefix} 502 error, {retry=}')
+        time.sleep(30)
+        api_caller(session, url, body, msg_prefix, retry)
+    if resp.status_code != 200:
+        msg = f'{msg_prefix} error, status code: {resp.status_code}, text: {resp.text}'
+        LOG.error(msg)
+        raise Exception(msg)
+    return resp.json()
 
-    # //本份餐點包含加購的價錢
-    upa_div = soup.find('div', id='Upa_Group')
-    if not upa_div or not upa_div.text:
-        return None
-    total_price = parseIntComma(upa_div.text)
-    # promotion_price = 0
-    
-    food_data_divs = soup.findAll('div', 'divFoodData')
-    if not food_data_divs:
-        return None
 
-    for food_div in food_data_divs:
-        food_data = json.loads(food_div.get("food-data", '{}'))
+def convertCouponData(data: dict, coupon_code: str):
+    try:
+        detail = data['FoodDetail']
+    except KeyError:
+        LOG.error(f'food detail not found in {data=}')
+        raise
+    if len(detail) != 1:
+        LOG.error(f'unknown food detail format, {detail=}')
+        raise ValueError(f'unknown food detail format, {detail=}')
+    detail = detail[0]
 
-        if food_data:
-            # max_item = food_data.get('Max_d', 0)
-            min_item = food_data.get('Min_d', 0)
-            mtype = food_data.get('Code', '')
-            buy_type = food_data.get('BuyType', '')
-            base_price = int(food_data.get('BasePrice', 0))
-
-            # 設定餐點的預設值, ref: FoodSelected function
-            if min_item > 0:
-                if product_divs := soup.find_all('div', f"divMList_{mtype}"):
-                    # 餐點預設值
-                    default_product = product_divs[0]
-                    product = json.loads(default_product.get("mlist-data"))
-                    if not product:
-                        continue
-                    
-                    name = product.get("Name", "")
-                    if name in EXCLUDE_NAMES:
-                        continue
-
-                    # mcode = product.get("MCode", "")
-                    # scale = product.get("Scale", "")
-                    new_price = int(product.get("Price_New", 0))
-                    addition_price = min_item * (new_price + base_price)
-                    if buy_type == "Mtype":
-                        total_price += addition_price
-
-                    food = {
-                        'name': name,
-                        'count': min_item,
-                        'addition_price': addition_price,
-                    }
-
-                    # 餐點口味, ref: ChangeMealFlavorType fuction
-                    # 暫時忽略Promotion加購產品
-                    addition_flavors = []
-                    if buy_type != "Promotion":
-                        flavor_divs = product_divs[1:] if len(product_divs) > 1 else []
-                        for _flavor in flavor_divs:
-                                product = json.loads(_flavor.get("mlist-data"))
-                                name = product.get("Name", "")
-                                new_price = int(product.get("Price_New", 0))
-                                scale = int(product.get("Scale", 1))
-                                addition_price = scale * (base_price + new_price)
-                                addition_flavors.append({
-                                'name': name,
-                                'addition_price': addition_price, 
-                                })
-
-                    food['flavors'] = addition_flavors
-                    default_foods.append(food)
+    # food details
+    items = []
+    price = detail['Original_Price']
+    for food in detail['Details']:
+        main_item = food['MList'][0]
+        item = {
+            'name': main_item['Name'],
+            'count': food['MinCount'],
+            'addition_price': main_item['AddPrice'],
+            'flavors': [],
+        }
+        price += main_item['MListPrice'] * food['MinCount']
+        for flavor in food['MList'][1:]:
+            item['flavors'].append({
+                'name': flavor['Name'],
+                'addition_price': flavor['AddPrice'],
+            })
+        items.append(item)
 
     return {
-        'price': total_price,
-        'items': default_foods,
+        'name': detail['Name'],
+        'product_code': detail['Fcode'],
+        'coupon_code': coupon_code,
+        'price': price,
+        'items': items,
+        'start_date': get_date(detail['StartDate']),
+        'end_date': get_date(detail['EndDate']),
     }
 
-def main():
+
+def initSession() -> requests.Session:
     session = requests.Session()
     session.headers['User-Agent'] = USER_AGENT
     session.headers['origin'] = 'https://www.kfcclub.com.tw'
     session.headers['referer'] = 'https://www.kfcclub.com.tw/'
+    return session
 
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/JsonGetData', data={'data': '{"ordertype":"2","time":"15:00","_APIMethod":"GetMeal_PeriodID"}'})
-    '''
-    resp.json()
-    {'Meal_Period': {'ID': '3', 'OrderType': '2', 'Name': '一般時段：10:30~22:30', 'StartTime': '14:01', 'EndTime': '17:00', 'Sort': '3', 'DayType': '1', 'Step1_Msg': '指定
-    取餐時間請於點餐完成後之結帳頁面選擇。<br />\r\n「下午茶聰明點」供應時間僅限週一~五下午14:00~下午17:00。當日預約「下午茶聰明點」餐點最晚預訂時間為下午16:30，其他餐點則不
-    在此限。', 'Step3_Msg': '為確保餐點品質，請準時取餐，以確保產品最佳賞味期，若您超過取餐時間，我們將為您保留餐點10分鐘，感謝您的體諒。', 'OrderStartTime': '14:00', 'OrderEndTime': '16:30'}}
-    '''
-    # resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',  data={'data': f'"Key":"MealPeriodInfo_Temp","Value": {json.dumps(resp.json(), ensure_ascii=False)}'})
 
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',
-                        data = {'data': '{"Key":"OrderType","Value":"2"}'})
-    if resp.status_code != 204:
-        msg = f'set order type error, status code: {resp.status_code}, text: {resp.text}'
+def initDeliveryInfo(session: requests.Session):
+    resp = api_caller(
+        session,
+        'https://olo-api.kfcclub.com.tw/menu/v1/QueryDeliveryShops',
+        {'shopCode': 'TWI104', 'orderType': '2', 'platform': '1'},
+        'get shop info',
+    )
+    # { "Success": true, "Message": "OK", "Data": { "ShopCode": "TWI104", "ShopName": "台北雙連餐廳(雙連捷運站2號)", "CityName": "台北市", "AreaName": "中山區", "Addr": "台北市中山區民生西路9號", "OpeningTime": "每日08:00-24:00", "LON": "121.521610000000", "LAT": "25.057911999800", "IsBreakfast": true, "IsInCar": false, "InCarDesc": "", "IsTracker": true, "IsFoodLocker": false, "BusinessName": "富利餐飲股份有限公司台北雙連分公司", "VATNumber": "53017114", "GUINumber": "A-197161500-00026-5", "RegisterAddress": "臺北市中山區民生西路9號", "QuoTime1": "25", "QuoTime2": "1", "AddQT": "0", "SdeQuoTime": "0", "Zone": "", "BaseAmount": "399", "FixedShipping": true, "Freight_Key": "ZZ798", "Freight_Amount": "39", "ePayment": true, "CRM_CouponUsed": true, "Edenred_CouponUsed": true, "CashPay": true, "CreditCard": true, "JKOPay": true, "ApplePay": false, "GooglePay": false, "LinePay": true, "PXPay": true, "iCashPay": true, "EasyWallet": true, "deliveryDate": [ "2025/01/12", "2025/01/13", "2025/01/14", "2025/01/15", "2025/01/16", "2025/01/17", "2025/01/18", "2025/01/19", "2025/01/20", "2025/01/21", "2025/01/22", "2025/01/23", "2025/01/24", "2025/01/25" ], "downlevel": "0", "IsDrivewayPickup": false, "RedeemPoint": true, "KFC_CouponUsed": true, "KFC_EVoucherVer1Used": true, "KFC_EVoucherVer2Used": true, "KFC_EVoucherVer3Used": true, "KFC_EVoucherVer4Used": true } }
+    if resp.get('Message') != 'OK' or not resp.get('Success'):
+        msg = f'get shop info response error, json: {resp}'
         LOG.error(msg)
         raise Exception(msg)
 
-    resp = session.post('https://www.kfcclub.com.tw/api/WebAPI/SetWebStorage',
-                        data={'data': json.dumps({"Key":"ShopCode","Value":SHOP_CODE})})
-    if resp.status_code != 204:
-        msg = f'set shop code error, status code: {resp.status_code}, text: {resp.text}'
+    resp = api_caller(
+        session,
+        'https://olo-api.kfcclub.com.tw/menu/v1/QueryDeliveryTime',
+        {'shopCode': 'TWI104', 'orderType': '2', 'orderDate': '2025/01/13', 'addQt': '0', 'sdeQt': '0'},
+        'get time info',
+    )
+    # { "Success": true, "Message": "OK", "Data": { "sHour": "8", "eHour": "22", "sMinute": "20", "eMinute": "30", "qt": "1", "status": "1", "downlevel": "0", "interval": "5", "message": "", "promptLock": "", "promptMessage": "", "LockTimePeriod": null } }
+    if resp.get('Message') != 'OK' or not resp.get('Success'):
+        msg = f'get time info response error, json: {resp}'
         LOG.error(msg)
         raise Exception(msg)
+
+
+def getCouponData(session: requests.Session, coupon_code: str) -> dict:
+    resp = api_caller(
+        session,
+        'https://olo-api.kfcclub.com.tw/customer/v1/getEVoucherAPI',
+        {
+            'voucherNo': coupon_code,
+            'phone': '',
+            'memberId': '',
+            'orderType': '2',
+            'mealPeriod': '3',
+            'shopCode': SHOP_CODE,
+        },
+        'get voucher info',
+    )
+    # { "Success": true, "Message": "OK", "Data": { "itemType": "I", "amount": null, "productCode": "TA5484", "balance": null, "discountAmount": null, "voucherType": "C", "voucherId": "5575", "version": "6", "voucherCode": "24693", "productName": "24693-中華電信歡迎" } }
+    if resp.get('Message') == '無效的票劵':
+        LOG.debug(f'coupon code({coupon_code}) is invalid')
+        return None
+    if resp.get('Message') != 'OK' or not resp.get('Success'):
+        msg = f'get voucher info response error, json: {resp}'
+        LOG.error(msg)
+        raise Exception(msg)
+
+    
+    try:
+        product_code = resp['Data']['productCode']
+    except KeyError:
+        LOG.error(f'get product code error: coupon code: {coupon_code}, json: {resp}')
+        return None
+
+    date = datetime.now(timezone(timedelta(hours=8))).strftime("%Y/%m/%d")
+    for period in range(1, 5):
+        resp = api_caller(
+            session,
+            'https://olo-api.kfcclub.com.tw/customer/v1/checkCouponProduct',
+            {
+                'orderDate': date,
+                'orderType': '2',
+                'mealPeriod': f'{period}',
+                'shopCode': SHOP_CODE,
+                'couponCode': coupon_code,
+                'memberId': '',
+            },
+            'check voucher valid',
+        )
+        if resp.get('Message') == 'OK' and resp.get('Success') is True:
+            meal_period = f'{period}'
+            break
+    else:
+        LOG.debug(f'coupon code({coupon_code}) is invalid in all periods')
+        return None
+
+    resp = api_caller(
+        session,
+        'https://olo-api.kfcclub.com.tw/menu/v1/GetQueryFoodDetail',
+        {
+            'shopcode': SHOP_CODE,
+            'fcode': product_code,
+            'menuid': '',
+            'mealperiod': meal_period,
+            'ordertype': '2',
+            'orderdate': date,
+        },
+        'get voucher food',
+    )
+    if resp.get('Message') != 'OK' or not resp.get('Success'):
+        msg = f'get voucher food response error, json: {resp}'
+        LOG.error(msg)
+        raise Exception(msg)
+
+    return resp.get('Data')
+
+
+def main():
+    session = initSession()
+    initDeliveryInfo(session)
 
     coupon_by_code = {}
     ranges = ((24000, 26000), (40000, 41000), (50000, 51000), (13000, 15000))
 
     for r in ranges:
-        LOG.info(f'getting coupun {r}...')
+        LOG.info(f'getting coupon {r}...')
         for coupon_code in range(r[0], r[1]):
-            resp = session.post(f'https://www.kfcclub.com.tw/GetCouponData/{coupon_code}')
-            '''
-            '<NewDataSet>\r\n  <tablename>\r\n    <Column1>tablename</Column1>\r\n    <Column2>Coupon</Column2>\r\n    <Column3>Coupon_Product</Column3>\r\n    <Column4>Coupon_SpecificProducts</Column4>\r\n  </tablename>\r\n  <Coupon>\r\n    
-            <CouponID>3773</CouponID>\r\n    <CouponCode>23501</CouponCode>\r\n    <Title>23501-MOMO春季野餐</Title>\r\n    <Title1 />\r\n    <DataType>2</DataType>\r\n    <StartDate>2023-02-10 00:00:00</StartDate>\r\n    <EndDate>2023-04-30 23:59:59</EndDate>\r\n    
-            <MealPeriod_ID>2,3,4,5</MealPeriod_ID>\r\n    <SpecifiedDate />\r\n    <LimitQuantity>0</LimitQuantity>\r\n    <UsageQuantity>0</UsageQuantity>\r\n    <OptionalItems>1</OptionalItems>\r\n   
-            <Delivery>False</Delivery>\r\n    <TakeOut>True</TakeOut>\r\n    <SpecifiedAmount>0</SpecifiedAmount>\r\n    <MemberOnly>False</MemberOnly>\r\n    <GiftWithPurchase>False</GiftWithPurchase>\r\n    <ExcludeShops />\r\n    
-            <ProductLimitQuantity>20</ProductLimitQuantity>\r\n  </Coupon>\r\n  <Coupon_Product>\r\n    <ProductCode>TA3509</ProductCode>\r\n    <Sort>1</Sort>\r\n  </Coupon_Product>\r\n</NewDataSet>'
-            '''
-            if resp.status_code != 200:
-                msg = f'get coupon data error, status code: {resp.status_code}, text: {resp.text}'
-                LOG.error(msg)
-                raise Exception(resp)
-
-            root = ET.fromstring(resp.text)
-
-            # Extracting values for the first Coupon element    
-            coupon = root.find("./Coupon")
-            if coupon is None:
-                # print(f'get Coupon error: {resp.text}')
+            try:
+                data = getCouponData(session, coupon_code)
+            except (KeyError, ValueError) as e:
+                LOG.error(str(e))
                 continue
-            title = coupon.find("Title").text
-            start_date = coupon.find("StartDate").text
-            end_date = coupon.find("EndDate").text
-            coupon_id = coupon.find("CouponID").text
-
-            # Getting the value of ProductCode for Coupon_Product elements
-            coupon_product = root.find("./Coupon_Product")
-            if coupon_product is None:
-                # print(f'get Coupon_Product error: {resp.text}')
-                continue
-            product_code = coupon_product.find("ProductCode").text # outputs "TA3509"
-
-            resp = session.post(f'https://www.kfcclub.com.tw/meal/{product_code}')
-            if resp.status_code != 200:
-                msg = f'get product data error, status code: {resp.status_code}, text: {resp.text}'
-                LOG.error(msg)
+            if not data:
                 continue
 
-            soup = BeautifulSoup(resp.text, 'html.parser')
-            if food_data := get_default_items(soup):
-                coupon_by_code[coupon_code] = {
-                    'name': title,
-                    'product_code': product_code,
-                    'coupon_code': coupon_code,
-                    'coupon_id': coupon_id,
-                    'price': food_data['price'],
-                    'items': food_data['items'],
-                    'start_date': get_date(start_date),
-                    'end_date': get_date(end_date),
-                }
-            time.sleep(0.25)
+            try:
+                food_data = convertCouponData(data, coupon_code)
+            except (KeyError, ValueError) as e:
+                LOG.error(str(e))
+                continue
+            if food_data:
+                coupon_by_code[coupon_code] = food_data
+            time.sleep(0.3)
+        time.sleep(30)
 
     coupon_list = sorted(coupon_by_code.values(), key=lambda x: x["price"])
     utc_plus_eight_time = datetime.now(timezone.utc) + timedelta(hours=8)
@@ -209,8 +228,8 @@ def main():
         'last_update': utc_plus_eight_time.strftime('%Y-%m-%d %H:%M:%S')
     }
 
-    # with open('coupon.json', 'w', encoding='utf-8') as fp:
-    #     json.dump(coupon_dict, fp, ensure_ascii=False)
+    with open('coupon.json', 'w', encoding='utf-8') as fp:
+        json.dump(coupon_dict, fp, ensure_ascii=False)
 
     with open('coupon.js', 'w', encoding='utf-8') as fp:
         j_str = json.dumps(coupon_dict, ensure_ascii=False)
