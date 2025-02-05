@@ -17,7 +17,6 @@
  * @property {string} name - The name of the coupon.
  * @property {string} product_code - The product code of the coupon.
  * @property {number} coupon_code - The code of the coupon.
- * @property {string} coupon_id - The ID of the coupon.
  * @property {CouponItem[]} items - The array of items in the coupon.
  * @property {string} start_date - The start date of the coupon.
  * @property {string} end_date - The end date of the coupon.
