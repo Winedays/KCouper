@@ -35,7 +35,7 @@ def api_caller(session: requests.Session, url: str, body: dict, msg_prefix: str,
         retry += 1
         LOG.warning(f'{msg_prefix} 502 error, {retry=}')
         time.sleep(30)
-        api_caller(session, url, body, msg_prefix, retry)
+        return api_caller(session, url, body, msg_prefix, retry)
     if resp.status_code != 200:
         msg = f'{msg_prefix} error, status code: {resp.status_code}, text: {resp.text}'
         LOG.error(msg)
