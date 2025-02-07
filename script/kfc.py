@@ -199,8 +199,8 @@ def main():
     ranges = ((24000, 26000), (40000, 41000), (50000, 51000), (13000, 15000))
 
     for r in ranges:
-        LOG.info(f'getting coupon {r}...')
         for coupon_code in range(r[0], r[1]):
+            LOG.info(f'getting coupon {coupon_code}...')
             try:
                 data = getCouponData(session, coupon_code)
             except (KeyError, ValueError) as e:
