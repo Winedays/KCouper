@@ -212,12 +212,12 @@ function prepareInitData() {
 
 function prepareButtons() {
     const exceptCase = new RegExp(EXCLUDE_CASES_REG_STR)
-    const siteCase = new RegExp(`\\([大中小辣]\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
+    const siteCase = new RegExp(`\\([大中小辣]\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
     COUPONS.forEach(({items}) => {
         items.forEach(({name: names}) => {
             names.split('+').forEach(name =>{
                 if(exceptCase.exec(name)) return;
-                const renderName = name.replace(siteCase, '').trim()
+                const renderName = name.replace(siteCase, '').trim().replace(/^\(|\)$/g, '');
                 if(AllFilterNamesSet.has(renderName)) return;
     
                 AllFilterNamesSet.add(renderName)
