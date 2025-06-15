@@ -109,20 +109,24 @@ function escapeRegex(string) {
  * @param {string[]} names - Names of the CouponItem to search for.
  */
 function filterCouponsWithNames(names) {
-    if(names.length === 0) {
-        $('div[id^="coupon-"]').show()
-        return
+    const enableFlavorSearch = $('#enableFlavorSearch').is(':checked');
+
+    if (names.length === 0) {
+        $('div[id^="coupon-"]').show();
+        return;
     }
 
     COUPONS.forEach((coupon) => {
-        if(names.every(
+        if (names.every(
             (name) => coupon.items.some(
                 (item) => (filterItem[name] || [name]).some(
-                    search => item.name.includes(search))))
-        ){
-            $(`#coupon-${coupon.coupon_code}`).show()
+                    search => item.name.includes(search) || (enableFlavorSearch && item.flavors.some(flavor => flavor.name.includes(search)))
+                )
+            )
+        )) {
+            $(`#coupon-${coupon.coupon_code}`).show();
         } else {
-            $(`#coupon-${coupon.coupon_code}`).hide()
+            $(`#coupon-${coupon.coupon_code}`).hide();
         }
     });
 }
@@ -175,6 +179,7 @@ function couponDetailEvent(event) {
         options += "</ul>"
         items += `${default_flavors}${options}`;
     })
+    console.log(base_content)
     $("#detail-body").html(`${base_content}<div class="pt-3 ml-2">${items}</div>`)
 }
 
@@ -200,7 +205,7 @@ function prepareInitData() {
         const body = `<div class="card-body">${title + items}</div>`;
 
         const date = `<div class="text-right"><small class="text-muted">${data.start_date} ~ ${data.end_date}</small></div>`;
-        const detail = `<div class="coupon-detail-link" data-key="${data.coupon_code}" data-toggle="modal" data-target="#detailModel">查看餐點選項</div>`;
+        const detail = `<div class="coupon-detail-link" data-key="${data.coupon_code}" data-bs-toggle="modal" data-bs-target="#detailModel">查看餐點選項</div>`;
         const order = `<div><a href="${ORDER_LINK}/${data.product_code}" target="_blank">線上點餐</a></div>`;
         const footer = `<div class="card-footer">${date}<div class="d-flex justify-content-between">${detail + order}</div></div>`;
 
@@ -234,6 +239,10 @@ function prepareButtons() {
 }
 
 $(document).ready(function() {
+    // Enable popovers, ref: https://getbootstrap.com/docs/5.2/components/popovers/
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const _ = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
     $("#myTags").tagit({
         allowDuplicates: true,
         placeholderText: "我想找...",
@@ -261,6 +270,10 @@ $(document).ready(function() {
     $("#lastUpdate").html(`${COUPON_DICT.last_update.substring(0, 10)}<span class="hide-small-screen">${COUPON_DICT.last_update.substring(10)}</span>`)
     $(".item-btn").click(filterClickEvent);
     $(".clear-btn").click(clearTagsEvent);
-    $('div[data-target="#detailModel"]').click(couponDetailEvent);
+    $('div[data-bs-target="#detailModel"]').click(couponDetailEvent);
     $(".top-btn").click(scrollToTopEvent);
+    $('#enableFlavorSearch').change(function() {
+        const names = $("#myTags").tagit("assignedTags");
+        filterCouponsWithNames(names);
+    });
 })
