@@ -238,6 +238,11 @@ function prepareButtons() {
     $('#buttons').html(btn_html);
 }
 
+function updateSearchResultCount() {
+    const visibleCoupons = $('div[id^="coupon-"]:visible').length;
+    $('#searchResultCount').text(visibleCoupons);
+}
+
 $(document).ready(function() {
     // Enable popovers, ref: https://getbootstrap.com/docs/5.2/components/popovers/
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -252,6 +257,7 @@ $(document).ready(function() {
         afterTagAdded: function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
             filterCouponsWithNames(names)
+            updateSearchResultCount()
         },
         afterTagRemoved:  function(event, ui) {
             const names = $("#myTags").tagit("assignedTags");
@@ -263,6 +269,7 @@ $(document).ready(function() {
             if($('#myTags').tagit('assignedTags').length == 0) {
                 $(".tagit-new > input").attr("placeholder", "我想找...")
             }
+            updateSearchResultCount()
         },
     });
     prepareInitData();
@@ -275,5 +282,9 @@ $(document).ready(function() {
     $('#enableFlavorSearch').change(function() {
         const names = $("#myTags").tagit("assignedTags");
         filterCouponsWithNames(names);
+        updateSearchResultCount();
     });
+
+    // Initial count update
+    updateSearchResultCount();
 })
