@@ -224,22 +224,50 @@ function prepareButtons() {
     const siteCase = new RegExp(`\\([大中小辣]\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
     COUPONS.forEach(({items}) => {
         items.forEach(({name: names}) => {
-            names.split('+').forEach(name =>{
-                if(exceptCase.exec(name)) return;
+            names.split('+').forEach(name => {
+                if (exceptCase.exec(name)) return;
                 const renderName = name.replace(siteCase, '').trim().replace(/^\(|\)$/g, '');
-                if(AllFilterNamesSet.has(renderName)) return;
-    
-                AllFilterNamesSet.add(renderName)
-                filterItem[renderName] = [renderName]
-            })
-        })
-    })
+                if (AllFilterNamesSet.has(renderName)) return;
+
+                AllFilterNamesSet.add(renderName);
+                filterItem[renderName] = [renderName];
+            });
+        });
+    });
 
     let btn_html = "";
-    Object.keys(filterItem).forEach(key => {
-        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${key}">${key}</button>`
-    })
+    const keys = Object.keys(filterItem);
+
+    keys.slice(0, 10).forEach(key => {
+        btn_html += `<button type="button" class="btn btn-light item-btn" data-key="${key}">${key}</button>`;
+    });
+
+    if (keys.length > 10) { // Use a filter icon for the dropdown menu
+        btn_html += `<div class="dropdown d-inline-block">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="filterIcon" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-filter"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="filterIcon">
+                            ${keys.slice(10).map(key => `<li><a class="dropdown-item" href="#" data-key="${key}">${key}</a></li>`).join('')}
+                        </ul>
+                    </div>`;
+    }
+
     $('#buttons').html(btn_html);
+
+    // Add event listener for dropdown items
+    $('.dropdown-item').click(function() {
+        const selectedKey = $(this).data('key');
+        if ($(this).hasClass('active')) {
+            console.log(`Deselected key: ${selectedKey}`);
+            $(this).removeClass('active');
+            $("#myTags").tagit("removeTagByLabel", selectedKey);
+        } else {
+            console.log(`Selected key: ${selectedKey}`);
+            $(this).addClass('active');
+            $("#myTags").tagit("createTag", selectedKey);
+        }
+    });
 }
 
 function updateSearchResultCount() {
