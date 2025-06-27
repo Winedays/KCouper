@@ -192,11 +192,37 @@ function scrollToTopEvent() {
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+let currentSort = 'price-asc';
+
+function getSortedCoupons() {
+    let sorted = [...COUPONS];
+    switch(currentSort) {
+        case 'coupon_code-asc':
+            sorted.sort((a, b) => a.coupon_code - b.coupon_code);
+            break;
+        case 'coupon_code-desc':
+            sorted.sort((a, b) => b.coupon_code - a.coupon_code);
+            break;
+        case 'price-asc':
+            sorted.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-desc':
+            sorted.sort((a, b) => b.price - a.price);
+            break;
+        case 'end_date-asc':
+            sorted.sort((a, b) => new Date(a.end_date) - new Date(b.end_date));
+            break;
+        case 'end_date-desc':
+            sorted.sort((a, b) => new Date(b.end_date) - new Date(a.end_date));
+            break;
+    }
+    return sorted;
+}
+
 function prepareInitData() {
     const row = $('#row');
-
     let products = "";
-    COUPONS.forEach(data => {
+    getSortedCoupons().forEach(data => {
         const name = `<strong>${data.name}</strong>`;
         const price = `<strong>\$${data.price}</strong>`;
         const title = `<div class="d-flex justify-content-between align-items-center">${name}${price}</div>`;
@@ -314,6 +340,12 @@ $(document).ready(function() {
     $('#enableFlavorSearch').change(function() {
         const names = $("#myTags").tagit("assignedTags");
         filterCouponsWithNames(names);
+        updateSearchResultCount();
+    });
+    $('#sortSelect').on('change', function() {
+        currentSort = $(this).val();
+        prepareInitData();
+        filterCouponsWithNames($("#myTags").tagit("assignedTags"));
         updateSearchResultCount();
     });
 

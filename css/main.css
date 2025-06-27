@@ -107,6 +107,17 @@ header {
   opacity: 100%;
 }
 
+.coupon-count {
+  display: contents;
+  margin-left: 10px;
+}
+
+.tools-row {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 5px;
+}
+
 :root {
   --jumbotron-padding-y: 3rem;
 }
