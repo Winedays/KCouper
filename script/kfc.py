@@ -191,6 +191,32 @@ def get_coupon_data(session: requests.Session, coupon_code: str) -> dict:
     return resp.get('Data')
 
 
+def get_single_food_data(session: requests.Session, coupon_code: str) -> dict:
+    date = datetime.now(timezone(timedelta(hours=8))).strftime("%Y/%m/%d")
+
+    resp = api_caller(
+        session,
+        'https://olo-api.kfcclub.com.tw/menu/v1/GetQueryFood',
+        {
+            'shopcode': SHOP_CODE,
+            'mealperiod': '4', # 晚餐
+            'ordertype': '2',
+            'orderdate': date,
+            'ismember': 0,
+            'menuid': 1,
+            'parentid': 0,
+            'IsPKAPP': 0,
+        },
+        'get single food',
+    )
+    if resp.get('Message') != 'OK' or not resp.get('Success'):
+        msg = f'get single food response error, json: {resp}'
+        LOG.error(msg)
+        raise Exception(msg)
+
+    return resp.get('Data')
+
+
 def main():
     session = init_session()
     init_delivery_info(session)
