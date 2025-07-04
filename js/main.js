@@ -183,7 +183,6 @@ function couponDetailEvent(event) {
         options += "</ul>"
         items += `${default_flavors}${options}`;
     })
-    console.log(base_content)
     $("#detail-body").html(`${base_content}<div class="pt-3 ml-2">${items}</div>`)
 }
 
