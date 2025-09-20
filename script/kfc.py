@@ -196,7 +196,7 @@ def main():
     init_delivery_info(session)
 
     coupon_by_code = {}
-    ranges = ((24000, 26000), (40000, 41000), (50000, 51000), (13000, 15000))
+    ranges = ((24000, 26000), (40000, 41000), (50000, 51000), (13000, 16000))
 
     for r in ranges:
         for coupon_code in range(r[0], r[1]):
