@@ -1,0 +1,37 @@
+name: Save output to GitHub
+
+on:
+  schedule:
+    - cron: "30 20 1,15 * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  save-output:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Caching pipenv dependencies:
+    - name: Install pipenv
+      run: pipx install pipenv
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pipenv'
+    - run: pipenv install
+
+    - name: Run program and generate output
+      run: |
+        pipenv run python script/kfc.py --mode check
+
+    - name: Archive log file
+      uses: actions/upload-artifact@v4
+      if: ${{ always() }}
+      with:
+        name: debug-log
+        path: debug.log
+        retention-days: 30
