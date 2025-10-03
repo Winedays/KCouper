@@ -39,6 +39,58 @@ const COUPONS = COUPON_DICT.coupon_list
 const COUPONS_BY_CODE = COUPON_DICT.coupon_by_code
 
 /**
+ * @type {Set<number>}
+ */
+let favoriteCoupons = new Set()
+
+/**
+ * Load favorite coupons from localStorage
+ */
+function loadFavorites() {
+    const stored = localStorage.getItem('favoriteCoupons')
+    if (stored) {
+        favoriteCoupons = new Set(JSON.parse(stored))
+    }
+}
+
+/**
+ * Save favorite coupons to localStorage
+ */
+function saveFavorites() {
+    localStorage.setItem('favoriteCoupons', JSON.stringify([...favoriteCoupons]))
+}
+
+/**
+ * Toggle favorite status for a coupon
+ * @param {number} couponCode
+ */
+function toggleFavorite(couponCode) {
+    if (favoriteCoupons.has(couponCode)) {
+        favoriteCoupons.delete(couponCode)
+    } else {
+        favoriteCoupons.add(couponCode)
+    }
+    saveFavorites()
+    updateStarIcon(couponCode)
+    if ($('#showFavoritesOnly').is(':checked')) {
+        filterCouponsWithNames($("#myTags").tagit("assignedTags"))
+    }
+}
+
+/**
+ * Update star icon for a coupon
+ * @param {number} couponCode
+ */
+function updateStarIcon(couponCode) {
+    const starIcon = $(`#star-${couponCode}`)
+    if (favoriteCoupons.has(couponCode)) {
+        starIcon.removeClass('bi-star').addClass('bi-star-fill')
+    } else {
+        starIcon.removeClass('bi-star-fill').addClass('bi-star')
+    }
+}
+
+/**
  * @type {Object<string, string>}
  */
 const filterItem = {
@@ -109,25 +161,33 @@ function escapeRegex(string) {
 }
 
 /**
- * Filter all the coupons that have an item with the target name.
+ * Filter all the coupons that have an item with the target name or favorites.
  * @param {string[]} names - Names of the CouponItem to search for.
  */
 function filterCouponsWithNames(names) {
     const enableFlavorSearch = $('#enableFlavorSearch').is(':checked');
-
-    if (names.length === 0) {
-        $('div[id^="coupon-"]').show();
-        return;
-    }
+    const showFavoritesOnly = $('#showFavoritesOnly').is(':checked');
 
     COUPONS.forEach((coupon) => {
-        if (names.every(
-            (name) => coupon.items.some(
-                (item) => (filterItem[name] || [name]).some(
-                    search => item.name.includes(search) || (enableFlavorSearch && item.flavors.some(flavor => flavor.name.includes(search)))
+        let shouldShow = true;
+
+        // Check favorites filter
+        if (showFavoritesOnly && !favoriteCoupons.has(coupon.coupon_code)) {
+            shouldShow = false;
+        }
+
+        // Check name filter
+        if (names.length > 0) {
+            shouldShow = shouldShow && names.every(
+                (name) => coupon.items.some(
+                    (item) => (filterItem[name] || [name]).some(
+                        search => item.name.includes(search) || (enableFlavorSearch && item.flavors.some(flavor => flavor.name.includes(search)))
+                    )
                 )
-            )
-        )) {
+            );
+        }
+
+        if (shouldShow) {
             $(`#coupon-${coupon.coupon_code}`).show();
         } else {
             $(`#coupon-${coupon.coupon_code}`).hide();
@@ -222,9 +282,11 @@ function prepareInitData() {
     const row = $('#row');
     let products = "";
     getSortedCoupons().forEach(data => {
+        const starIcon = favoriteCoupons.has(data.coupon_code) ? 'bi-star-fill' : 'bi-star';
+        const star = `<i class="bi ${starIcon} star-icon" id="star-${data.coupon_code}" data-coupon="${data.coupon_code}" style="cursor: pointer;"></i>`;
         const name = `<strong>${data.name}</strong>`;
         const price = `<strong>\$${data.price}</strong>`;
-        const title = `<div class="d-flex justify-content-between align-items-center">${name}${price}</div>`;
+        const title = `<div class="d-flex justify-content-between align-items-center" style="position: relative;"><div>${star} ${name}</div>${price}</div>`;
 
         let items = "";
         data.items.forEach(({name, count}) => {
@@ -329,6 +391,8 @@ $(document).ready(function() {
             updateSearchResultCount()
         },
     });
+    // Load favorites first
+    loadFavorites();
     prepareInitData();
     prepareButtons();
     $("#lastUpdate").html(`${COUPON_DICT.last_update.substring(0, 10)}<span class="hide-small-screen">${COUPON_DICT.last_update.substring(10)}</span>`)
@@ -350,4 +414,18 @@ $(document).ready(function() {
 
     // Initial count update
     updateSearchResultCount();
+
+    // Bind star click events
+    $(document).on('click', '.star-icon', function() {
+        const couponCode = parseInt($(this).data('coupon'));
+        toggleFavorite(couponCode);
+        updateSearchResultCount();
+    });
+
+    // Bind favorites filter change event
+    $('#showFavoritesOnly').change(function() {
+        const names = $("#myTags").tagit("assignedTags");
+        filterCouponsWithNames(names);
+        updateSearchResultCount();
+    });
 })

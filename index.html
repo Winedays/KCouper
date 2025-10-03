@@ -47,17 +47,28 @@
             </ul>
             <button type="button" class="btn btn-light clear-btn">清除</button>
             <div class="row tools-row">
-              <div class="col-sm-12 col-md-6 form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="enableFlavorSearch">
-                <label class="form-check-label" for="enableFlavorSearch">
-                  <strong>搜尋所有選項</strong>
-                </label>
-                <a class="bi bi-info-circle-fill" id="flavorSearchInfo" data-bs-toggle="popover" style="color: dodgerblue"
-                  role="button" data-bs-content="搜尋所有的餐點選項，要注意非預設的選項可能要加價，最終價格會改變"
-                  data-bs-trigger="focus" tabindex="0"></a>
-                <div class="coupon-count text-muted text-end">優惠券: <span id="searchResultCount">0</span></div>
+              <div class="col-sm-6">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="enableFlavorSearch">
+                  <label class="form-check-label" for="enableFlavorSearch">
+                    <strong>搜尋所有選項</strong>
+                  </label>
+                  <a class="bi bi-info-circle-fill" id="flavorSearchInfo" data-bs-toggle="popover" style="color: dodgerblue"
+                    role="button" data-bs-content="搜尋所有的餐點選項，要注意非預設的選項可能要加價，最終價格會改變"
+                    data-bs-trigger="focus" tabindex="0"></a>
+                </div>
+
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="showFavoritesOnly">
+                  <label class="form-check-label" for="showFavoritesOnly">
+                    <strong>顯示所有收藏</strong>
+                  </label>
+                  <a class="bi bi-info-circle-fill" id="favoritesInfo" data-bs-toggle="popover" style="color: dodgerblue"
+                    role="button" data-bs-content="收藏功能會將資料儲存在瀏覽器的本地儲存空間中。如果換了裝置、清除瀏覽器資料或使用無痕模式，收藏記錄就會消失。"
+                    data-bs-trigger="focus" tabindex="0"></a>
+                </div>
               </div>
-              <div class="col-sm-12 col-md-6 text-end">
+              <div class="col-sm-6 text-end">
                 <label for="sortSelect" class="form-label mb-0 me-2">排序：</label>
                 <select id="sortSelect" class="form-select form-select-sm d-inline-block w-auto" style="min-width:120px;">
                   <option value="price-asc">價格：低→高</option>
@@ -72,6 +83,7 @@
           </div>
           <div id="buttons" class="btn-area"></div>
           <hr>
+          <div class="coupon-count text-muted">優惠券: <span id="searchResultCount">0</span></div>
 
           <div class="row" id="row"></div>
         </div>
@@ -88,6 +100,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <h6>2025-10-09</h6>
+            <ul>
+              <li>新增收藏功能</li>
+            </ul>
+            <h6>2025-09-20</h6>
+            <ul>
+              <li>支援15XXX系列優惠卷</li>
+            </ul>
             <h6>2025-06-27</h6>
             <ul>
               <li>新增排序功能</li>

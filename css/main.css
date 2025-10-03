@@ -108,8 +108,8 @@ header {
 }
 
 .coupon-count {
-  display: contents;
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .tools-row {
@@ -133,4 +133,18 @@ header {
   .last-update-time .hide-small-screen {
     display: none;
   }
+}
+
+.star-icon {
+  font-size: 18px;
+  color: #ffc107;
+  transition: color 0.2s;
+}
+
+.star-icon:hover {
+  color: #ffca2c;
+}
+
+.star-icon.bi-star-fill {
+  color: #ffc107;
 }
