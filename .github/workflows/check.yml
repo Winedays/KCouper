@@ -1,4 +1,4 @@
-name: Save output to GitHub
+name: New Coupon Code Checker
 
 on:
   schedule:
