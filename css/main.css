@@ -1,3 +1,7 @@
+.site-title {
+  margin-left: 5px;
+}
+
 .card-body {
   padding-bottom: 0;
 }
@@ -57,6 +61,7 @@ header {
 
 .info {
   display: flex;
+  align-items: center;
 }
 
 .info > div {
@@ -147,4 +152,77 @@ header {
 
 .star-icon.bi-star-fill {
   color: #ffc107;
+}
+
+/* dark mode */
+
+#bd-theme .bi {
+  fill: aliceblue !important;
+  color: aliceblue !important;
+}
+
+[data-bs-theme="dark"] #bd-theme .bi {
+  fill: aliceblue !important;
+  color: aliceblue !important;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: rgba(var(--bs-body-bg)) !important
+}
+
+[data-bs-theme="dark"] .btn.item-btn {
+  background-color: var(--bs-dark);
+  color: var(--bs-light);
+  border-color: var(--bs-border-color, #444);
+}
+
+[data-bs-theme="dark"] .btn.item-btn:hover {
+  background-color: var(--bs-gray-700);
+}
+
+[data-bs-theme="dark"] .btn.item-btn:active,
+[data-bs-theme="dark"] .btn.item-btn.active,
+[data-bs-theme="dark"] .btn-check:checked + .btn.item-btn {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+
+
+[data-bs-theme="dark"] .clear-btn {
+  background-color: var(--bs-gray-800);
+  color: var(--bs-light);
+  border-color: var(--bs-gray-700);
+}
+
+[data-bs-theme="dark"] .clear-btn:hover {
+  background-color: var(--bs-gray-700);
+}
+
+[data-bs-theme="dark"] .clear-btn:active {
+  color: var(--bs-light);
+}
+
+[data-bs-theme="dark"] .btn-light.dropdown-toggle {
+  background-color: var(--bs-gray-800);
+  border-color: var(--bs-gray-700);
+  color: var(--bs-light);
+}
+
+[data-bs-theme="dark"] .btn-light.dropdown-toggle:hover {
+  background-color: var(--bs-gray-700);
+  border-color: var(--bs-gray-600);
+  color: var(--bs-white);
+}
+
+[data-bs-theme="dark"] .btn-light.dropdown-toggle:active,
+[data-bs-theme="dark"] .btn-light.dropdown-toggle.show {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+
+[data-bs-theme="dark"] .ui-widget-content {
+  background: none !important;
+  color: var(--bs-light);
 }
