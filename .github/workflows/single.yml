@@ -1,17 +1,14 @@
-name: Save output to GitHub
+name: Save single output to GitHub
 
 on:
   schedule:
-    - cron: "30 16 * * *"
-  push:
-    branches:
-      - master
+    - cron: "0 0 * * 6"  # Weekly on Saturday at midnight
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  save-output:
+  save-single-output:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,16 +24,16 @@ jobs:
         cache: 'pipenv'
     - run: pipenv install
 
-    - name: Run program and generate output
+    - name: Run program in single mode and generate output
       run: |
-        pipenv run python script/kfc.py
-        mv -f coupon.js js/coupon.js
+        pipenv run python script/kfc.py --mode single
+        mv -f single.js js/single.js
 
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
       with:
-        add: 'js/coupon.js'
-        message: 'daily update coupon information'
+        add: 'js/single.js'
+        message: 'weekly update single product information'
         committer_name: GitHub Actions
         committer_email: 41898282+github-actions[bot]@users.noreply.github.com
 
@@ -44,6 +41,6 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ always() }}
       with:
-        name: debug-log
+        name: debug-log-single
         path: debug.log
         retention-days: 30

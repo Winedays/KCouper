@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -135,6 +135,8 @@
                   <option value="coupon_code-desc">代碼：遞減</option>
                   <option value="end_date-asc">到期日：近→遠</option>
                   <option value="end_date-desc">到期日：遠→近</option>
+                  <option value="discount-asc">折扣比例：低→高</option>
+                  <option value="discount-desc">折扣比例：高→低</option>
                 </select>
               </div>
             </div>
@@ -158,6 +160,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <h6>2025-12-25</h6>
+            <ul>
+              <li>新增原價及折扣比例資訊，支援根據折扣比例排序</li>
+            </ul>
             <h6>2025-12-18</h6>
             <ul>
               <li>支援26XXX系列優惠卷</li>
@@ -258,6 +264,7 @@
     <script src="https://code.jquery.com/ui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/tag-it.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/coupon.js"></script>
+    <script src="./js/single.js"></script>
     <script src="./js/main.js"></script>
   </body>
 </html>

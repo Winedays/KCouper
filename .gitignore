@@ -5,6 +5,8 @@ coupon_dict.js
 /coupon.js
 /test.html
 .vscode
+script/*.js
+script/*.json
 
 # mac
 .DS_Store
