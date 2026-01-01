@@ -455,9 +455,6 @@ timeout-methods=requests.api.delete,requests.api.get,requests.api.head,requests.
 
 [MISCELLANEOUS]
 
-# Whether or not to search for fixme's in docstrings.
-check-fixme-in-docstring=no
-
 # List of note tags to take in consideration, separated by a comma.
 notes=FIXME,
       XXX,
