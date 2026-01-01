@@ -7,6 +7,8 @@ coupon_dict.js
 .vscode
 script/*.js
 script/*.json
+single.json
+/single.js
 
 # mac
 .DS_Store
