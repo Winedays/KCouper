@@ -504,12 +504,13 @@ $(document).ready(function() {
         let canGetOriginalPrice = true;
         let discountFold = 10;
         data.items.forEach(({name, count}) => {
-            if (exceptItems.exec(name)) return;
+            if (exceptItems.exec(name) || canGetOriginalPrice === false) return;
 
             try {
                 originalPrice += calculateOriginalPrice(name, count);
             } catch (e) {
                 // console.log(`Cannot find item: ${name} in coupon code: ${data.coupon_code}`);
+                originalPrice = 0;
                 canGetOriginalPrice = false;
             }
         })
