@@ -28,6 +28,7 @@ jobs:
       run: |
         pipenv run python script/kfc.py --mode single
         mv -f single.js js/single.js
+        ls -l js/
 
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
