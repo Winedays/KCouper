@@ -133,16 +133,34 @@ def get_coupon_data(session: requests.Session, coupon_code: str) -> dict:
 
     return resp.get('Data')
 
-def query_coupon():
+
+def query_coupon(quick=False):
     session = init_session()
     init_delivery_info(session)
-
     coupon_by_code = {}
+    if quick:
+        with open('js/coupon.js', 'r', encoding='utf-8') as fp:
+            content = fp.read()
+        json_str = content[len('const COUPON_DICT='):].strip()
+        old_dict = json.loads(json_str)
+        coupon_by_code = old_dict.get('coupon_by_code', {})
+
+    today = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d')
     for r in COUPON_RANGES:
         start = int(r[0])
         end = int(r[1])
         for coupon_code in range(start, end):
-            LOG.info('getting coupon %s...', coupon_code)
+            coupon_code_str = str(coupon_code)
+            if coupon_code_str in coupon_by_code:
+                end_date = coupon_by_code[coupon_code_str]['end_date']
+                if end_date < today:
+                    coupon_by_code.pop(coupon_code_str)
+                    LOG.info('removing expired coupon %d', coupon_code)
+                else:
+                    LOG.info('skipping existing coupon %d', coupon_code)
+                continue
+
+            LOG.info('getting coupon %d...', coupon_code)
             try:
                 data = get_coupon_data(session, coupon_code)
             except (KeyError, ValueError) as e:

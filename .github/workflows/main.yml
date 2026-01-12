@@ -2,7 +2,8 @@ name: Save output to GitHub
 
 on:
   schedule:
-    - cron: "30 16 * * *"
+    - cron: "30 16 * * 0-4,6"
+    - cron: "30 16 * * 5"
   push:
     branches:
       - master
@@ -29,14 +30,20 @@ jobs:
 
     - name: Run program and generate output
       run: |
-        pipenv run python script/kfc.py
+        if [ "${{ github.event.schedule }}" = "30 16 * * 5" ]; then
+          echo "MODE=main" >> $GITHUB_ENV
+          pipenv run python script/kfc.py --mode main
+        else
+          echo "MODE=quick" >> $GITHUB_ENV
+          pipenv run python script/kfc.py --mode quick
+        fi
         mv -f coupon.js js/coupon.js
 
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
       with:
         add: 'js/coupon.js'
-        message: 'daily update coupon information'
+        message: '${{ env.MODE }} daily update coupon information'
         committer_name: GitHub Actions
         committer_email: 41898282+github-actions[bot]@users.noreply.github.com
 
