@@ -64,8 +64,13 @@ header {
   align-items: center;
 }
 
-.info > div {
+.info > div,
+.info > a {
   margin: 0 5px;
+}
+
+.info > a {
+  color: inherit;
 }
 
 .contact-body img {
