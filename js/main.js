@@ -2,14 +2,14 @@
  * @typedef {Object} CouponItem
  * @property {string} name - The name of the item.
  * @property {number} count - The count of this item that can be purchased.
- * @property {addition_price} min_item - The addition price of this item that need to pay.
+ * @property {number} addition_price - The addition price of this item that need to pay.
  * @property {ItemFlavors[]} flavors - The addition flavors of this item that can change.
  */
 
 /**
  * @typedef {Object} ItemFlavors
  * @property {string} name - The name of the flavors.
- * @property {addition_price} min_item - The addition price of this flavors that need to pay.
+ * @property {number} addition_price - The addition price of this flavors that need to pay.
  */
 
 /**
@@ -93,7 +93,7 @@ function updateStarIcon(couponCode) {
 }
 
 /**
- * @type {Object<string, []string>}
+ * @type {Object<string, string[]>}
  */
 const filterItem = {
     '蛋撻': ['原味蛋撻', '蛋撻'],
@@ -263,7 +263,7 @@ function couponDetailEvent(event) {
     const e = $(event.currentTarget)
     const coupon_code = e.attr('data-key')
     const coupon = COUPONS_BY_CODE[coupon_code]
-    $("#detail-title").html(`<div class="d-flex justify-content-between"><span>${coupon.name}</span><spen>$${coupon.price}</spen></div>`)
+    $("#detail-title").html(`<div class="d-flex justify-content-between"><span>${coupon.name}</span><span>$${coupon.price}</span></div>`)
 
     let base_content = `<div class="d-flex justify-content-between"><span>餐點可以更換的品項：</span><a href="${ORDER_LINK}/${coupon.product_code}" target="_blank">線上點餐</a></div>`
     base_content += `<small class="text-gray">品項價格為一件的價錢</small>`
@@ -274,7 +274,7 @@ function couponDetailEvent(event) {
         let options = "<ul>"
         if(flavors.length > 0){
             flavors.forEach(({name, addition_price}) =>{
-                options += `<li><div class="d-flex justify-content-between"><span>${name}</span><spen>+$${addition_price}</spen></div></li>`
+                options += `<li><div class="d-flex justify-content-between"><span>${name}</span><span>+$${addition_price}</span></div></li>`
             })
         } else {
             options += `<li class="text-gray"><div>沒有可以更換的品項</div></li>`
@@ -361,7 +361,7 @@ function calculateOriginalPrice(name, count) {
     } else {
         // try to split by '+' first
         const splitNames = name.split('+').map(n => n.trim());
-        _price = 0;
+        let _price = 0;
         if (splitNames.length > 1) {
             splitNames.forEach(n => {
                 _price += calculateOriginalPrice(n, count);
