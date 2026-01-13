@@ -1,4 +1,15 @@
 /**
+ * Send a GA Event
+ * @param {string} eventName - The name of the event.
+ * @param {Object} eventParams - The parameters of the event.
+ */
+function sendGAEvent(eventName, eventParams) {
+    if (typeof gtag === 'function') {
+        gtag('event', eventName, eventParams);
+    }
+}
+
+/**
  * @typedef {Object} CouponItem
  * @property {string} name - The name of the item.
  * @property {number} count - The count of this item that can be purchased.
@@ -246,11 +257,13 @@ function inactiveFilterButton(button) {
 
 function filterClickEvent(event) {
     const e = $(event.currentTarget)
+    const filterValue = e.text()
     if(e.attr('class').includes('active')) {
-        $("#myTags").tagit("removeTagByLabel", e.text());
+        $("#myTags").tagit("removeTagByLabel", filterValue);
         inactiveFilterButton(e)
     } else {
-        $("#myTags").tagit("createTag", e.text());
+        sendGAEvent('filter_click', { 'filter_value': filterValue });
+        $("#myTags").tagit("createTag", filterValue);
         activeFilterButton(e)
     }
 }
@@ -263,6 +276,7 @@ function couponDetailEvent(event) {
     const e = $(event.currentTarget)
     const coupon_code = e.attr('data-key')
     const coupon = COUPONS_BY_CODE[coupon_code]
+    sendGAEvent('view_options_click', { 'coupon_code': coupon.coupon_code, 'coupon_name': coupon.name });
     $("#detail-title").html(`<div class="d-flex justify-content-between"><span>${coupon.name}</span><spen>$${coupon.price}</spen></div>`)
 
     let base_content = `<div class="d-flex justify-content-between"><span>餐點可以更換的品項：</span><a href="${ORDER_LINK}/${coupon.product_code}" target="_blank">線上點餐</a></div>`
@@ -452,11 +466,10 @@ function prepareButtons() {
     $('.dropdown-item').click(function() {
         const selectedKey = $(this).data('key');
         if ($(this).hasClass('active')) {
-            console.log(`Deselected key: ${selectedKey}`);
             $(this).removeClass('active');
             $("#myTags").tagit("removeTagByLabel", selectedKey);
         } else {
-            console.log(`Selected key: ${selectedKey}`);
+            sendGAEvent('filter_click', { 'filter_value': selectedKey });
             $(this).addClass('active');
             $("#myTags").tagit("createTag", selectedKey);
         }
@@ -540,6 +553,7 @@ $(document).ready(function() {
     });
     $('#sortSelect').on('change', function() {
         currentSort = $(this).val();
+        sendGAEvent('sorter_change', { 'sorter_value': currentSort });
         prepareInitData();
         filterCouponsWithNames($("#myTags").tagit("assignedTags"));
         updateSearchResultCount();
@@ -560,5 +574,18 @@ $(document).ready(function() {
         const names = $("#myTags").tagit("assignedTags");
         filterCouponsWithNames(names);
         updateSearchResultCount();
+    });
+
+    // Bind online order click events
+    $(document).on('click', 'a[href^="https://www.kfcclub.com.tw/meal"]', function() {
+        sendGAEvent('online_order_total_click', {});
+        const couponCard = $(this).closest('.col-lg-4');
+        if (couponCard.length > 0) {
+            const couponId = couponCard.attr('id').split('-')[1];
+            const coupon = COUPONS_BY_CODE[couponId];
+            if (coupon) {
+                sendGAEvent('online_order_click', { 'coupon_code': coupon.coupon_code, 'coupon_name': coupon.name });
+            }
+        }
     });
 })
