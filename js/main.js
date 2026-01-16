@@ -186,6 +186,9 @@ const UNIT_WORD = [
     '入',
 ]
 
+const SITE_CASE_FOR_PRICE = new RegExp(`20:00前供應|\\(辣\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
+const SITE_CASE_FOR_BUTTON = new RegExp(`\\([大中小辣]\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
+
 /**
  * @type {Set<string>}
  */
@@ -324,7 +327,6 @@ function getSortedCoupons() {
 }
 
 function calculateOriginalPrice(name, count) {
-    const siteCase = new RegExp(`20:00前供應|\\(辣\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
     // walk around for 2塊咔啦脆雞
     if (name === '2塊咔啦脆雞(辣)') {
         name = '咔啦脆雞';
@@ -336,7 +338,7 @@ function calculateOriginalPrice(name, count) {
         count *= 2;
     }
 
-    const renderName = name.replace(siteCase, '').trim();
+    const renderName = name.replace(SITE_CASE_FOR_PRICE, '').trim();
     if (renderName === '咔啦脆雞') {
         const numTwos = Math.floor(count / 2);
         const numOnes = count % 2;
@@ -414,12 +416,11 @@ function prepareInitData() {
 
 function prepareButtons() {
     const exceptCase = new RegExp(EXCLUDE_CASES_REG_STR)
-    const siteCase = new RegExp(`\\([大中小辣]\\)|\\(不辣\\)|[1-9][0-9]*(${UNIT_WORD.join('|')})`, 'g')
     COUPONS.forEach(({items}) => {
         items.forEach(({name: names}) => {
             names.split('+').forEach(name => {
                 if (exceptCase.exec(name)) return;
-                const renderName = name.replace(siteCase, '').trim().replace(/^\(|\)$/g, '');
+                const renderName = name.replace(SITE_CASE_FOR_BUTTON, '').trim().replace(/^\(|\)$/g, '');
                 if (AllFilterNamesSet.has(renderName)) return;
 
                 AllFilterNamesSet.add(renderName);
