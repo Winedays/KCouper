@@ -36,6 +36,11 @@ const ORDER_LINK = 'https://www.kfcclub.com.tw/meal'
 const COUPONS = COUPON_DICT.coupon_list
 
 /**
+ * @type {Map<number, JQuery<HTMLElement>>}
+ */
+const couponDomCache = new Map();
+
+/**
  * @type {Object.<number, Coupon>}
  */
 const COUPONS_BY_CODE = COUPON_DICT.coupon_by_code
@@ -229,10 +234,13 @@ function filterCouponsWithNames(names) {
             );
         }
 
-        if (shouldShow) {
-            $(`#coupon-${coupon.coupon_code}`).show();
-        } else {
-            $(`#coupon-${coupon.coupon_code}`).hide();
+        const $element = couponDomCache.get(coupon.coupon_code);
+        if ($element) {
+            if (shouldShow) {
+                $element.show();
+            } else {
+                $element.hide();
+            }
         }
     });
 }
@@ -412,6 +420,11 @@ function prepareInitData() {
         products += `<div class="col-lg-4 col-md-6" id="coupon-${data.coupon_code}">${box}</div>`;
     })
     row.html(products);
+
+    couponDomCache.clear();
+    COUPONS.forEach(coupon => {
+        couponDomCache.set(coupon.coupon_code, $(`#coupon-${coupon.coupon_code}`));
+    });
 }
 
 function prepareButtons() {
