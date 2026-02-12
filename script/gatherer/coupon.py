@@ -81,7 +81,7 @@ def get_coupon_data(session: requests.Session, coupon_code: str) -> dict:
         LOG.debug('coupon code(%s) is invalid', coupon_code)
         return None
     if resp.get('Message') != 'OK' or not resp.get('Success'):
-        msg = f'get voucher info response error, json: {resp}'
+        msg = f'get voucher info response error, coupon code {coupon_code}, json: {resp}'
         LOG.error(msg)
         raise Exception(msg)
 
