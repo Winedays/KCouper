@@ -77,10 +77,11 @@ def get_coupon_data(session: requests.Session, coupon_code: str) -> dict:
         'get voucher info',
     )
     # { "Success": true, "Message": "OK", "Data": { "itemType": "I", "amount": null, "productCode": "TA5484", "balance": null, "discountAmount": null, "voucherType": "C", "voucherId": "5575", "version": "6", "voucherCode": "24693", "productName": "24693-中華電信歡迎" } }
-    if resp.get('Message') == '無效的票劵':
+    msg = resp.get('Message', '')
+    if msg == '無效的票劵' or msg.startswith('此優惠代碼目前無法使用'):
         LOG.debug('coupon code(%s) is invalid', coupon_code)
         return None
-    if resp.get('Message') != 'OK' or not resp.get('Success'):
+    if msg != 'OK' or not resp.get('Success'):
         msg = f'get voucher info response error, coupon code {coupon_code}, json: {resp}'
         LOG.error(msg)
         raise Exception(msg)

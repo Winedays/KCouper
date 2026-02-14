@@ -32,7 +32,7 @@ def check_coupon_exist(session: requests.Session, coupon_code: str) -> dict:
         LOG.debug('coupon code(%s) is invalid', coupon_code)
         return None
     if resp.get('Message') != 'OK' or not resp.get('Success'):
-        LOG.debug('get voucher info response error, json: %s', resp)
+        LOG.debug('get voucher info response error, coupon code %s, json: %s', coupon_code, resp)
         return None
 
     raise ValueError(f'voucher exist: code: {coupon_code}, data: {resp.get("Data")}')
