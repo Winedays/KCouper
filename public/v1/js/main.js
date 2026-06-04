@@ -276,7 +276,7 @@ function couponDetailEvent(event) {
     const coupon = COUPONS_BY_CODE[coupon_code]
     $("#detail-title").html(`<div class="d-flex justify-content-between"><span>${coupon.name}</span><span>$${coupon.price}</span></div>`)
 
-    let base_content = `<div class="d-flex justify-content-between"><span>餐點可以更換的品項：</span><a href="${ORDER_LINK}/${coupon.product_code}" class="order-link" target="_blank" data-coupon="${coupon.coupon_code}">線上點餐</a></div>`
+    let base_content = `<div class="d-flex justify-content-between"><span>餐點可以更換的品項：</span><a href="${ORDER_LINK}/${coupon.product_code}" target="_blank" data-coupon="${coupon.coupon_code}">線上點餐</a></div>`
     base_content += `<small class="text-gray">品項價格為一件的價錢</small>`
 
     let items = "";
@@ -413,7 +413,7 @@ function prepareInitData() {
 
         const date = `<div class="text-right"><small class="text-muted">${data.start_date} ~ ${data.end_date}</small></div>`;
         const detail = `<div class="coupon-detail-link" data-key="${data.coupon_code}" data-bs-toggle="modal" data-bs-target="#detailModel">查看餐點選項</div>`;
-        const order = `<div><a href="${ORDER_LINK}/${data.product_code}" class="order-link" target="_blank" data-coupon="${data.coupon_code}">線上點餐</a></div>`;
+        const order = `<div><a href="${ORDER_LINK}/${data.product_code}" target="_blank" data-coupon="${data.coupon_code}">線上點餐</a></div>`;
         const footer = `<div class="card-footer">${date}<div class="d-flex justify-content-between">${detail + order}</div></div>`;
 
         const box = `<div class="card mb-4 box">${body + footer}</div>`;
@@ -582,13 +582,5 @@ $(document).ready(function() {
         const names = $("#myTags").tagit("assignedTags");
         filterCouponsWithNames(names);
         updateSearchResultCount();
-    });
-
-    // Bind order link click events to open tracking URL
-    $(document).on('click', '.order-link', function(e) {
-        e.preventDefault();
-        const originalHref = $(this).attr('href');
-        const trackingUrl = `https://twcouponcenter.com/track/clicks/9452/c627c2bc980822defc8fec23d62e9e4527674ecb63b2a0f90e64b70771401de3c021e7e5593c99616c?t=${encodeURIComponent(encodeURIComponent(originalHref))}`;
-        window.open(trackingUrl, '_blank');
     });
 })
