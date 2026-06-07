@@ -4,7 +4,7 @@ import type { Coupon, CouponDict, SingleDict } from "@/data/coupons";
 /**
  * Mapping of various item name variations to a standard name for price lookup
  */
-const SINGLE_PRODUCT_NICKNAME = {
+const SINGLE_PRODUCT_NICKNAME: Record<string, string> = {
     '原味蛋撻': '原味蛋撻',
     '原味蛋撻超極酥': '原味蛋撻',
     '原蛋': '原味蛋撻',
@@ -100,8 +100,6 @@ function calculateOriginalPrice(name: string, count: number, singleDict: SingleD
       return numTwos * singleDict['咔啦脆雞2塊'].price + numOnes * singleDict['咔啦脆雞'].price;
   } else if (singleDict[renderName] !== undefined){
       return singleDict[renderName].price * count;
-  } else if (singleDict[SINGLE_PRODUCT_NICKNAME[renderName]] !== undefined) {
-      return singleDict[SINGLE_PRODUCT_NICKNAME[renderName]].price * count;
   } else if (name === '上校雞塊') {
       if (count === 4) {
           return singleDict['上校雞塊4塊'].price;
@@ -132,7 +130,8 @@ function calculateOriginalPrice(name: string, count: number, singleDict: SingleD
 }
 
 /**
- * Process coupons to calculate original_price and discount based on singleDict
+ * Process coupons to calculate original_price and discount based on singleDict and
+ * map raw item names to nicknames/standard names
  * @param {Coupon[]} coupons - Array of coupons to process
  * @param {SingleDict} singleDict - Single item dictionary
  * @returns {Coupon[]} Processed coupons with calculated original_price and discount
@@ -142,7 +141,12 @@ function processCouponsWithPrices(coupons: Coupon[], singleDict: SingleDict): Co
     let originalPrice = 0;
     let canGetOriginalPrice = true;
 
-    coupon.items.forEach(({ name, count }) => {
+    const processedItems = coupon.items.map(item => {
+      const nickname = SINGLE_PRODUCT_NICKNAME[item.name];
+      return nickname ? { ...item, name: nickname } : item;
+    });
+
+    processedItems.forEach(({ name, count }) => {
       if (EXCLUDE_ITEMS_REGEX.test(name) || !canGetOriginalPrice) return;
 
       try {
@@ -161,6 +165,7 @@ function processCouponsWithPrices(coupons: Coupon[], singleDict: SingleDict): Co
 
     return {
       ...coupon,
+      items: processedItems,
       original_price: originalPrice,
       discount,
     };

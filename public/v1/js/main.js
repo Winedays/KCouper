@@ -356,8 +356,6 @@ function calculateOriginalPrice(name, count) {
         return numTwos * SINGLE_DICT['咔啦脆雞2塊'].price + numOnes * SINGLE_DICT['咔啦脆雞'].price;
     } else if (SINGLE_DICT[renderName] !== undefined){
         return SINGLE_DICT[renderName].price * count;
-    } else if (SINGLE_DICT[SINGLE_PRODUCT_NICKNAME[renderName]] !== undefined) {
-        return SINGLE_DICT[SINGLE_PRODUCT_NICKNAME[renderName]].price * count;
     } else if (name === '上校雞塊') {
         if (count === 4) {
             return SINGLE_DICT['上校雞塊4塊'].price;
@@ -524,7 +522,13 @@ $(document).ready(function() {
         let originalPrice = 0;
         let canGetOriginalPrice = true;
         let discountFold = 10;
-        data.items.forEach(({name, count}) => {
+
+        const processedItems = data.items.map(item => {
+            const nickname = SINGLE_PRODUCT_NICKNAME[item.name];
+            return nickname ? { ...item, name: nickname } : item;
+        });
+
+        processedItems.forEach(({name, count}) => {
             if (exceptItems.exec(name) || canGetOriginalPrice === false) return;
 
             try {
@@ -543,6 +547,7 @@ $(document).ready(function() {
         // }
         data.original_price = originalPrice;
         data.discount = discountFold;
+        data.items = processedItems;
     });
 
     // Load favorites first

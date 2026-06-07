@@ -194,4 +194,48 @@ describe("useCoupons", () => {
       expect(result.current.coupons[0].discount).toBe(10);
     });
   });
+
+  describe("暱稱轉換", () => {
+    it("應該將商品名稱轉換為標準暱稱並正確計算價格", async () => {
+      const mockCouponDictWithNicknames: CouponDict = {
+        coupon_list: [
+          {
+            name: "測試優惠券",
+            product_code: "TEST002",
+            coupon_code: 54321,
+            items: [
+              { name: "原味蛋撻超極酥", count: 2, addition_price: 0, flavors: [] },
+            ],
+            start_date: "2024-01-01",
+            end_date: "2024-12-31",
+            price: 50,
+            original_price: 0,
+            discount: 10,
+          },
+        ],
+        coupon_by_code: {},
+        count: 1,
+        last_update: "2024-01-01",
+      };
+
+      const mockSingleDictWithEggs: SingleDict = {
+        "原味蛋撻": { code: "E001", name: "原味蛋撻", price: 45, nutrition: "" },
+      };
+
+      (window as any).COUPON_DICT = mockCouponDictWithNicknames;
+      (window as any).SINGLE_DICT = mockSingleDictWithEggs;
+
+      const { result } = renderHook(() => useCoupons());
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false);
+      });
+
+      const coupon = result.current.coupons[0];
+      // 確保商品名稱已轉換為 "原味蛋撻"
+      expect(coupon.items[0].name).toBe("原味蛋撻");
+      // 確保原價計算正確 45 * 2 = 90
+      expect(coupon.original_price).toBe(90);
+    });
+  });
 });
