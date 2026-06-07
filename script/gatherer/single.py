@@ -27,12 +27,12 @@ def get_single_produce_data(session: requests.Session) -> dict:
         raise Exception(msg)
 
     menu_ids = []
-    titles = {'炸雞/紙包雞', '漢堡', '蛋撻', '點心/飲料', '早餐'}
+    titles = {'炸雞/紙包雞', '漢堡/飯', '蛋撻', '點心/飲料', '早餐'}
     for _menu in resp.get('Data', {}).get('Menu', []):
         if _menu.get('Title', '') in titles:
             menu_ids.append(_menu.get('MenuID'))
-    if not menu_ids:
-        raise ValueError('dinner menu not found')
+    if len(menu_ids) != len(titles):
+        raise ValueError(f'menu not found, menu_ids: {menu_ids}')
 
     # Get food data
     details = []
