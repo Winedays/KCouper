@@ -101,7 +101,7 @@ function updateStarIcon(couponCode) {
  * @type {Object<string, string[]>}
  */
 const filterItem = {
-    '蛋撻': ['原味蛋撻', '蛋撻'],
+    '蛋撻': ['原味蛋撻', '蛋撻', '原味蛋撻超極酥'],
     '炸雞': ['咔啦脆雞', '卡啦脆雞'],
     '椒麻雞': ['青花椒香麻脆雞'],
     '紙包雞': ['義式香草紙包雞', '紙包雞'],
@@ -142,6 +142,9 @@ const SINGLE_PRODUCT_NICKNAME = {
     '黃金超蝦塊': '黃金超蝦塊3塊',
     '蘋果汁': '100%蘋果汁',
     '黃金魚子海陸堡': '黃金魚子海陸Q蝦堡',
+    '原味脆雞堡': '原味脆雞堡(小)',
+    '花生脆雞堡': '花生脆雞堡(小)',
+    '花生起司蛋堡': '花生起司蛋堡(小)',
 }
 
 /**
@@ -341,7 +344,7 @@ function calculateOriginalPrice(name, count) {
         count *= 2;
     }
     // walk around for 2入原味蛋撻
-    if (name === '2入原味蛋撻') {
+    if (name === '2入原味蛋撻' || name === '2入原味蛋撻超極酥') {
         name = '原味蛋撻';
         count *= 2;
     }

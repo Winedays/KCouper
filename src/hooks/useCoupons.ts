@@ -5,9 +5,9 @@ import type { Coupon, CouponDict, SingleDict } from "@/data/coupons";
  * Mapping of various item name variations to a standard name for price lookup
  */
 const SINGLE_PRODUCT_NICKNAME = {
-    '原味蛋撻': '原味蛋撻-超極酥',
-    '原味蛋撻超極酥': '原味蛋撻-超極酥',
-    '原蛋': '原味蛋撻-超極酥',
+    '原味蛋撻': '原味蛋撻',
+    '原味蛋撻超極酥': '原味蛋撻',
+    '原蛋': '原味蛋撻',
     '雞塊': '上校雞塊',
     '4雞塊': '上校雞塊4塊',
     '8雞塊': '上校雞塊8塊',
@@ -26,6 +26,9 @@ const SINGLE_PRODUCT_NICKNAME = {
     '黃金超蝦塊': '黃金超蝦塊3塊',
     '蘋果汁': '100%蘋果汁',
     '黃金魚子海陸堡': '黃金魚子海陸Q蝦堡',
+    '原味脆雞堡': '原味脆雞堡(小)',
+    '花生脆雞堡': '花生脆雞堡(小)',
+    '花生起司蛋堡': '花生起司蛋堡(小)',
 }
 
 /**
@@ -85,7 +88,7 @@ function calculateOriginalPrice(name: string, count: number, singleDict: SingleD
       count *= 2;
   }
   // walk around for 2入原味蛋撻
-  if (name === '2入原味蛋撻') {
+  if (name === '2入原味蛋撻' || name === '2入原味蛋撻超極酥') {
       name = '原味蛋撻';
       count *= 2;
   }

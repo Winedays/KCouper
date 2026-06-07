@@ -11,6 +11,7 @@ describe("filterMatchRules", () => {
   it("蛋撻規則應該包含正確的比對字串", () => {
     expect(filterMatchRules["蛋撻"]).toContain("原味蛋撻");
     expect(filterMatchRules["蛋撻"]).toContain("蛋撻");
+    expect(filterMatchRules["蛋撻"]).toContain("原味蛋撻超極酥");
   });
 
   it("脆薯規則應該包含多種變體", () => {

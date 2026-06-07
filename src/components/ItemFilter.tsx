@@ -3,7 +3,7 @@
  * @type {Object<string, string[]>}
  */
 export const filterMatchRules: Record<string, string[]> = {
-  '蛋撻': ['原味蛋撻', '蛋撻'],
+  '蛋撻': ['原味蛋撻', '蛋撻', '原味蛋撻超極酥'],
   '炸雞': ['咔啦脆雞', '卡啦脆雞'],
   '椒麻雞': ['青花椒香麻脆雞'],
   '紙包雞': ['義式香草紙包雞', '紙包雞'],
