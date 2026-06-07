@@ -35,13 +35,13 @@ describe("SortSelect", () => {
   describe("排序選項", () => {
     it("點擊觸發器應該開啟下拉選單", () => {
       render(<SortSelect {...defaultProps} />);
-      
+
       const trigger = screen.getByRole("combobox");
       fireEvent.click(trigger);
-      
+
       // Check that options are visible
-      expect(screen.getByText("代碼（A→Z）")).toBeInTheDocument();
-      expect(screen.getByText("代碼（Z→A）")).toBeInTheDocument();
+      expect(screen.getByText("代碼（1→9）")).toBeInTheDocument();
+      expect(screen.getByText("代碼（9→1）")).toBeInTheDocument();
       expect(screen.getByText("價格（高→低）")).toBeInTheDocument();
       expect(screen.getByText("折扣（高→低）")).toBeInTheDocument();
       expect(screen.getByText("折扣（低→高）")).toBeInTheDocument();
@@ -52,22 +52,22 @@ describe("SortSelect", () => {
     it("選擇選項應該呼叫 onChange", () => {
       const onChange = vi.fn();
       render(<SortSelect {...defaultProps} onChange={onChange} />);
-      
+
       // Open dropdown
       const trigger = screen.getByRole("combobox");
       fireEvent.click(trigger);
-      
+
       // Select an option
       fireEvent.click(screen.getByText("折扣（高→低）"));
-      
+
       expect(onChange).toHaveBeenCalledWith("discount-desc");
     });
   });
 
   describe("各種排序值顯示", () => {
     const testCases: { value: SortOption; label: string }[] = [
-      { value: "code-asc", label: "代碼（A→Z）" },
-      { value: "code-desc", label: "代碼（Z→A）" },
+      { value: "code-asc", label: "代碼（1→9）" },
+      { value: "code-desc", label: "代碼（9→1）" },
       { value: "price-asc", label: "價格（低→高）" },
       { value: "price-desc", label: "價格（高→低）" },
       { value: "discount-desc", label: "折扣（高→低）" },
