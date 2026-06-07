@@ -230,3 +230,20 @@
 .driver-popover-arrow-side-bottom {
   border-color: hsl(var(--card)) !important;
 }
+
+/* Coupon highlight animation for shared links */
+@keyframes highlight-pulse {
+  0%, 100% {
+    border-color: hsl(var(--border));
+    box-shadow: none;
+  }
+  50% {
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 12px hsl(var(--primary) / 0.4);
+  }
+}
+
+.coupon-highlighted {
+  animation: highlight-pulse 0.7s ease-in-out 3;
+  border-color: hsl(var(--primary));
+}

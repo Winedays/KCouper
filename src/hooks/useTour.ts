@@ -3,7 +3,7 @@ import { driver, type DriveStep } from "driver.js";
 import "driver.js/dist/driver.css";
 
 const TOUR_COMPLETED_KEY = "kcouper-tour-completed";
-const MOBILE_BREAKPOINT = 768;
+const MOBILE_BREAKPOINT = 1024;
 
 /**
  * Check if the current viewport is mobile

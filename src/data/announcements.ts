@@ -18,6 +18,12 @@ export type Announcement = {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    id: 2,
+    title: "新增多項功能",
+    content: "新增優惠券分享，優惠券比較，價格搜尋，品項數量篩選功能及 FAQ 資訊，讓你更輕鬆找到適合的優惠券！",
+    date: "2026-06-08",
+  },
+  {
     id: 1,
     title: "歡迎使用 KCouper v2",
     content: "全新改版上線！介面更直覺、搜尋更快速🎉",

@@ -4,6 +4,12 @@ import { type ItemFilterId, filterMatchRules } from "@/components/ItemFilter";
 import { type SortOption } from "@/components/SortSelect";
 
 /**
+ * Active filters map: filter ID → minimum required count
+ * @typedef {Partial<Record<ItemFilterId, number>>} ActiveFiltersMap
+ */
+export type ActiveFiltersMap = Partial<Record<ItemFilterId, number>>;
+
+/**
  * Check if a name matches a filter using the filterMatchRules
  * @param name - The name to check
  * @param filter - The filter ID to match against
@@ -17,46 +23,49 @@ const checkNameMatchesFilter = (name: string, filter: ItemFilterId): boolean => 
 
 export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState<ItemFilterId[]>([]);
+  const [activeFilters, setActiveFilters] = useState<ActiveFiltersMap>({});
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [sortBy, setSortByRaw] = useState<SortOption>("price-asc");
+  const [sortBy, setSortBy] = useState<SortOption>("price-asc");
   const [searchAllOptions, setSearchAllOptions] = useState(false);
+  const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
 
-  const setSortBy = useCallback((newSort: SortOption) => {
-    setSortByRaw(newSort);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).dataLayer.push({
-        'sortValue': newSort,
-        'event': 'ChangeSortOption'
-      });
-    }
-  }, []);
+  /** Min and max price across all coupons, for Slider bounds */
+  const priceStats = useMemo(() => {
+    if (coupons.length === 0) return { min: 0, max: 500 };
+    const prices = coupons.map((c) => c.price);
+    return { min: Math.min(...prices), max: Math.max(...prices) };
+  }, [coupons]);
 
+  /** Toggle a filter on/off (sets count to 1 when enabling) */
   const handleFilterToggle = useCallback((filter: ItemFilterId) => {
     setActiveFilters((prev) => {
-      const isRemoving = prev.includes(filter);
-      const newFilters = isRemoving
-        ? prev.filter((f) => f !== filter)
-        : [...prev, filter];
-      
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (!isRemoving && typeof window !== "undefined" && (window as any).dataLayer) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (window as any).dataLayer.push({
-          'filterValues': newFilters,
-          'event': 'AddFilterTag'
-        });
+      if (filter in prev) {
+        const next = { ...prev };
+        delete next[filter];
+        return next;
       }
+      return { ...prev, [filter]: 1 };
+    });
+  }, []);
 
-      return newFilters;
+  /** Adjust count for an active filter by delta (+1 or -1). Removes if count reaches 0. */
+  const handleFilterCountChange = useCallback((filter: ItemFilterId, delta: number) => {
+    setActiveFilters((prev) => {
+      const current = prev[filter] ?? 0;
+      const next = current + delta;
+      if (next <= 0) {
+        const updated = { ...prev };
+        delete updated[filter];
+        return updated;
+      }
+      return { ...prev, [filter]: next };
     });
   }, []);
 
   const handleClearFilters = useCallback(() => {
-    setActiveFilters([]);
+    setActiveFilters({});
     setShowFavoritesOnly(false);
+    setPriceRange(null);
   }, []);
 
   const handleToggleFavorites = useCallback(() => {
@@ -64,21 +73,35 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   }, []);
 
   const filteredAndSortedCoupons = useMemo(() => {
+    const filterEntries = Object.entries(activeFilters) as [ItemFilterId, number][];
+
     const filtered = coupons.filter((coupon) => {
       // Favorites filter
       if (showFavoritesOnly && !favorites.has(coupon.coupon_code)) {
         return false;
       }
 
-      // Item filters
+      // Price range filter
+      if (priceRange) {
+        if (coupon.price < priceRange[0] || coupon.price > priceRange[1]) {
+          return false;
+        }
+      }
+
+      // Item filters with quantity check
       const matchesFilter =
-        activeFilters.length === 0 ||
-        activeFilters.every((filter) =>
-          coupon.items.some((item) =>
-            checkNameMatchesFilter(item.name, filter) ||
-            (searchAllOptions && item.flavors?.some((flavor) => checkNameMatchesFilter(flavor.name, filter)))
-          )
-        );
+        filterEntries.length === 0 ||
+        filterEntries.every(([filter, minCount]) => {
+          // Sum up count of all matching items
+          const totalCount = coupon.items.reduce((sum, item) => {
+            const nameMatches = checkNameMatchesFilter(item.name, filter);
+            const flavorMatches = searchAllOptions && item.flavors?.some(
+              (flavor) => checkNameMatchesFilter(flavor.name, filter)
+            );
+            return sum + (nameMatches || flavorMatches ? item.count : 0);
+          }, 0);
+          return totalCount >= minCount;
+        });
 
       // Search filter
       const searchLower = searchQuery.toLowerCase();
@@ -87,7 +110,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
         coupon.name.toLowerCase().includes(searchLower) ||
         coupon.items.some((item) => item.name.toLowerCase().includes(searchLower)) ||
         coupon.coupon_code.toString().includes(searchLower) ||
-        coupon.product_code.toLowerCase().includes(searchLower) ||
+        
         (searchAllOptions && coupon.items.some((item) =>
           item.flavors?.some((flavor) => flavor.name.toLowerCase().includes(searchLower))
         ));
@@ -117,7 +140,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
           return 0;
       }
     });
-  }, [coupons, searchQuery, activeFilters, showFavoritesOnly, favorites, sortBy, searchAllOptions]);
+  }, [coupons, searchQuery, activeFilters, showFavoritesOnly, favorites, sortBy, searchAllOptions, priceRange]);
 
   return {
     searchQuery,
@@ -128,7 +151,11 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     setSortBy,
     searchAllOptions,
     setSearchAllOptions,
+    priceRange,
+    setPriceRange,
+    priceStats,
     handleFilterToggle,
+    handleFilterCountChange,
     handleClearFilters,
     handleToggleFavorites,
     filteredAndSortedCoupons,

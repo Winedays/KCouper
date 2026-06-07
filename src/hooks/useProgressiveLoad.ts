@@ -13,8 +13,8 @@ export const useProgressiveLoad = (
   batchSize: number = 30
 ) => {
   const [visibleCount, setVisibleCount] = useState(initialCount);
-  const sentinelRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const sentinelNodeRef = useRef<HTMLDivElement | null>(null);
 
   // Reset visible count when total items change significantly
   useEffect(() => {
@@ -27,13 +27,14 @@ export const useProgressiveLoad = (
     setVisibleCount((prev) => Math.min(prev + batchSize, totalItems));
   }, [batchSize, totalItems]);
 
-  // Set up IntersectionObserver
+  // Recreate observer when dependencies change
   useEffect(() => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
+    observerRef.current?.disconnect();
 
-    if (!hasMore) return;
+    if (!hasMore) {
+      observerRef.current = null;
+      return;
+    }
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -42,19 +43,36 @@ export const useProgressiveLoad = (
         }
       },
       {
-        rootMargin: "200px", // Load before reaching the sentinel
+        rootMargin: "200px",
         threshold: 0,
       }
     );
 
-    if (sentinelRef.current) {
-      observerRef.current.observe(sentinelRef.current);
+    // If sentinel is already mounted, observe it
+    if (sentinelNodeRef.current) {
+      observerRef.current.observe(sentinelNodeRef.current);
     }
 
     return () => {
       observerRef.current?.disconnect();
     };
   }, [hasMore, loadMore]);
+
+  // Callback ref: re-observe whenever the sentinel DOM node changes
+  const sentinelRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      // Unobserve old node
+      if (sentinelNodeRef.current && observerRef.current) {
+        observerRef.current.unobserve(sentinelNodeRef.current);
+      }
+      sentinelNodeRef.current = node;
+      // Observe new node
+      if (node && observerRef.current) {
+        observerRef.current.observe(node);
+      }
+    },
+    []
+  );
 
   return {
     visibleCount,

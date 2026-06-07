@@ -1,9 +1,12 @@
-import { Search, X, Heart, SlidersHorizontal, Info } from "lucide-react";
+import { useState } from "react";
+import { Search, X, Heart, SlidersHorizontal, Info, DollarSign, ChevronDown, Plus, Minus } from "lucide-react";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
+import { Slider } from "./ui/slider";
 import { cn } from "@/lib/utils";
 import { itemFilters, type ItemFilterId } from "./ItemFilter";
+import { type ActiveFiltersMap } from "@/hooks/useCouponFilters";
 import SortSelect, { type SortOption } from "./SortSelect";
 import {
   Popover,
@@ -11,13 +14,21 @@ import {
   PopoverTrigger,
 } from "./ui/popover";
 
+/** Price range quick-select presets */
+const PRICE_PRESETS: { label: string; range: [number, number] }[] = [
+  { label: "$100以下", range: [0, 100] },
+  { label: "$100-200", range: [100, 200] },
+  { label: "$200以上", range: [200, 9999] },
+];
+
 type SearchPanelProps = {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   searchAllOptions: boolean;
   onSearchAllOptionsChange: (value: boolean) => void;
-  activeFilters: ItemFilterId[];
+  activeFilters: ActiveFiltersMap;
   onFilterToggle: (filter: ItemFilterId) => void;
+  onFilterCountChange: (filter: ItemFilterId, delta: number) => void;
   onClearAll: () => void;
   showFavoritesOnly: boolean;
   onToggleFavorites: () => void;
@@ -25,6 +36,23 @@ type SearchPanelProps = {
   sortBy: SortOption;
   onSortChange: (value: SortOption) => void;
   resultCount: number;
+  priceRange: [number, number] | null;
+  onPriceRangeChange: (range: [number, number] | null) => void;
+  priceStats: { min: number; max: number };
+};
+
+/**
+ * Check if a price range matches a preset exactly
+ */
+const isPresetActive = (
+  priceRange: [number, number] | null,
+  preset: [number, number],
+  maxPrice: number
+): boolean => {
+  if (!priceRange) return false;
+  const effectivePresetMax = preset[1] === 9999 ? maxPrice : preset[1];
+  const effectiveRangeMax = priceRange[1] === 9999 ? maxPrice : priceRange[1];
+  return priceRange[0] === preset[0] && effectiveRangeMax === effectivePresetMax;
 };
 
 const SearchPanel = ({
@@ -34,6 +62,7 @@ const SearchPanel = ({
   onSearchAllOptionsChange,
   activeFilters,
   onFilterToggle,
+  onFilterCountChange,
   onClearAll,
   showFavoritesOnly,
   onToggleFavorites,
@@ -41,8 +70,38 @@ const SearchPanel = ({
   sortBy,
   onSortChange,
   resultCount,
+  priceRange,
+  onPriceRangeChange,
+  priceStats,
 }: SearchPanelProps) => {
-  const hasActiveFilters = activeFilters.length > 0 || showFavoritesOnly;
+  const hasActiveFilters = Object.keys(activeFilters).length > 0 || showFavoritesOnly || priceRange !== null;
+
+  /** Local slider state for the custom popover */
+  const [sliderValue, setSliderValue] = useState<[number, number]>([priceStats.min, priceStats.max]);
+
+  const handlePresetClick = (preset: [number, number]) => {
+    const effectiveMax = preset[1] === 9999 ? priceStats.max : preset[1];
+    if (isPresetActive(priceRange, preset, priceStats.max)) {
+      onPriceRangeChange(null);
+    } else {
+      onPriceRangeChange([preset[0], effectiveMax]);
+    }
+  };
+
+  const handleSliderCommit = (value: number[]) => {
+    const [min, max] = value as [number, number];
+    if (min === priceStats.min && max === priceStats.max) {
+      onPriceRangeChange(null);
+    } else {
+      onPriceRangeChange([min, max]);
+    }
+  };
+
+  const handlePopoverOpen = (open: boolean) => {
+    if (open) {
+      setSliderValue(priceRange ?? [priceStats.min, priceStats.max]);
+    }
+  };
 
   return (
     <div className="border-b border-border/50 bg-background">
@@ -92,7 +151,7 @@ const SearchPanel = ({
           </div>
         </div>
 
-        {/* Filters row */}
+        {/* Filters row 1: Favorites + Item filters */}
         <div className="mt-4 flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-muted-foreground shrink-0" />
           
@@ -139,27 +198,120 @@ const SearchPanel = ({
             {/* Divider */}
             <div className="h-5 w-px bg-border shrink-0" />
 
-            {/* Item filters */}
+            {/* Item filters with quantity controls */}
             <div data-tour="filters" className="flex items-center gap-2">
             {itemFilters.map((filter) => {
-              const isActive = activeFilters.includes(filter.id);
+              const count = activeFilters[filter.id];
+              const isActive = count !== undefined;
               return (
-                <button
-                  key={filter.id}
-                  onClick={() => onFilterToggle(filter.id)}
-                  aria-pressed={isActive}
-                  className={cn(
-                    "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                    isActive
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                <div key={filter.id} className="flex shrink-0 items-center">
+                  <button
+                    onClick={() => onFilterToggle(filter.id)}
+                    aria-pressed={isActive}
+                    className={cn(
+                      "inline-flex shrink-0 items-center gap-1 text-xs font-medium transition-all duration-200",
+                      isActive
+                        ? "rounded-l-full bg-primary text-primary-foreground shadow-sm px-3 py-1.5"
+                        : "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-1.5"
+                    )}
+                  >
+                    <span>{filter.emoji}</span>
+                    <span>{filter.label}</span>
+                    {isActive && count > 1 && (
+                      <span className="text-[10px] font-bold opacity-80">x{count}</span>
+                    )}
+                  </button>
+                  {isActive && (
+                    <div className="inline-flex items-center self-stretch rounded-r-full bg-primary/90 text-primary-foreground">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onFilterCountChange(filter.id, -1);
+                        }}
+                        className="flex w-6 items-center justify-center self-stretch hover:bg-primary-foreground/10 transition-colors"
+                        aria-label={`減少${filter.label}數量`}
+                      >
+                        <Minus className="h-3 w-3" />
+                      </button>
+                      <span className="min-w-[16px] text-center text-xs font-bold">{count}</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onFilterCountChange(filter.id, 1);
+                        }}
+                        className="flex w-6 items-center justify-center self-stretch rounded-r-full hover:bg-primary-foreground/10 transition-colors"
+                        aria-label={`增加${filter.label}數量`}
+                      >
+                        <Plus className="h-3 w-3" />
+                      </button>
+                    </div>
                   )}
-                >
-                  <span>{filter.emoji}</span>
-                  <span>{filter.label}</span>
-                </button>
+                </div>
               );
             })}
+            </div>
+          </div>
+        </div>
+
+        {/* Filters row 2: Price range filters */}
+        <div className="mt-2 flex items-center gap-2">
+          <DollarSign className="h-4 w-4 text-muted-foreground shrink-0" />
+
+          <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <div data-tour="price-filter" className="flex shrink-0 items-center gap-2">
+              {PRICE_PRESETS.map((preset) => {
+                const active = isPresetActive(priceRange, preset.range, priceStats.max);
+                return (
+                  <button
+                    key={preset.label}
+                    onClick={() => handlePresetClick(preset.range)}
+                    aria-pressed={active}
+                    className={cn(
+                      "inline-flex shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                      active
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {preset.label}
+                  </button>
+                );
+              })}
+
+              {/* Custom price range popover */}
+              <Popover onOpenChange={handlePopoverOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    className={cn(
+                      "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                      priceRange && !PRICE_PRESETS.some((p) => isPresetActive(priceRange, p.range, priceStats.max))
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    <span>自訂</span>
+                    <ChevronDown className="h-3 w-3" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-72" side="bottom" align="start">
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium">自訂價格範圍</p>
+                    <Slider
+                      min={priceStats.min}
+                      max={priceStats.max}
+                      step={10}
+                      value={sliderValue}
+                      onValueChange={(v) => setSliderValue(v as [number, number])}
+                      onValueCommit={handleSliderCommit}
+                      minStepsBetweenThumbs={1}
+                    />
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>${sliderValue[0]}</span>
+                      <span>${sliderValue[1]}</span>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 

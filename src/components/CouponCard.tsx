@@ -1,7 +1,7 @@
 import { type Coupon } from "@/data/coupons";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Calendar, ExternalLink, ChefHat, ArrowRightLeft, Heart } from "lucide-react";
+import { Calendar, ExternalLink, ChefHat, ArrowRightLeft, Heart, GitCompareArrows, Share2 } from "lucide-react";
 import { useState, memo } from "react";
 import { toast } from "sonner";
 import {
@@ -18,12 +18,34 @@ type CouponCardProps = {
   favorites: Set<number>;
   onToggleFavorite: (id: number) => void;
   isFirstCard?: boolean;
+  isComparing?: boolean;
+  onToggleCompare?: (code: number) => void;
+  highlightedCode?: number | null;
 };
 
-const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = false }: CouponCardProps) => {
+const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = false, isComparing = false, onToggleCompare, highlightedCode }: CouponCardProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const isFavorite = favorites.has(coupon.coupon_code);
+  const isHighlighted = highlightedCode === coupon.coupon_code;
+
+  const handleShare = () => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}?coupon=${coupon.coupon_code}`;
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = shareUrl;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      toast.success("已複製連結");
+    } catch {
+      toast.error("複製連結失敗");
+    }
+  };
 
   const handleToggleFavorite = () => {
     onToggleFavorite(coupon.coupon_code);
@@ -46,7 +68,8 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
     <>
       <Card
         data-tour={isFirstCard ? "coupon-card" : undefined}
-        className="group relative flex h-full flex-col overflow-hidden border-border/60 bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1"
+        data-coupon-code={coupon.coupon_code}
+        className={`group relative flex h-full flex-col overflow-hidden border-border/60 bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 ${isHighlighted ? 'coupon-highlighted' : ''}`}
         style={{
           animationDelay: index < 20 ? `${index * 50}ms` : '0ms',
         }}
@@ -108,21 +131,46 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
           </div>
 
           {/* Action buttons */}
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <div className="mt-4 flex flex-wrap gap-2">
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 py-2 sm:py-0"
+              className="flex-1 min-w-fit py-2 sm:py-0"
               onClick={() => setIsDialogOpen(true)}
             >
               <ChefHat className="h-4 w-4 mr-2" />
               查看餐點選項
             </Button>
 
+            {/* Compare button */}
+            {onToggleCompare && (
+              <Button
+                variant={isComparing ? "default" : "outline"}
+                size="sm"
+                className="flex-1 min-w-fit py-2 sm:py-0"
+                onClick={() => onToggleCompare(coupon.coupon_code)}
+              >
+                <GitCompareArrows className="h-4 w-4 mr-2" />
+                {isComparing ? "已加入比較" : "加入比較"}
+              </Button>
+            )}
+
+            {/* Share button */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-9 w-9 shrink-0"
+              onClick={handleShare}
+              aria-label="分享"
+            >
+              <Share2 className="h-4 w-4" />
+            </Button>
+
+            {/* Order button */}
             <Button
               variant="hero"
               size="sm"
-              className="flex-1 py-2 sm:py-0"
+              className="flex-1 min-w-fit py-2 sm:py-0"
               asChild
             >
               <a
@@ -239,6 +287,9 @@ export default memo(CouponCard, (prev, next) => {
     prev.index === next.index &&
     prev.isFirstCard === next.isFirstCard &&
     prev.favorites.has(prev.coupon.coupon_code) === next.favorites.has(next.coupon.coupon_code) &&
-    prev.onToggleFavorite === next.onToggleFavorite
+    prev.onToggleFavorite === next.onToggleFavorite &&
+    prev.isComparing === next.isComparing &&
+    prev.onToggleCompare === next.onToggleCompare &&
+    prev.highlightedCode === next.highlightedCode
   );
 });

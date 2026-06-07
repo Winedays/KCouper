@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SearchPanel from "@/components/SearchPanel";
 import CouponGrid from "@/components/CouponGrid";
+import CompareBar from "@/components/CompareBar";
+import CompareDialog from "@/components/CompareDialog";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useCoupons } from "@/hooks/useCoupons";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useTour } from "@/hooks/useTour";
 import { useCouponFilters } from "@/hooks/useCouponFilters";
+import { useCompare } from "@/hooks/useCompare";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,6 +23,8 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const Index = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [highlightedCode, setHighlightedCode] = useState<number | null>(null);
   const { coupons, count: couponCount, lastUpdate, isLoading, error } = useCoupons();
   const { startTour, shouldShowTour } = useTour();
   const {
@@ -39,11 +45,24 @@ const Index = () => {
     setSortBy,
     searchAllOptions,
     setSearchAllOptions,
+    priceRange,
+    setPriceRange,
+    priceStats,
     handleFilterToggle,
+    handleFilterCountChange,
     handleClearFilters,
     handleToggleFavorites,
     filteredAndSortedCoupons,
   } = useCouponFilters(coupons, favorites);
+
+  const {
+    compareList,
+    compareCount,
+    toggleCompare,
+    clearCompare,
+    isDialogOpen: isCompareDialogOpen,
+    setIsDialogOpen: setCompareDialogOpen,
+  } = useCompare();
 
   // Check for invalid favorites when coupons are loaded
   useEffect(() => {
@@ -52,6 +71,16 @@ const Index = () => {
       cleanupInvalidFavorites(validCodes);
     }
   }, [coupons, cleanupInvalidFavorites]);
+
+  // Handle shared coupon link — filter to show only that coupon
+  useEffect(() => {
+    const couponParam = searchParams.get("coupon");
+    if (couponParam && coupons.length > 0) {
+      const code = Number(couponParam);
+      setHighlightedCode(code);
+      setSearchQuery(code.toString());
+    }
+  }, [coupons, searchParams, setSearchQuery]);
 
   // Auto-start tour for first-time visitors
   useEffect(() => {
@@ -105,6 +134,7 @@ const Index = () => {
           onSearchAllOptionsChange={setSearchAllOptions}
           activeFilters={activeFilters}
           onFilterToggle={handleFilterToggle}
+          onFilterCountChange={handleFilterCountChange}
           onClearAll={handleClearFilters}
           showFavoritesOnly={showFavoritesOnly}
           onToggleFavorites={handleToggleFavorites}
@@ -112,6 +142,9 @@ const Index = () => {
           sortBy={sortBy}
           onSortChange={setSortBy}
           resultCount={filteredAndSortedCoupons.length}
+          priceRange={priceRange}
+          onPriceRangeChange={setPriceRange}
+          priceStats={priceStats}
         />
 
         <section className="container py-6">
@@ -119,11 +152,29 @@ const Index = () => {
             coupons={filteredAndSortedCoupons}
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
+            compareList={compareList}
+            onToggleCompare={toggleCompare}
+            highlightedCode={highlightedCode}
           />
         </section>
       </main>
 
-      <ScrollToTop />
+      <CompareBar
+        compareList={compareList}
+        coupons={filteredAndSortedCoupons}
+        onRemove={toggleCompare}
+        onClear={clearCompare}
+        onCompare={() => setCompareDialogOpen(true)}
+      />
+
+      <CompareDialog
+        open={isCompareDialogOpen}
+        onOpenChange={setCompareDialogOpen}
+        coupons={coupons}
+        compareList={compareList}
+      />
+
+      <ScrollToTop offsetBottom={compareCount > 0} />
 
       {/* Invalid favorites removed dialog */}
       <AlertDialog open={removedCoupons.length > 0} onOpenChange={(open) => !open && clearRemovedCoupons()}>

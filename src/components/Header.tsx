@@ -3,6 +3,7 @@ import { Github, Mail, FileText, Clock, ArrowRightLeft, Menu } from "lucide-reac
 import ThemeToggle from "./ThemeToggle";
 import TourButton from "./TourButton";
 import AnnouncementButton from "./AnnouncementButton";
+import FaqDialog from "./FaqDialog";
 import {
   Sheet,
   SheetContent,
@@ -66,7 +67,7 @@ const Header = ({ lastUpdate }: HeaderProps) => {
         </div>
 
         {/* Desktop nav */}
-        <nav className="hidden sm:flex items-center gap-2">
+        <nav className="hidden lg:flex items-center gap-2">
           {lastUpdate && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Clock className="h-3 w-3" />
@@ -88,6 +89,7 @@ const Header = ({ lastUpdate }: HeaderProps) => {
               {index === 0 && <AnnouncementButton />}
             </React.Fragment>
           ))}
+          <FaqDialog />
           <TourButton />
           <div data-tour="theme-toggle">
             <ThemeToggle />
@@ -95,7 +97,7 @@ const Header = ({ lastUpdate }: HeaderProps) => {
         </nav>
 
         {/* Mobile nav */}
-        <div className="flex sm:hidden items-center gap-2">
+        <div className="flex lg:hidden items-center gap-2">
           {lastUpdate && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Clock className="h-3 w-3" />
@@ -127,6 +129,7 @@ const Header = ({ lastUpdate }: HeaderProps) => {
                     {index === 0 && <AnnouncementButton variant="menu-item" />}
                   </React.Fragment>
                 ))}
+                <FaqDialog variant="menu-item" />
                 <TourButton showLabel variant="menu-item" onBeforeStart={() => setOpen(false)} />
                 <div data-tour="theme-toggle">
                   <ThemeToggle variant="menu-item" label="主題切換" />

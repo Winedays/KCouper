@@ -21,7 +21,7 @@ describe("useProgressiveLoad", () => {
     it("應該回傳 sentinelRef", () => {
       const { result } = renderHook(() => useProgressiveLoad(100, 30, 30));
       expect(result.current.sentinelRef).toBeDefined();
-      expect(result.current.sentinelRef.current).toBeNull();
+      expect(typeof result.current.sentinelRef).toBe("function");
     });
   });
 
