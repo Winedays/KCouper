@@ -29,6 +29,9 @@ const SINGLE_PRODUCT_NICKNAME: Record<string, string> = {
     '原味脆雞堡': '原味脆雞堡(小)',
     '花生脆雞堡': '花生脆雞堡(小)',
     '花生起司蛋堡': '花生起司蛋堡(小)',
+    '爆脆雞': '咔啦爆脆雞(不辣)',
+    '咔啦爆脆雞1塊(不辣)': '咔啦爆脆雞(不辣)',
+    '玉米濃湯': '玉米濃湯(小)',
 }
 
 /**
@@ -100,6 +103,10 @@ function calculateOriginalPrice(name: string, count: number, singleDict: SingleD
       return numTwos * singleDict['咔啦脆雞2塊'].price + numOnes * singleDict['咔啦脆雞'].price;
   } else if (singleDict[renderName] !== undefined){
       return singleDict[renderName].price * count;
+  } else if (singleDict[SINGLE_PRODUCT_NICKNAME[renderName]] !== undefined) {
+      return singleDict[SINGLE_PRODUCT_NICKNAME[renderName]].price * count;
+  } else if (singleDict[name] !== undefined){
+      return singleDict[name].price * count;
   } else if (name === '上校雞塊') {
       if (count === 4) {
           return singleDict['上校雞塊4塊'].price;

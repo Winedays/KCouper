@@ -102,7 +102,7 @@ function updateStarIcon(couponCode) {
  */
 const filterItem = {
     '蛋撻': ['原味蛋撻', '蛋撻', '原味蛋撻超極酥'],
-    '炸雞': ['咔啦脆雞', '卡啦脆雞'],
+    '炸雞': ['咔啦脆雞', '卡啦脆雞', '咔啦爆脆雞'],
     '椒麻雞': ['青花椒香麻脆雞'],
     '紙包雞': ['義式香草紙包雞', '紙包雞'],
     '咔啦雞堡': ['咔啦雞腿堡', '卡啦雞腿堡'],
@@ -127,6 +127,12 @@ const filterItem = {
  * @type {Object<string, string>}
  */
 const SINGLE_PRODUCT_NICKNAME = {
+    '原味蛋撻': '原味蛋撻',
+    '原味蛋撻超極酥': '原味蛋撻',
+    '原蛋': '原味蛋撻',
+    '雞塊': '上校雞塊',
+    '4雞塊': '上校雞塊4塊',
+    '8雞塊': '上校雞塊8塊',
     '冰檸檬紅茶(小)': '立頓檸檬風味紅茶(小)',
     '冰檸檬紅茶(中)': '立頓檸檬風味紅茶(中)',
     '無糖綠茶(小)': '冰無糖綠茶(小)',
@@ -145,6 +151,9 @@ const SINGLE_PRODUCT_NICKNAME = {
     '原味脆雞堡': '原味脆雞堡(小)',
     '花生脆雞堡': '花生脆雞堡(小)',
     '花生起司蛋堡': '花生起司蛋堡(小)',
+    '爆脆雞': '咔啦爆脆雞(不辣)',
+    '咔啦爆脆雞1塊(不辣)': '咔啦爆脆雞(不辣)',
+    '玉米濃湯': '玉米濃湯(小)',
 }
 
 /**
@@ -356,6 +365,10 @@ function calculateOriginalPrice(name, count) {
         return numTwos * SINGLE_DICT['咔啦脆雞2塊'].price + numOnes * SINGLE_DICT['咔啦脆雞'].price;
     } else if (SINGLE_DICT[renderName] !== undefined){
         return SINGLE_DICT[renderName].price * count;
+    } else if (SINGLE_DICT[SINGLE_PRODUCT_NICKNAME[renderName]] !== undefined) {
+        return SINGLE_DICT[SINGLE_PRODUCT_NICKNAME[renderName]].price * count;
+    } else if (SINGLE_DICT[name] !== undefined){
+        return SINGLE_DICT[name].price * count;
     } else if (name === '上校雞塊') {
         if (count === 4) {
             return SINGLE_DICT['上校雞塊4塊'].price;
