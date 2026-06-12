@@ -16,7 +16,6 @@ COUPON_RANGES = (
 EXCLUDE_NAMES = frozenset(
     _name.strip()
     for _name in os.getenv('EXCLUDE_NAMES', '').split(',')
-    if _name.strip()
 )
 
 
@@ -42,20 +41,22 @@ def convert_coupon_data(data: dict, coupon_code: str):
     price = detail['Original_Price']
     for food in detail['Details']:
         main_item = food['MList'][0]
-        if normalize_name(main_item['Name']) in EXCLUDE_NAMES:
+        main_name = normalize_name(main_item['Name'])
+        if main_name in EXCLUDE_NAMES:
             continue
         item = {
-            'name': normalize_name(main_item['Name']),
+            'name': main_name,
             'count': food['MinCount'],
             'addition_price': main_item['AddPrice'],
             'flavors': [],
         }
         price += main_item['MListPrice'] * food['MinCount']
         for flavor in food['MList'][1:]:
-            if normalize_name(flavor['Name']) in EXCLUDE_NAMES:
+            flavor_name = normalize_name(flavor['Name'])
+            if flavor_name in EXCLUDE_NAMES:
                 continue
             item['flavors'].append({
-                'name': normalize_name(flavor['Name']),
+                'name': flavor_name,
                 'addition_price': flavor['AddPrice'],
             })
         items.append(item)
