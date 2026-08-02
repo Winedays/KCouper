@@ -77,6 +77,13 @@ export const FAQ_ITEMS: FaqItem[] = [
     category: "search",
   },
   {
+    id: "exclude-filter",
+    question: "如何排除不想要的特定品項？",
+    answer:
+      "點擊品項篩選按鈕即可進行三段式切換（未選取 ➔ 包含 ➔ 排除）。當品項切換為「排除」狀態時，按鈕會顯示紅色背景並在品項名稱劃上刪除線，系統會自動過濾掉含有該餐點的所有優惠券。",
+    category: "search",
+  },
+  {
     id: "search-all-options",
     question: "「搜尋口味」開關是做什麼的？",
     answer:

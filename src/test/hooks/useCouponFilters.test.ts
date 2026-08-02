@@ -246,4 +246,53 @@ describe("useCouponFilters", () => {
       expect(result.current.priceStats).toEqual({ min: 49, max: 149 });
     });
   });
+
+  describe("排除篩選", () => {
+    it("三段式切換：未選取 -> 包含 -> 排除 -> 未選取", () => {
+      const { result } = setup();
+      
+      // 1. 未選取 -> 包含
+      act(() => result.current.handleFilterToggle("蛋撻"));
+      expect(result.current.activeFilters["蛋撻"]).toBe(1);
+      expect(result.current.excludeFilters.has("蛋撻")).toBe(false);
+
+      // 2. 包含 -> 排除
+      act(() => result.current.handleFilterToggle("蛋撻"));
+      expect(result.current.activeFilters["蛋撻"]).toBeUndefined();
+      expect(result.current.excludeFilters.has("蛋撻")).toBe(true);
+
+      // 3. 排除 -> 未選取
+      act(() => result.current.handleFilterToggle("蛋撻"));
+      expect(result.current.activeFilters["蛋撻"]).toBeUndefined();
+      expect(result.current.excludeFilters.has("蛋撻")).toBe(false);
+    });
+
+    it("應正確排除指定品項的優惠券", () => {
+      const { result } = setup();
+      
+      // 排除蛋撻（按兩下）
+      act(() => {
+        result.current.handleFilterToggle("蛋撻");
+        result.current.handleFilterToggle("蛋撻");
+      });
+      expect(result.current.excludeFilters.has("蛋撻")).toBe(true);
+      
+      // 原本 3 張中有 1 張有蛋撻 (10001)，剩餘 2 張
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(2);
+      expect(result.current.filteredAndSortedCoupons.map(c => c.coupon_code)).not.toContain(10001);
+    });
+
+    it("清除篩選應重置 excludeFilters", () => {
+      const { result } = setup();
+      
+      act(() => {
+        result.current.handleFilterToggle("蛋撻");
+        result.current.handleFilterToggle("蛋撻");
+      });
+      expect(result.current.excludeFilters.has("蛋撻")).toBe(true);
+      
+      act(() => result.current.handleClearFilters());
+      expect(result.current.excludeFilters.size).toBe(0);
+    });
+  });
 });

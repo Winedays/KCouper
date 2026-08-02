@@ -40,6 +40,7 @@ const Index = () => {
     searchQuery,
     setSearchQuery,
     activeFilters,
+    excludeFilters,
     showFavoritesOnly,
     sortBy,
     setSortBy,
@@ -133,6 +134,7 @@ const Index = () => {
           searchAllOptions={searchAllOptions}
           onSearchAllOptionsChange={setSearchAllOptions}
           activeFilters={activeFilters}
+          excludeFilters={excludeFilters}
           onFilterToggle={handleFilterToggle}
           onFilterCountChange={handleFilterCountChange}
           onClearAll={handleClearFilters}

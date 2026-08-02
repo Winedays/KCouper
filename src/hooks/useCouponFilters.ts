@@ -9,6 +9,8 @@ import { type SortOption } from "@/components/SortSelect";
  */
 export type ActiveFiltersMap = Partial<Record<ItemFilterId, number>>;
 
+export type FilterState = { type: "include"; count: number } | { type: "exclude" };
+
 /**
  * Check if a name matches a filter using the filterMatchRules
  * @param name - The name to check
@@ -23,7 +25,30 @@ const checkNameMatchesFilter = (name: string, filter: ItemFilterId): boolean => 
 
 export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState<ActiveFiltersMap>({});
+  const [filterStates, setFilterStates] = useState<Record<ItemFilterId, FilterState>>({} as Record<ItemFilterId, FilterState>);
+  
+  // 衍生 activeFilters (維持原本的 Record<ItemFilterId, number> 型態)
+  const activeFilters = useMemo(() => {
+    const active: ActiveFiltersMap = {};
+    for (const [id, state] of Object.entries(filterStates)) {
+      if (state.type === "include") {
+        active[id as ItemFilterId] = state.count;
+      }
+    }
+    return active;
+  }, [filterStates]);
+
+  // 衍生 excludeFilters (維持原本的 Set<ItemFilterId> 型態)
+  const excludeFilters = useMemo(() => {
+    const excluded = new Set<ItemFilterId>();
+    for (const [id, state] of Object.entries(filterStates)) {
+      if (state.type === "exclude") {
+        excluded.add(id as ItemFilterId);
+      }
+    }
+    return excluded;
+  }, [filterStates]);
+
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("price-asc");
   const [searchAllOptions, setSearchAllOptions] = useState(false);
@@ -38,32 +63,38 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
 
   /** Toggle a filter on/off (sets count to 1 when enabling) */
   const handleFilterToggle = useCallback((filter: ItemFilterId) => {
-    setActiveFilters((prev) => {
-      if (filter in prev) {
-        const next = { ...prev };
+    setFilterStates((prev) => {
+      const current = prev[filter];
+      const next = { ...prev };
+      if (current?.type === "include") {
+        next[filter] = { type: "exclude" };
+      } else if (current?.type === "exclude") {
         delete next[filter];
-        return next;
+      } else {
+        next[filter] = { type: "include", count: 1 };
       }
-      return { ...prev, [filter]: 1 };
+      return next;
     });
   }, []);
 
   /** Adjust count for an active filter by delta (+1 or -1). Removes if count reaches 0. */
   const handleFilterCountChange = useCallback((filter: ItemFilterId, delta: number) => {
-    setActiveFilters((prev) => {
-      const current = prev[filter] ?? 0;
-      const next = current + delta;
-      if (next <= 0) {
-        const updated = { ...prev };
-        delete updated[filter];
-        return updated;
+    setFilterStates((prev) => {
+      const current = prev[filter];
+      if (!current || current.type !== "include") return prev;
+      const nextCount = current.count + delta;
+      const next = { ...prev };
+      if (nextCount <= 0) {
+        delete next[filter];
+      } else {
+        next[filter] = { ...current, count: nextCount };
       }
-      return { ...prev, [filter]: next };
+      return next;
     });
   }, []);
 
   const handleClearFilters = useCallback(() => {
-    setActiveFilters({});
+    setFilterStates({});
     setShowFavoritesOnly(false);
     setPriceRange(null);
   }, []);
@@ -84,6 +115,22 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
       // Price range filter
       if (priceRange) {
         if (coupon.price < priceRange[0] || coupon.price > priceRange[1]) {
+          return false;
+        }
+      }
+
+      // Exclude filters
+      if (excludeFilters.size > 0) {
+        const hasExcludedItem = coupon.items.some((item) => {
+          return Array.from(excludeFilters).some((excludeFilter) => {
+            const nameMatches = checkNameMatchesFilter(item.name, excludeFilter);
+            const flavorMatches =
+              searchAllOptions &&
+              item.flavors?.some((flavor) => checkNameMatchesFilter(flavor.name, excludeFilter));
+            return nameMatches || flavorMatches;
+          });
+        });
+        if (hasExcludedItem) {
           return false;
         }
       }
@@ -140,12 +187,13 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
           return 0;
       }
     });
-  }, [coupons, searchQuery, activeFilters, showFavoritesOnly, favorites, sortBy, searchAllOptions, priceRange]);
+  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, favorites, sortBy, searchAllOptions, priceRange]);
 
   return {
     searchQuery,
     setSearchQuery,
     activeFilters,
+    excludeFilters,
     showFavoritesOnly,
     sortBy,
     setSortBy,

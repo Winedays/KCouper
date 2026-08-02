@@ -27,6 +27,7 @@ type SearchPanelProps = {
   searchAllOptions: boolean;
   onSearchAllOptionsChange: (value: boolean) => void;
   activeFilters: ActiveFiltersMap;
+  excludeFilters: Set<ItemFilterId>;
   onFilterToggle: (filter: ItemFilterId) => void;
   onFilterCountChange: (filter: ItemFilterId, delta: number) => void;
   onClearAll: () => void;
@@ -61,6 +62,7 @@ const SearchPanel = ({
   searchAllOptions,
   onSearchAllOptionsChange,
   activeFilters,
+  excludeFilters,
   onFilterToggle,
   onFilterCountChange,
   onClearAll,
@@ -74,7 +76,11 @@ const SearchPanel = ({
   onPriceRangeChange,
   priceStats,
 }: SearchPanelProps) => {
-  const hasActiveFilters = Object.keys(activeFilters).length > 0 || showFavoritesOnly || priceRange !== null;
+  const hasActiveFilters =
+    Object.keys(activeFilters).length > 0 ||
+    excludeFilters.size > 0 ||
+    showFavoritesOnly ||
+    priceRange !== null;
 
   /** Local slider state for the custom popover */
   const [sliderValue, setSliderValue] = useState<[number, number]>([priceStats.min, priceStats.max]);
@@ -203,14 +209,17 @@ const SearchPanel = ({
             {itemFilters.map((filter) => {
               const count = activeFilters[filter.id];
               const isActive = count !== undefined;
+              const isExcluded = excludeFilters.has(filter.id);
               return (
                 <div key={filter.id} className="flex shrink-0 items-center">
                   <button
                     onClick={() => onFilterToggle(filter.id)}
-                    aria-pressed={isActive}
+                    aria-pressed={isActive || isExcluded}
                     className={cn(
                       "inline-flex shrink-0 items-center gap-1 text-xs font-medium transition-all duration-200",
-                      isActive
+                      isExcluded
+                        ? "rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm line-through px-3 py-1.5"
+                        : isActive
                         ? "rounded-l-full bg-primary text-primary-foreground shadow-sm px-3 py-1.5"
                         : "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-1.5"
                     )}
@@ -221,7 +230,7 @@ const SearchPanel = ({
                       <span className="text-[10px] font-bold opacity-80">x{count}</span>
                     )}
                   </button>
-                  {isActive && (
+                  {isActive && !isExcluded && (
                     <div className="inline-flex items-center self-stretch rounded-r-full bg-primary/90 text-primary-foreground">
                       <button
                         onClick={(e) => {
