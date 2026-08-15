@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { type Coupon } from "@/data/coupons";
 import { type ItemFilterId, filterMatchRules } from "@/components/ItemFilter";
-import { type SortOption } from "@/components/SortSelect";
+import { type SortOption, type SecondarySortOption } from "@/components/SortSelect";
 
 /**
  * Active filters map: filter ID → minimum required count
@@ -10,6 +10,32 @@ import { type SortOption } from "@/components/SortSelect";
 export type ActiveFiltersMap = Partial<Record<ItemFilterId, number>>;
 
 export type FilterState = { type: "include"; count: number } | { type: "exclude" };
+
+/**
+ * Compare two coupons based on a given sort option.
+ */
+export const compareCouponsByOption = (a: Coupon, b: Coupon, option: SortOption): number => {
+  switch (option) {
+    case "code-asc":
+      return a.coupon_code - b.coupon_code;
+    case "code-desc":
+      return b.coupon_code - a.coupon_code;
+    case "price-asc":
+      return a.price - b.price;
+    case "price-desc":
+      return b.price - a.price;
+    case "discount-desc":
+      return a.discount - b.discount;
+    case "discount-asc":
+      return b.discount - a.discount;
+    case "expiry-asc":
+      return new Date(a.end_date).getTime() - new Date(b.end_date).getTime();
+    case "expiry-desc":
+      return new Date(b.end_date).getTime() - new Date(a.end_date).getTime();
+    default:
+      return 0;
+  }
+};
 
 /**
  * Check if a name matches a filter using the filterMatchRules
@@ -50,7 +76,19 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   }, [filterStates]);
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [sortBy, setSortBy] = useState<SortOption>("price-asc");
+  const [primarySort, setPrimarySort] = useState<SortOption>("price-asc");
+  const [secondarySort, setSecondarySort] = useState<SecondarySortOption>("none");
+
+  const handlePrimarySortChange = useCallback((newPrimary: SortOption) => {
+    const newCategory = newPrimary.split("-")[0];
+    setSecondarySort((prev) => {
+      if (prev !== "none" && prev.split("-")[0] === newCategory) {
+        return "none";
+      }
+      return prev;
+    });
+    setPrimarySort(newPrimary);
+  }, []);
   const [searchAllOptions, setSearchAllOptions] = useState(false);
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
 
@@ -166,28 +204,20 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     });
 
     return [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case "code-asc":
-          return a.coupon_code - b.coupon_code;
-        case "code-desc":
-          return b.coupon_code - a.coupon_code;
-        case "price-asc":
-          return a.price - b.price;
-        case "price-desc":
-          return b.price - a.price;
-        case "discount-desc":
-          return a.discount - b.discount;
-        case "discount-asc":
-          return b.discount - a.discount;
-        case "expiry-asc":
-          return new Date(a.end_date).getTime() - new Date(b.end_date).getTime();
-        case "expiry-desc":
-          return new Date(b.end_date).getTime() - new Date(a.end_date).getTime();
-        default:
-          return 0;
+      const primaryResult = compareCouponsByOption(a, b, primarySort);
+      if (primaryResult !== 0) return primaryResult;
+
+      const primaryCategory = primarySort.split("-")[0];
+      const secondaryCategory = secondarySort !== "none" ? secondarySort.split("-")[0] : null;
+
+      if (secondarySort !== "none" && primaryCategory !== secondaryCategory) {
+        const secondaryResult = compareCouponsByOption(a, b, secondarySort);
+        if (secondaryResult !== 0) return secondaryResult;
       }
+
+      return a.coupon_code - b.coupon_code;
     });
-  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, favorites, sortBy, searchAllOptions, priceRange]);
+  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
 
   return {
     searchQuery,
@@ -195,8 +225,12 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     activeFilters,
     excludeFilters,
     showFavoritesOnly,
-    sortBy,
-    setSortBy,
+    primarySort,
+    setPrimarySort: handlePrimarySortChange,
+    secondarySort,
+    setSecondarySort,
+    sortBy: primarySort,
+    setSortBy: handlePrimarySortChange,
     searchAllOptions,
     setSearchAllOptions,
     priceRange,

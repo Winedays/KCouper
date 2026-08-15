@@ -14,6 +14,8 @@ dist
 dist-ssr
 *.local
 GEMINI.md
+docs/superpowers
+.superpowers
 
 # Logs
 logs

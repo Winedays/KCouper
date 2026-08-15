@@ -42,6 +42,10 @@ const Index = () => {
     activeFilters,
     excludeFilters,
     showFavoritesOnly,
+    primarySort,
+    setPrimarySort,
+    secondarySort,
+    setSecondarySort,
     sortBy,
     setSortBy,
     searchAllOptions,
@@ -141,6 +145,10 @@ const Index = () => {
           showFavoritesOnly={showFavoritesOnly}
           onToggleFavorites={handleToggleFavorites}
           favoritesCount={favoritesCount}
+          primarySort={primarySort}
+          onPrimarySortChange={setPrimarySort}
+          secondarySort={secondarySort}
+          onSecondarySortChange={setSecondarySort}
           sortBy={sortBy}
           onSortChange={setSortBy}
           resultCount={filteredAndSortedCoupons.length}

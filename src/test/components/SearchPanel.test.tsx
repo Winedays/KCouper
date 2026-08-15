@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { screen, fireEvent } from "@testing-library/dom";
 import SearchPanel from "@/components/SearchPanel";
 import { itemFilters, type ItemFilterId } from "@/components/ItemFilter";
-import type { SortOption } from "@/components/SortSelect";
+import type { SortOption, SecondarySortOption } from "@/components/SortSelect";
 import type { ActiveFiltersMap } from "@/hooks/useCouponFilters";
 
 describe("SearchPanel", () => {
@@ -13,13 +13,18 @@ describe("SearchPanel", () => {
     searchAllOptions: false,
     onSearchAllOptionsChange: vi.fn(),
     activeFilters: {} as ActiveFiltersMap,
+    excludeFilters: new Set<ItemFilterId>(),
     onFilterToggle: vi.fn(),
     onFilterCountChange: vi.fn(),
     onClearAll: vi.fn(),
     showFavoritesOnly: false,
     onToggleFavorites: vi.fn(),
     favoritesCount: 0,
-    sortBy: "discount" as SortOption,
+    primarySort: "price-asc" as SortOption,
+    onPrimarySortChange: vi.fn(),
+    secondarySort: "discount-desc" as SecondarySortOption,
+    onSecondarySortChange: vi.fn(),
+    sortBy: "price-asc" as SortOption,
     onSortChange: vi.fn(),
     resultCount: 100,
     priceRange: null as [number, number] | null,
@@ -173,6 +178,12 @@ describe("SearchPanel", () => {
       const { container } = render(<SearchPanel {...defaultProps} />);
       const sortTrigger = container.querySelector('[role="combobox"]');
       expect(sortTrigger).toBeInTheDocument();
+    });
+
+    it("應該同時渲染主要與次要排序下拉選單", () => {
+      const { container } = render(<SearchPanel {...defaultProps} />);
+      const sortTriggers = container.querySelectorAll('[role="combobox"]');
+      expect(sortTriggers).toHaveLength(2);
     });
   });
 

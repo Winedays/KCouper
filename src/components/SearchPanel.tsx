@@ -7,7 +7,7 @@ import { Slider } from "./ui/slider";
 import { cn } from "@/lib/utils";
 import { itemFilters, type ItemFilterId } from "./ItemFilter";
 import { type ActiveFiltersMap } from "@/hooks/useCouponFilters";
-import SortSelect, { type SortOption } from "./SortSelect";
+import SortSelect, { type SortOption, type SecondarySortOption } from "./SortSelect";
 import {
   Popover,
   PopoverContent,
@@ -27,15 +27,20 @@ type SearchPanelProps = {
   searchAllOptions: boolean;
   onSearchAllOptionsChange: (value: boolean) => void;
   activeFilters: ActiveFiltersMap;
-  excludeFilters: Set<ItemFilterId>;
+  excludeFilters?: Set<ItemFilterId>;
   onFilterToggle: (filter: ItemFilterId) => void;
   onFilterCountChange: (filter: ItemFilterId, delta: number) => void;
   onClearAll: () => void;
   showFavoritesOnly: boolean;
   onToggleFavorites: () => void;
   favoritesCount: number;
-  sortBy: SortOption;
-  onSortChange: (value: SortOption) => void;
+  primarySort?: SortOption;
+  onPrimarySortChange?: (value: SortOption) => void;
+  secondarySort?: SecondarySortOption;
+  onSecondarySortChange?: (value: SecondarySortOption) => void;
+  onSortSelect?: (option: SortOption | "clear-secondary") => void;
+  sortBy?: SortOption;
+  onSortChange?: (value: SortOption) => void;
   resultCount: number;
   priceRange: [number, number] | null;
   onPriceRangeChange: (range: [number, number] | null) => void;
@@ -62,13 +67,18 @@ const SearchPanel = ({
   searchAllOptions,
   onSearchAllOptionsChange,
   activeFilters,
-  excludeFilters,
+  excludeFilters = new Set(),
   onFilterToggle,
   onFilterCountChange,
   onClearAll,
   showFavoritesOnly,
   onToggleFavorites,
   favoritesCount,
+  primarySort,
+  onPrimarySortChange,
+  secondarySort,
+  onSecondarySortChange,
+  onSortSelect,
   sortBy,
   onSortChange,
   resultCount,
@@ -153,7 +163,14 @@ const SearchPanel = ({
 
           {/* Sort select */}
           <div data-tour="sort">
-            <SortSelect value={sortBy} onChange={onSortChange} />
+            <SortSelect
+              primaryValue={primarySort}
+              onPrimaryChange={onPrimarySortChange}
+              secondaryValue={secondarySort}
+              onSecondaryChange={onSecondarySortChange}
+              value={sortBy}
+              onChange={onSortChange}
+            />
           </div>
         </div>
 

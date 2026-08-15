@@ -231,6 +231,59 @@ describe("useCouponFilters", () => {
       const codes = result.current.filteredAndSortedCoupons.map((c) => c.coupon_code);
       expect(codes).toEqual([10001, 20002, 30003]);
     });
+
+    it("當主排序欄位數值相同時，應依據副排序選項排序", () => {
+      const samePriceCoupons: Coupon[] = [
+        makeCoupon({ coupon_code: 30003, price: 100, discount: 6.5 }),
+        makeCoupon({ coupon_code: 10001, price: 100, discount: 5.0 }),
+        makeCoupon({ coupon_code: 20002, price: 100, discount: 5.5 }),
+      ];
+      const { result } = renderHook(() => useCouponFilters(samePriceCoupons, EMPTY_FAVORITES));
+
+      act(() => {
+        result.current.setPrimarySort("price-asc");
+        result.current.setSecondarySort("discount-desc");
+      });
+
+      const codes = result.current.filteredAndSortedCoupons.map((c) => c.coupon_code);
+      expect(codes).toEqual([10001, 20002, 30003]);
+    });
+
+    it("當副排序為 none 時，主排序數值相同的項目應退回依 coupon_code 升冪排序", () => {
+      const samePriceCoupons: Coupon[] = [
+        makeCoupon({ coupon_code: 30003, price: 100, discount: 5.0 }),
+        makeCoupon({ coupon_code: 10001, price: 100, discount: 6.5 }),
+        makeCoupon({ coupon_code: 20002, price: 100, discount: 5.5 }),
+      ];
+      const { result } = renderHook(() => useCouponFilters(samePriceCoupons, EMPTY_FAVORITES));
+
+      act(() => {
+        result.current.setPrimarySort("price-asc");
+        result.current.setSecondarySort("none");
+      });
+
+      const codes = result.current.filteredAndSortedCoupons.map((c) => c.coupon_code);
+      expect(codes).toEqual([10001, 20002, 30003]);
+    });
+
+    it("當第一排序改為與第二排序相同種類時，應自動清除第二排序", () => {
+      const { result } = setup();
+
+      act(() => {
+        result.current.setPrimarySort("price-asc");
+        result.current.setSecondarySort("discount-desc");
+      });
+      expect(result.current.primarySort).toBe("price-asc");
+      expect(result.current.secondarySort).toBe("discount-desc");
+
+      // 切換第一排序為 discount-asc (與 secondarySort 的 discount 種類相同)
+      act(() => {
+        result.current.setPrimarySort("discount-asc");
+      });
+
+      expect(result.current.primarySort).toBe("discount-asc");
+      expect(result.current.secondarySort).toBe("none");
+    });
   });
 
   describe("價格範圍", () => {

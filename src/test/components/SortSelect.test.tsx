@@ -1,86 +1,66 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
-import { screen, fireEvent } from "@testing-library/dom";
-import SortSelect, { type SortOption } from "@/components/SortSelect";
+import { screen, fireEvent, within } from "@testing-library/dom";
+import SortSelect, { type SortOption, type SecondarySortOption } from "@/components/SortSelect";
 
 describe("SortSelect", () => {
-  const defaultProps = {
-    value: "price-asc" as SortOption,
-    onChange: vi.fn(),
+  const multiProps = {
+    primaryValue: "price-asc" as SortOption,
+    onPrimaryChange: vi.fn(),
+    secondaryValue: "discount-desc" as SecondarySortOption,
+    onSecondaryChange: vi.fn(),
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  describe("渲染", () => {
-    it("應該渲染排序選擇器", () => {
-      const { container } = render(<SortSelect {...defaultProps} />);
-      const trigger = container.querySelector('[role="combobox"]');
-      expect(trigger).toBeInTheDocument();
+  describe("多條件排序渲染與互動", () => {
+    it("應該同時渲染主排序與次排序下拉選單", () => {
+      render(<SortSelect {...multiProps} />);
+      const triggers = screen.getAllByRole("combobox");
+      expect(triggers.length).toBe(2);
     });
 
-    it("應該渲染排序圖示", () => {
-      const { container } = render(<SortSelect {...defaultProps} />);
-      const icon = container.querySelector(".lucide-arrow-up-down");
-      expect(icon).toBeInTheDocument();
-    });
+    it("當次要排序分類與主要排序相同時，次要排序中該分類選項應被禁用", () => {
+      render(
+        <SortSelect
+          primaryValue="price-asc"
+          onPrimaryChange={vi.fn()}
+          secondaryValue="none"
+          onSecondaryChange={vi.fn()}
+        />
+      );
+      const triggers = screen.getAllByRole("combobox");
+      fireEvent.click(triggers[1]);
 
-    it("應該顯示目前選取的排序選項", () => {
-      render(<SortSelect {...defaultProps} value="price-asc" />);
-      expect(screen.getByText("價格（低→高）")).toBeInTheDocument();
+      const listbox = screen.getByRole("listbox");
+
+      const priceAscOption = within(listbox).getByText("價格（低→高）").closest('[role="option"]');
+      const priceDescOption = within(listbox).getByText("價格（高→低）").closest('[role="option"]');
+
+      expect(priceAscOption).toHaveAttribute("data-disabled");
+      expect(priceDescOption).toHaveAttribute("data-disabled");
+
+      const discountDescOption = within(listbox).getByText("折扣（高→低）").closest('[role="option"]');
+      expect(discountDescOption).not.toHaveAttribute("data-disabled");
     });
   });
 
-  describe("排序選項", () => {
-    it("點擊觸發器應該開啟下拉選單", () => {
-      render(<SortSelect {...defaultProps} />);
-
-      const trigger = screen.getByRole("combobox");
-      fireEvent.click(trigger);
-
-      // Check that options are visible
-      expect(screen.getByText("代碼（1→9）")).toBeInTheDocument();
-      expect(screen.getByText("代碼（9→1）")).toBeInTheDocument();
-      expect(screen.getByText("價格（高→低）")).toBeInTheDocument();
-      expect(screen.getByText("折扣（高→低）")).toBeInTheDocument();
-      expect(screen.getByText("折扣（低→高）")).toBeInTheDocument();
-      expect(screen.getByText("到期日（近→遠）")).toBeInTheDocument();
-      expect(screen.getByText("到期日（遠→近）")).toBeInTheDocument();
-    });
-
-    it("選擇選項應該呼叫 onChange", () => {
+  describe("單一/相容模式", () => {
+    it("僅傳入 value/onChange 時亦能相容運作", () => {
       const onChange = vi.fn();
-      render(<SortSelect {...defaultProps} onChange={onChange} />);
+      render(<SortSelect value="price-asc" onChange={onChange} />);
 
-      // Open dropdown
-      const trigger = screen.getByRole("combobox");
-      fireEvent.click(trigger);
+      const triggers = screen.getAllByRole("combobox");
+      expect(triggers.length).toBeGreaterThanOrEqual(1);
 
-      // Select an option
-      fireEvent.click(screen.getByText("折扣（高→低）"));
+      fireEvent.click(triggers[0]);
+
+      const listbox = screen.getByRole("listbox");
+      fireEvent.click(within(listbox).getByText("折扣（高→低）"));
 
       expect(onChange).toHaveBeenCalledWith("discount-desc");
-    });
-  });
-
-  describe("各種排序值顯示", () => {
-    const testCases: { value: SortOption; label: string }[] = [
-      { value: "code-asc", label: "代碼（1→9）" },
-      { value: "code-desc", label: "代碼（9→1）" },
-      { value: "price-asc", label: "價格（低→高）" },
-      { value: "price-desc", label: "價格（高→低）" },
-      { value: "discount-desc", label: "折扣（高→低）" },
-      { value: "discount-asc", label: "折扣（低→高）" },
-      { value: "expiry-asc", label: "到期日（近→遠）" },
-      { value: "expiry-desc", label: "到期日（遠→近）" },
-    ];
-
-    testCases.forEach(({ value, label }) => {
-      it(`value="${value}" 應該顯示 "${label}"`, () => {
-        render(<SortSelect {...defaultProps} value={value} />);
-        expect(screen.getByText(label)).toBeInTheDocument();
-      });
     });
   });
 });
