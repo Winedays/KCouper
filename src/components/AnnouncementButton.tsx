@@ -49,11 +49,20 @@ const AnnouncementButton = ({ variant = "default" }: AnnouncementButtonProps) =>
   return (
     <Popover onOpenChange={(open) => open && unreadCount > 0 && markAllAsRead()}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent align="end" className="w-80 p-0">
+      <PopoverContent
+        align="end"
+        className="w-80 p-0"
+        data-react-remove-scroll-allow="true"
+      >
         <div className="border-b px-4 py-3">
           <h3 className="text-sm font-semibold">最新消息</h3>
         </div>
-        <ScrollArea className="max-h-72">
+        <ScrollArea
+          className="h-72 touch-pan-y overscroll-contain"
+          data-react-remove-scroll-allow="true"
+          onTouchMove={(e) => e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
+        >
           {announcements.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted-foreground">
               目前沒有消息
