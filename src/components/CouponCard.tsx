@@ -64,6 +64,22 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
     return `${name} x ${count}`;
   };
 
+  const getMealPeriodLabels = (periods?: number[]) => {
+    if (!periods || periods.length === 0) return null;
+    const hasBreakfast = periods.includes(1);
+    const hasLunch = periods.includes(2) || periods.includes(3);
+    const hasDinner = periods.includes(4) || periods.includes(5);
+
+    if (hasBreakfast && hasLunch && hasDinner) {
+      return ["全時段"];
+    }
+    const labels: string[] = [];
+    if (hasBreakfast) labels.push("早餐");
+    if (hasLunch) labels.push("午餐");
+    if (hasDinner) labels.push("晚餐");
+    return labels;
+  };
+
   return (
     <>
       <Card
@@ -85,7 +101,7 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
 
         <div className="flex flex-1 flex-col p-5">
           {/* Title with favorite button */}
-          <div className="mb-3 flex items-start gap-2">
+          <div className="mb-2 flex items-start gap-2">
             <button
               onClick={handleToggleFavorite}
               className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all hover:scale-110"
@@ -100,6 +116,20 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
               {coupon.name}
             </h3>
           </div>
+
+          {/* Meal period badges */}
+          {coupon.meal_periods && coupon.meal_periods.length > 0 && (
+            <div className="mb-3 flex flex-wrap items-center gap-1 text-[11px]">
+              {getMealPeriodLabels(coupon.meal_periods)?.map((label) => (
+                <span
+                  key={label}
+                  className="rounded-md bg-secondary px-2 py-0.5 font-medium text-secondary-foreground"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Items list */}
           <div className="mb-4 space-y-1">

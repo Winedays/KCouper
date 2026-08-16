@@ -1,18 +1,25 @@
 import { useState } from "react";
-import { Search, X, Heart, SlidersHorizontal, Info, DollarSign, ChevronDown, Plus, Minus } from "lucide-react";
+import { Search, X, Heart, SlidersHorizontal, Info, DollarSign, ChevronDown, Plus, Minus, Clock } from "lucide-react";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 import { cn } from "@/lib/utils";
 import { itemFilters, type ItemFilterId } from "./ItemFilter";
-import { type ActiveFiltersMap } from "@/hooks/useCouponFilters";
+import { type ActiveFiltersMap, type MealPeriodFilterType } from "@/hooks/useCouponFilters";
 import SortSelect, { type SortOption, type SecondarySortOption } from "./SortSelect";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "./ui/popover";
+
+/** Meal period filter options */
+const MEAL_PERIOD_OPTIONS: { id: "breakfast" | "lunch" | "dinner"; label: string; emoji: string; time: string }[] = [
+  { id: "breakfast", label: "早餐", emoji: "🌅", time: "08:00~10:30" },
+  { id: "lunch", label: "午餐", emoji: "☀️", time: "10:30~17:00" },
+  { id: "dinner", label: "晚餐", emoji: "🌙", time: "17:00~23:00" },
+];
 
 /** Price range quick-select presets */
 const PRICE_PRESETS: { label: string; range: [number, number] }[] = [
@@ -28,6 +35,8 @@ type SearchPanelProps = {
   onSearchAllOptionsChange: (value: boolean) => void;
   activeFilters: ActiveFiltersMap;
   excludeFilters?: Set<ItemFilterId>;
+  mealPeriodFilter?: MealPeriodFilterType;
+  onMealPeriodToggle?: (period: "breakfast" | "lunch" | "dinner") => void;
   onFilterToggle: (filter: ItemFilterId) => void;
   onFilterCountChange: (filter: ItemFilterId, delta: number) => void;
   onClearAll: () => void;
@@ -68,6 +77,8 @@ const SearchPanel = ({
   onSearchAllOptionsChange,
   activeFilters,
   excludeFilters = new Set(),
+  mealPeriodFilter = null,
+  onMealPeriodToggle,
   onFilterToggle,
   onFilterCountChange,
   onClearAll,
@@ -90,6 +101,7 @@ const SearchPanel = ({
     Object.keys(activeFilters).length > 0 ||
     excludeFilters.size > 0 ||
     showFavoritesOnly ||
+    mealPeriodFilter !== null ||
     priceRange !== null;
 
   /** Local slider state for the custom popover */
@@ -118,6 +130,91 @@ const SearchPanel = ({
       setSliderValue(priceRange ?? [priceStats.min, priceStats.max]);
     }
   };
+
+  const renderMealPeriodFilters = () => (
+    <div data-tour="meal-period-filter" className="flex shrink-0 items-center gap-1.5">
+      <Clock className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+      {MEAL_PERIOD_OPTIONS.map((option) => {
+        const isActive = mealPeriodFilter === option.id;
+        return (
+          <button
+            key={option.id}
+            onClick={() => onMealPeriodToggle?.(option.id)}
+            aria-pressed={isActive}
+            title={`${option.label} (${option.time})`}
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+              isActive
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            )}
+          >
+            <span>{option.emoji}</span>
+            <span>{option.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  const renderPriceFilters = () => (
+    <div data-tour="price-filter" className="flex shrink-0 items-center gap-2">
+      <DollarSign className="h-4 w-4 text-muted-foreground shrink-0" />
+      {PRICE_PRESETS.map((preset) => {
+        const active = isPresetActive(priceRange, preset.range, priceStats.max);
+        return (
+          <button
+            key={preset.label}
+            onClick={() => handlePresetClick(preset.range)}
+            aria-pressed={active}
+            className={cn(
+              "inline-flex shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+              active
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            )}
+          >
+            {preset.label}
+          </button>
+        );
+      })}
+
+      {/* Custom price range popover */}
+      <Popover onOpenChange={handlePopoverOpen}>
+        <PopoverTrigger asChild>
+          <button
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+              priceRange && !PRICE_PRESETS.some((p) => isPresetActive(priceRange, p.range, priceStats.max))
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            )}
+          >
+            <span>自訂</span>
+            <ChevronDown className="h-3 w-3" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-72" side="bottom" align="start">
+          <div className="space-y-4">
+            <p className="text-sm font-medium">自訂價格範圍</p>
+            <Slider
+              min={priceStats.min}
+              max={priceStats.max}
+              step={10}
+              value={sliderValue}
+              onValueChange={(v) => setSliderValue(v as [number, number])}
+              onValueCommit={handleSliderCommit}
+              minStepsBetweenThumbs={1}
+            />
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>${sliderValue[0]}</span>
+              <span>${sliderValue[1]}</span>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
 
   return (
     <div className="border-b border-border/50 bg-background">
@@ -174,183 +271,155 @@ const SearchPanel = ({
           </div>
         </div>
 
-        {/* Filters row 1: Favorites + Item filters */}
-        <div className="mt-4 flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-muted-foreground shrink-0" />
-          
-          <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {/* Favorites filter */}
-            <div data-tour="favorites" className="flex shrink-0 items-center gap-1">
-              <button
-                onClick={onToggleFavorites}
-                aria-pressed={showFavoritesOnly}
-                className={cn(
-                  "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                  showFavoritesOnly
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                )}
-              >
-                <Heart className={cn("h-3.5 w-3.5", showFavoritesOnly && "fill-current")} />
-                <span>收藏</span>
-                {favoritesCount > 0 && (
-                  <span className={cn(
-                    "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+        {/* Filters Layout Container */}
+        <div className="mt-4 space-y-2">
+          {/* Row 1: Favorites + Item Filters */}
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="h-4 w-4 text-muted-foreground shrink-0" />
+            
+            <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              {/* Favorites filter */}
+              <div data-tour="favorites" className="flex shrink-0 items-center gap-1">
+                <button
+                  onClick={onToggleFavorites}
+                  aria-pressed={showFavoritesOnly}
+                  className={cn(
+                    "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
                     showFavoritesOnly
-                      ? "bg-primary-foreground/20 text-primary-foreground"
-                      : "bg-primary/10 text-primary"
-                  )}>
-                    {favoritesCount}
-                  </span>
-                )}
-              </button>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="p-1 text-muted-foreground hover:text-foreground transition-colors">
-                    <Info className="h-3.5 w-3.5" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="max-w-xs text-center" side="bottom">
-                  <p className="text-xs text-muted-foreground">
-                    收藏功能會將資料儲存在瀏覽器的本地儲存空間中。如果換了裝置、清除瀏覽器資料或使用無痕模式，收藏記錄就會消失。
-                  </p>
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            {/* Divider */}
-            <div className="h-5 w-px bg-border shrink-0" />
-
-            {/* Item filters with quantity controls */}
-            <div data-tour="filters" className="flex items-center gap-2">
-            {itemFilters.map((filter) => {
-              const count = activeFilters[filter.id];
-              const isActive = count !== undefined;
-              const isExcluded = excludeFilters.has(filter.id);
-              return (
-                <div key={filter.id} className="flex shrink-0 items-center">
-                  <button
-                    onClick={() => onFilterToggle(filter.id)}
-                    aria-pressed={isActive || isExcluded}
-                    className={cn(
-                      "inline-flex shrink-0 items-center gap-1 text-xs font-medium transition-all duration-200",
-                      isExcluded
-                        ? "rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm line-through px-3 py-1.5"
-                        : isActive
-                        ? "rounded-l-full bg-primary text-primary-foreground shadow-sm px-3 py-1.5"
-                        : "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-1.5"
-                    )}
-                  >
-                    <span>{filter.emoji}</span>
-                    <span>{filter.label}</span>
-                    {isActive && count > 1 && (
-                      <span className="text-[10px] font-bold opacity-80">x{count}</span>
-                    )}
-                  </button>
-                  {isActive && !isExcluded && (
-                    <div className="inline-flex items-center self-stretch rounded-r-full bg-primary/90 text-primary-foreground">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onFilterCountChange(filter.id, -1);
-                        }}
-                        className="flex w-6 items-center justify-center self-stretch hover:bg-primary-foreground/10 transition-colors"
-                        aria-label={`減少${filter.label}數量`}
-                      >
-                        <Minus className="h-3 w-3" />
-                      </button>
-                      <span className="min-w-[16px] text-center text-xs font-bold">{count}</span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onFilterCountChange(filter.id, 1);
-                        }}
-                        className="flex w-6 items-center justify-center self-stretch rounded-r-full hover:bg-primary-foreground/10 transition-colors"
-                        aria-label={`增加${filter.label}數量`}
-                      >
-                        <Plus className="h-3 w-3" />
-                      </button>
-                    </div>
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                   )}
-                </div>
-              );
-            })}
-            </div>
-          </div>
-        </div>
+                >
+                  <Heart className={cn("h-3.5 w-3.5", showFavoritesOnly && "fill-current")} />
+                  <span>收藏</span>
+                  {favoritesCount > 0 && (
+                    <span className={cn(
+                      "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                      showFavoritesOnly
+                        ? "bg-primary-foreground/20 text-primary-foreground"
+                        : "bg-primary/10 text-primary"
+                    )}>
+                      {favoritesCount}
+                    </span>
+                  )}
+                </button>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="p-1 text-muted-foreground hover:text-foreground transition-colors">
+                      <Info className="h-3.5 w-3.5" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="max-w-xs text-center" side="bottom">
+                    <p className="text-xs text-muted-foreground">
+                      收藏功能會將資料儲存在瀏覽器的本地儲存空間中。如果換了裝置、清除瀏覽器資料或使用無痕模式，收藏記錄就會消失。
+                    </p>
+                  </PopoverContent>
+                </Popover>
+              </div>
 
-        {/* Filters row 2: Price range filters */}
-        <div className="mt-2 flex items-center gap-2">
-          <DollarSign className="h-4 w-4 text-muted-foreground shrink-0" />
+              {/* Divider */}
+              <div className="h-5 w-px bg-border shrink-0" />
 
-          <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <div data-tour="price-filter" className="flex shrink-0 items-center gap-2">
-              {PRICE_PRESETS.map((preset) => {
-                const active = isPresetActive(priceRange, preset.range, priceStats.max);
-                return (
-                  <button
-                    key={preset.label}
-                    onClick={() => handlePresetClick(preset.range)}
-                    aria-pressed={active}
-                    className={cn(
-                      "inline-flex shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                      active
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {preset.label}
-                  </button>
-                );
-              })}
-
-              {/* Custom price range popover */}
-              <Popover onOpenChange={handlePopoverOpen}>
-                <PopoverTrigger asChild>
-                  <button
-                    className={cn(
-                      "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                      priceRange && !PRICE_PRESETS.some((p) => isPresetActive(priceRange, p.range, priceStats.max))
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    <span>自訂</span>
-                    <ChevronDown className="h-3 w-3" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-72" side="bottom" align="start">
-                  <div className="space-y-4">
-                    <p className="text-sm font-medium">自訂價格範圍</p>
-                    <Slider
-                      min={priceStats.min}
-                      max={priceStats.max}
-                      step={10}
-                      value={sliderValue}
-                      onValueChange={(v) => setSliderValue(v as [number, number])}
-                      onValueCommit={handleSliderCommit}
-                      minStepsBetweenThumbs={1}
-                    />
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>${sliderValue[0]}</span>
-                      <span>${sliderValue[1]}</span>
+              {/* Item filters with quantity controls */}
+              <div data-tour="filters" className="flex items-center gap-2">
+                {itemFilters.map((filter) => {
+                  const count = activeFilters[filter.id];
+                  const isActive = count !== undefined;
+                  const isExcluded = excludeFilters.has(filter.id);
+                  return (
+                    <div key={filter.id} className="flex shrink-0 items-center">
+                      <button
+                        onClick={() => onFilterToggle(filter.id)}
+                        aria-pressed={isActive || isExcluded}
+                        className={cn(
+                          "inline-flex shrink-0 items-center gap-1 text-xs font-medium transition-all duration-200",
+                          isExcluded
+                            ? "rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm line-through px-3 py-1.5"
+                            : isActive
+                            ? "rounded-l-full bg-primary text-primary-foreground shadow-sm px-3 py-1.5"
+                            : "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-1.5"
+                        )}
+                      >
+                        <span>{filter.emoji}</span>
+                        <span>{filter.label}</span>
+                        {isActive && count > 1 && (
+                          <span className="text-[10px] font-bold opacity-80">x{count}</span>
+                        )}
+                      </button>
+                      {isActive && !isExcluded && (
+                        <div className="inline-flex items-center self-stretch rounded-r-full bg-primary/90 text-primary-foreground">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onFilterCountChange(filter.id, -1);
+                            }}
+                            className="flex w-6 items-center justify-center self-stretch hover:bg-primary-foreground/10 transition-colors"
+                            aria-label={`減少${filter.label}數量`}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="min-w-[16px] text-center text-xs font-bold">{count}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onFilterCountChange(filter.id, 1);
+                            }}
+                            className="flex w-6 items-center justify-center self-stretch rounded-r-full hover:bg-primary-foreground/10 transition-colors"
+                            aria-label={`增加${filter.label}數量`}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Clear filters button */}
-          {hasActiveFilters && (
-            <button
-              onClick={onClearAll}
-              className="inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 transition-all duration-200"
-            >
-              <X className="h-3 w-3" />
-              <span>清除</span>
-            </button>
-          )}
+          {/* Desktop Row 2 (sm+): Meal Periods + Price Filters combined */}
+          <div className="hidden sm:flex items-center justify-between gap-2 pt-1">
+            <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              {renderMealPeriodFilters()}
+              <div className="h-5 w-px bg-border shrink-0" />
+              {renderPriceFilters()}
+            </div>
+
+            {/* Clear filters button (Desktop) */}
+            {hasActiveFilters && (
+              <button
+                onClick={onClearAll}
+                className="inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 transition-all duration-200"
+              >
+                <X className="h-3 w-3" />
+                <span>清除</span>
+              </button>
+            )}
+          </div>
+
+          {/* Mobile Row 2 (< sm): Meal Period Filters */}
+          <div className="flex sm:hidden items-center gap-2 overflow-x-auto pb-1 scrollbar-hide pt-1">
+            {renderMealPeriodFilters()}
+          </div>
+
+          {/* Mobile Row 3 (< sm): Price Filters + Clear Button */}
+          <div className="flex sm:hidden items-center justify-between gap-2 pt-1">
+            <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              {renderPriceFilters()}
+            </div>
+
+            {/* Clear filters button (Mobile) */}
+            {hasActiveFilters && (
+              <button
+                onClick={onClearAll}
+                className="inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 transition-all duration-200"
+              >
+                <X className="h-3 w-3" />
+                <span>清除</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Results count */}

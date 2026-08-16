@@ -49,6 +49,45 @@ const checkNameMatchesFilter = (name: string, filter: ItemFilterId): boolean => 
   return matchPatterns.some((pattern) => name.includes(pattern));
 };
 
+export type MealPeriodFilterType = "breakfast" | "lunch" | "dinner" | null;
+
+/**
+ * Get current default meal period filter based on current local time
+ * - 08:00~10:30 -> breakfast (1)
+ * - 10:30~17:00 -> lunch (2, 3)
+ * - 17:00~23:00 -> dinner (4, 5)
+ * - Outside 08:00~23:00 -> null (no default)
+ */
+export const getCurrentMealPeriodFilter = (date: Date = new Date()): MealPeriodFilterType => {
+  const minutes = date.getHours() * 60 + date.getMinutes();
+  if (minutes >= 8 * 60 && minutes < 10 * 60 + 30) {
+    return "breakfast";
+  }
+  if (minutes >= 10 * 60 + 30 && minutes < 17 * 60) {
+    return "lunch";
+  }
+  if (minutes >= 17 * 60 && minutes < 23 * 60) {
+    return "dinner";
+  }
+  return null;
+};
+
+export const matchMealPeriod = (coupon: Coupon, filter: MealPeriodFilterType): boolean => {
+  if (!filter) return true;
+  if (!coupon.meal_periods || coupon.meal_periods.length === 0) return true;
+
+  if (filter === "breakfast") {
+    return coupon.meal_periods.includes(1);
+  }
+  if (filter === "lunch") {
+    return coupon.meal_periods.includes(2) || coupon.meal_periods.includes(3);
+  }
+  if (filter === "dinner") {
+    return coupon.meal_periods.includes(4) || coupon.meal_periods.includes(5);
+  }
+  return true;
+};
+
 export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStates, setFilterStates] = useState<Record<ItemFilterId, FilterState>>({} as Record<ItemFilterId, FilterState>);
@@ -76,6 +115,9 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   }, [filterStates]);
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [mealPeriodFilter, setMealPeriodFilter] = useState<MealPeriodFilterType>(() =>
+    getCurrentMealPeriodFilter()
+  );
   const [primarySort, setPrimarySort] = useState<SortOption>("price-asc");
   const [secondarySort, setSecondarySort] = useState<SecondarySortOption>("none");
 
@@ -131,10 +173,15 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     });
   }, []);
 
+  const handleMealPeriodToggle = useCallback((period: "breakfast" | "lunch" | "dinner") => {
+    setMealPeriodFilter((prev) => (prev === period ? null : period));
+  }, []);
+
   const handleClearFilters = useCallback(() => {
     setFilterStates({});
     setShowFavoritesOnly(false);
     setPriceRange(null);
+    setMealPeriodFilter(null);
   }, []);
 
   const handleToggleFavorites = useCallback(() => {
@@ -147,6 +194,11 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     const filtered = coupons.filter((coupon) => {
       // Favorites filter
       if (showFavoritesOnly && !favorites.has(coupon.coupon_code)) {
+        return false;
+      }
+
+      // Meal period filter
+      if (!matchMealPeriod(coupon, mealPeriodFilter)) {
         return false;
       }
 
@@ -217,7 +269,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
 
       return a.coupon_code - b.coupon_code;
     });
-  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
+  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, mealPeriodFilter, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
 
   return {
     searchQuery,
@@ -225,6 +277,9 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     activeFilters,
     excludeFilters,
     showFavoritesOnly,
+    mealPeriodFilter,
+    setMealPeriodFilter,
+    handleMealPeriodToggle,
     primarySort,
     setPrimarySort: handlePrimarySortChange,
     secondarySort,
