@@ -80,6 +80,13 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
     return labels;
   };
 
+  const handleOrderClick = (e: React.MouseEvent<HTMLAnchorElement>, productCode: string) => {
+    e.preventDefault();
+    const originalHref = `https://www.kfcclub.com.tw/meal/${productCode}`;
+    const trackingUrl = `https://afftkr.site/track/clicks/9452/c627c2bc980822defc8fec23d62e9e4527674ecb63b2a0f90e64b70771401de3c021e7e5593c99616c?t=${encodeURIComponent(encodeURIComponent(originalHref))}`;
+    window.open(trackingUrl, '_blank');
+  };
+
   return (
     <>
       <Card
@@ -208,6 +215,7 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2"
+                onClick={(e) => handleOrderClick(e, coupon.product_code)}
               >
                 <span>前往點餐</span>
                 <ExternalLink className="h-4 w-4" />
@@ -243,6 +251,7 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2"
+                  onClick={(e) => handleOrderClick(e, coupon.product_code)}
                 >
                   <span>前往點餐</span>
                   <ExternalLink className="h-4 w-4" />
