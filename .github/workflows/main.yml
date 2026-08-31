@@ -39,7 +39,7 @@ jobs:
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
       with:
-        add: 'public/coupon.js'
+        add: 'public/coupon.js data/pending_threads_queue.json'
         message: '${{ env.MODE }} daily update coupon information'
         committer_name: GitHub Actions
         committer_email: 41898282+github-actions[bot]@users.noreply.github.com

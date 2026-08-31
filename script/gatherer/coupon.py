@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
+from notifier.storage import enqueue_new_coupons
 from utils import LOG, api_caller, get_date, init_delivery_info, init_session
 
 
@@ -222,3 +223,7 @@ def query_coupon(quick=False):
     with open('coupon.js', 'w', encoding='utf-8') as fp:
         j_str = json.dumps(coupon_dict, ensure_ascii=False)
         fp.write(f'window.COUPON_DICT={j_str}')
+
+    added = enqueue_new_coupons(coupon_list)
+    LOG.info('Enqueued %d new coupon(s) for notification.', added)
+

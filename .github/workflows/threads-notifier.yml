@@ -1,0 +1,59 @@
+name: Threads Coupon Notifier
+
+on:
+  schedule:
+    - cron: "0 4 * * *"  # 每日台灣時間 12:00 (UTC 04:00)
+
+  # 支援手動觸發
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (simulate without posting)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  notify-threads:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install pipenv
+      run: pipx install pipenv
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pipenv'
+    - run: pipenv install
+
+    - name: Run Threads Notifier
+      env:
+        THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+      run: |
+        if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+          pipenv run python script/kfc.py --mode notify --dry-run
+        else
+          pipenv run python script/kfc.py --mode notify
+        fi
+
+    - name: Commit and push notification state changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: 'data/notified_coupons.json data/pending_threads_queue.json'
+        message: 'chore: update Threads notification state'
+        committer_name: GitHub Actions
+        committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+    - name: Archive log file
+      uses: actions/upload-artifact@v4
+      if: ${{ always() }}
+      with:
+        name: debug-log
+        path: debug.log
+        retention-days: 30

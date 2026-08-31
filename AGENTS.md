@@ -113,11 +113,12 @@ pylint script/
 
 ### Testing
 
-The project uses integration testing through the data collection scripts. No unit test framework is currently configured, but you can verify functionality by:
+The project uses Python unittest for backend test coverage. Tests are located in `script/tests/` and strictly mirror the `script/` directory structure.
 
-1. Running the data collection scripts
-2. Checking the generated output files (`coupon.json`, `public/coupon.js`, `single.json`, `public/single.js`)
-3. Verifying the frontend loads correctly
+**Run Python unit tests:**
+```bash
+pipenv run python -m unittest discover -s script/tests -t script
+```
 
 **Run all data collection modes for testing:**
 ```bash
@@ -142,17 +143,19 @@ pipenv run python script/kfc.py --mode single
 - Indentation: 4 spaces
 - Use single quotes for strings unless double quotes are needed for escaping
 
-**Code Structure:**
-- Import organization: Standard library → Third-party → Local modules
-- Separate import groups with blank lines
-- Use type hints for function parameters and return values
-- Maximum function/method length: 50 statements
-- Maximum class attributes: 7
-- Maximum local variables: 15
+**Import Guidelines:**
+- All imports must be at module top-level; **NEVER** place imports inside functions or methods.
+- **NEVER** use `try...except ImportError` fallback blocks for imports; use direct, standard imports.
+- **NEVER** modify or add `__init__.py` files for `sys.path` manipulation.
+- Import organization: Standard library → Third-party → Local modules. Separate import groups with blank lines.
+
+**Test Structure Guidelines:**
+- Test files must be placed under `script/tests/` and mirror the source code structure 1-to-1 (e.g., `script/notifier/storage.py` → `script/tests/notifier/test_storage.py`).
 
 **Error Handling:**
 - Use specific exception types, avoid bare `except:`
-- Log errors with the `utils.LOG` logger
+- Log all errors with the `utils.LOG.error` logger; never silently ignore errors
+- Pure formatting functions must not swallow exceptions or silently degrade/fallback to partial text
 - API calls should retry up to 10 times on 502 errors with 0.3s delays
 - Skip invalid coupons with logging instead of crashing
 
