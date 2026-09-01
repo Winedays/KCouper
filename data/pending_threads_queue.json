@@ -1,1 +1,127 @@
-[]
+[
+  {
+    "name": "40701-優惠券",
+    "product_code": "LB816",
+    "coupon_code": 40701,
+    "price": 59,
+    "items": [
+      {
+        "name": "雙色轉轉QQ球",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-08-26",
+    "end_date": "2026-09-28",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "name": "50535-經典霸氣桶",
+    "product_code": "LB856",
+    "coupon_code": 50535,
+    "price": 333,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 8,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "南洋酸甜醬(大)",
+        "count": 0,
+        "addition_price": 16,
+        "flavors": [
+          {
+            "name": "BBQ煙燻醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "熾熱紅醬",
+            "addition_price": 16
+          },
+          {
+            "name": "冷靜白醬",
+            "addition_price": 16
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-08-26",
+    "end_date": "2026-09-21",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "name": "50548-無骨霸氣桶",
+    "product_code": "LB869",
+    "coupon_code": 50548,
+    "price": 333,
+    "items": [
+      {
+        "name": "爆脆無骨雞腿霸(不辣)",
+        "count": 8,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "熾熱紅醬",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "冷靜白醬",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "南洋酸甜醬(大)",
+        "count": 0,
+        "addition_price": 16,
+        "flavors": [
+          {
+            "name": "BBQ煙燻醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "熾熱紅醬",
+            "addition_price": 16
+          },
+          {
+            "name": "冷靜白醬",
+            "addition_price": 16
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-08-26",
+    "end_date": "2026-09-21",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
+  }
+]
