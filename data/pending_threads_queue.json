@@ -6930,5 +6930,130 @@
       4,
       5
     ]
+  },
+  {
+    "name": "50550-紙包雞套餐買一送一",
+    "product_code": "LB871",
+    "coupon_code": 50550,
+    "price": 181,
+    "items": [
+      {
+        "name": "義式香草紙包雞",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "20:00前供應雞汁風味飯",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "青花椒香麻沾醬(小)",
+        "count": 0,
+        "addition_price": 12,
+        "flavors": [
+          {
+            "name": "南洋酸甜醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "BBQ煙燻醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "韓式辣醬",
+            "addition_price": 16
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-09-15",
+    "end_date": "2026-10-05",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "name": "50549-紅豆奶皇蛋撻禮盒優惠",
+    "product_code": "LB870",
+    "coupon_code": 50549,
+    "price": 222,
+    "items": [
+      {
+        "name": "紅豆奶皇蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-09-15",
+    "end_date": "2026-10-05",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "name": "50498-優惠券",
+    "product_code": "LB830",
+    "coupon_code": 50498,
+    "price": 399,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 8,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "青花椒香麻沾醬(小)",
+        "count": 0,
+        "addition_price": 12,
+        "flavors": [
+          {
+            "name": "南洋酸甜醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "BBQ煙燻醬(大)",
+            "addition_price": 16
+          },
+          {
+            "name": "韓式辣醬",
+            "addition_price": 16
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-09-15",
+    "end_date": "2026-10-05",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
   }
 ]
