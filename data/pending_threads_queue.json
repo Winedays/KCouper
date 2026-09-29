@@ -47,5 +47,33 @@
       4,
       5
     ]
+  },
+  {
+    "name": "50552-原味蛋撻買6顆送6顆紅豆奶皇",
+    "product_code": "LB872",
+    "coupon_code": 50552,
+    "price": 294,
+    "items": [
+      {
+        "name": "原味蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "紅豆奶皇蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-09-22",
+    "end_date": "2026-10-12",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ]
   }
 ]
