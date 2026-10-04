@@ -12,11 +12,10 @@ def format_coupon_post(coupon: dict, max_length: int = MAX_THREADS_LENGTH) -> st
     end_date = coupon.get('end_date', '')
     items = coupon.get('items', [])
 
-    header = f'🍗 【肯德基新優惠券】代碼：{code}\n\n📝 {name}\n💰 特價：${price}\n📦 餐點內容：\n'
+    header = f'🍗 【肯德基新優惠券】代碼：{code}\n\n{name}\n價格：${price}\n餐點內容：\n'
     footer = (
-        f'\n⏳ 使用期限：{start_date} ~ {end_date}\n\n'
-        f'👉 查看優惠券詳細內容：https://winedays.github.io/KCouper/?coupon={code}\n\n'
-        f'#肯德基優惠券 #KFC #KCouper #速食優惠'
+        f'\n使用期限：{start_date} ~ {end_date}\n\n'
+        f'查看優惠券詳細內容：https://winedays.github.io/KCouper/?coupon={code}'
     )
 
     available_length = max_length - len(header) - len(footer)
@@ -30,6 +29,10 @@ def format_coupon_post(coupon: dict, max_length: int = MAX_THREADS_LENGTH) -> st
         if len(current_content) > available_length:
             remaining_count = len(items) - idx
             ellipsis_line = f'• ...等 {remaining_count} 項餐點\n'
+            while item_lines and len(''.join(item_lines) + ellipsis_line) > available_length:
+                item_lines.pop()
+                remaining_count = len(items) - len(item_lines)
+                ellipsis_line = f'• ...等 {remaining_count} 項餐點\n'
             if len(''.join(item_lines) + ellipsis_line) <= available_length:
                 item_lines.append(ellipsis_line)
             break

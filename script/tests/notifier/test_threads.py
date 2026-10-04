@@ -25,6 +25,16 @@ class TestNotifierThreads(unittest.TestCase):
 
         container_id = create_threads_container(mock_session, 'Test text')
         self.assertEqual(container_id, 'container_123')
+        mock_session.post.assert_called_once_with(
+            'https://graph.threads.net/v1.0/user_1/threads',
+            data={
+                'media_type': 'TEXT',
+                'text': 'Test text',
+                'topic_tag': '肯德基優惠',
+                'access_token': 'token_1',
+            },
+            timeout=30,
+        )
 
     @patch('notifier.threads.THREADS_USER_ID', 'user_1')
     @patch('notifier.threads.THREADS_ACCESS_TOKEN', 'token_1')

@@ -28,6 +28,7 @@ def create_threads_container(session: requests.Session, text: str) -> str:
     payload = {
         'media_type': 'TEXT',
         'text': text,
+        'topic_tag': '肯德基優惠',
         'access_token': THREADS_ACCESS_TOKEN,
     }
     resp = session.post(url, data=payload, timeout=30)

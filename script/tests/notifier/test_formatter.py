@@ -23,12 +23,12 @@ class TestNotifierFormatter(unittest.TestCase):
         text = format_coupon_post(coupon)
         self.assertIn('【肯德基新優惠券】代碼：24693', text)
         self.assertIn('24693-中華電信歡迎', text)
-        self.assertIn('特價：$150', text)
+        self.assertIn('價格：$150', text)
         self.assertIn('• 咔啦脆雞 x 2', text)
         self.assertIn('• 原味蛋撻 x 1', text)
         self.assertIn('使用期限：2026-08-23 ~ 2026-09-30', text)
         self.assertIn('https://winedays.github.io/KCouper/?coupon=24693', text)
-        self.assertIn('#肯德基優惠券', text)
+        self.assertNotIn('#肯德基優惠', text)
         self.assertLessEqual(len(text), 500)
 
     def test_format_coupon_with_many_items_truncation(self):
