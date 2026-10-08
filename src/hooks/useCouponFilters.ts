@@ -88,6 +88,18 @@ export const matchMealPeriod = (coupon: Coupon, filter: MealPeriodFilterType): b
   return true;
 };
 
+export type OrderTypeFilterType = "delivery" | "pickup" | null;
+
+export const matchOrderType = (coupon: Coupon, filter: OrderTypeFilterType): boolean => {
+  if (!filter) return true;
+  if (!coupon.order_types || coupon.order_types.length === 0) return true;
+
+  if (filter === "delivery") {
+    return coupon.order_types.includes(1);
+  }
+  return coupon.order_types.includes(2);
+};
+
 export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStates, setFilterStates] = useState<Record<ItemFilterId, FilterState>>({} as Record<ItemFilterId, FilterState>);
@@ -118,6 +130,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [mealPeriodFilter, setMealPeriodFilter] = useState<MealPeriodFilterType>(() =>
     getCurrentMealPeriodFilter()
   );
+  const [orderTypeFilter, setOrderTypeFilter] = useState<OrderTypeFilterType>(null);
   const [primarySort, setPrimarySort] = useState<SortOption>("price-asc");
   const [secondarySort, setSecondarySort] = useState<SecondarySortOption>("none");
 
@@ -177,11 +190,16 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     setMealPeriodFilter((prev) => (prev === period ? null : period));
   }, []);
 
+  const handleOrderTypeToggle = useCallback((type: "delivery" | "pickup") => {
+    setOrderTypeFilter((prev) => (prev === type ? null : type));
+  }, []);
+
   const handleClearFilters = useCallback(() => {
     setFilterStates({});
     setShowFavoritesOnly(false);
     setPriceRange(null);
     setMealPeriodFilter(null);
+    setOrderTypeFilter(null);
   }, []);
 
   const handleToggleFavorites = useCallback(() => {
@@ -199,6 +217,11 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
 
       // Meal period filter
       if (!matchMealPeriod(coupon, mealPeriodFilter)) {
+        return false;
+      }
+
+      // Order type filter
+      if (!matchOrderType(coupon, orderTypeFilter)) {
         return false;
       }
 
@@ -269,7 +292,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
 
       return a.coupon_code - b.coupon_code;
     });
-  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, mealPeriodFilter, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
+  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, mealPeriodFilter, orderTypeFilter, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
 
   return {
     searchQuery,
@@ -280,6 +303,8 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     mealPeriodFilter,
     setMealPeriodFilter,
     handleMealPeriodToggle,
+    orderTypeFilter,
+    handleOrderTypeToggle,
     primarySort,
     setPrimarySort: handlePrimarySortChange,
     secondarySort,

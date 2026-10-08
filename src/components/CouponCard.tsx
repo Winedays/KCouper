@@ -80,12 +80,24 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
     return labels;
   };
 
+  const getOrderTypeLabels = (types?: number[]) => {
+    if (!types || types.length === 0) return [];
+    const labels: string[] = [];
+    if (types.includes(1)) labels.push("外送");
+    if (types.includes(2)) labels.push("自取");
+    return labels;
+  };
+
   const handleOrderClick = (e: React.MouseEvent<HTMLAnchorElement>, productCode: string) => {
     e.preventDefault();
     const originalHref = `https://www.kfcclub.com.tw/meal/${productCode}`;
     const trackingUrl = `https://afftkr.site/track/clicks/9452/c627c2bc980822defc8fec23d62e9e4527674ecb63b2a0f90e64b70771401de3c021e7e5593c99616c?t=${encodeURIComponent(encodeURIComponent(originalHref))}`;
     window.open(trackingUrl, '_blank');
   };
+
+  const mealPeriodLabels = getMealPeriodLabels(coupon.meal_periods) ?? [];
+  const orderTypeLabels = getOrderTypeLabels(coupon.order_types);
+  const hasBadges = mealPeriodLabels.length > 0 || orderTypeLabels.length > 0;
 
   return (
     <>
@@ -124,10 +136,25 @@ const CouponCard = ({ coupon, index, favorites, onToggleFavorite, isFirstCard = 
             </h3>
           </div>
 
-          {/* Meal period badges */}
-          {coupon.meal_periods && coupon.meal_periods.length > 0 && (
+          {/* Meal period & order type badges */}
+          {hasBadges && (
             <div className="mb-3 flex flex-wrap items-center gap-1 text-[11px]">
-              {getMealPeriodLabels(coupon.meal_periods)?.map((label) => (
+              {mealPeriodLabels.map((label) => (
+                <span
+                  key={label}
+                  className="rounded-md bg-secondary px-2 py-0.5 font-medium text-secondary-foreground"
+                >
+                  {label}
+                </span>
+              ))}
+              {mealPeriodLabels.length > 0 && orderTypeLabels.length > 0 && (
+                <div
+                  data-testid="badge-divider"
+                  className="h-3 w-px bg-border shrink-0 mx-0.5"
+                  aria-hidden="true"
+                />
+              )}
+              {orderTypeLabels.map((label) => (
                 <span
                   key={label}
                   className="rounded-md bg-secondary px-2 py-0.5 font-medium text-secondary-foreground"

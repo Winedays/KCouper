@@ -39,6 +39,49 @@ describe("CouponCard", () => {
     vi.clearAllMocks();
   });
 
+  describe("取餐方式標籤", () => {
+    it("兩者皆適用時應顯示外送與自取", () => {
+      render(<CouponCard {...defaultProps} coupon={{ ...mockCoupon, order_types: [1, 2] }} />);
+      expect(screen.getByText("外送")).toBeInTheDocument();
+      expect(screen.getByText("自取")).toBeInTheDocument();
+    });
+
+    it("只適用自取時只顯示自取", () => {
+      render(<CouponCard {...defaultProps} coupon={{ ...mockCoupon, order_types: [2] }} />);
+      expect(screen.getByText("自取")).toBeInTheDocument();
+      expect(screen.queryByText("外送")).not.toBeInTheDocument();
+    });
+
+    it("沒有 order_types 時不顯示標籤", () => {
+      render(<CouponCard {...defaultProps} />);
+      expect(screen.queryByText("外送")).not.toBeInTheDocument();
+      expect(screen.queryByText("自取")).not.toBeInTheDocument();
+    });
+
+    it("同時有用餐時段與取餐方式標籤時應顯示分隔線", () => {
+      render(
+        <CouponCard
+          {...defaultProps}
+          coupon={{ ...mockCoupon, meal_periods: [2], order_types: [1, 2] }}
+        />
+      );
+      expect(screen.getByTestId("badge-divider")).toBeInTheDocument();
+    });
+
+    it("僅有一種標籤或無標籤時不應顯示分隔線", () => {
+      const { rerender } = render(
+        <CouponCard {...defaultProps} coupon={{ ...mockCoupon, meal_periods: [2] }} />
+      );
+      expect(screen.queryByTestId("badge-divider")).not.toBeInTheDocument();
+
+      rerender(<CouponCard {...defaultProps} coupon={{ ...mockCoupon, order_types: [1] }} />);
+      expect(screen.queryByTestId("badge-divider")).not.toBeInTheDocument();
+
+      rerender(<CouponCard {...defaultProps} />);
+      expect(screen.queryByTestId("badge-divider")).not.toBeInTheDocument();
+    });
+  });
+
   describe("渲染", () => {
     it("應該顯示優惠券名稱", () => {
       render(<CouponCard {...defaultProps} />);

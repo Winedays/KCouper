@@ -26,7 +26,7 @@ def normalize_name(name: str) -> str:
     return name
 
 
-def convert_coupon_data(data: dict, coupon_code: str, meal_periods: list = None):
+def convert_coupon_data(data: dict, coupon_code: str, meal_periods: list, order_types: list):
     try:
         detail = data['FoodDetail']
     except KeyError:
@@ -71,6 +71,7 @@ def convert_coupon_data(data: dict, coupon_code: str, meal_periods: list = None)
         'start_date': get_date(detail['StartDate']),
         'end_date': get_date(detail['EndDate']),
         'meal_periods': meal_periods or [],
+        'order_types': order_types,
     }
 
 
@@ -92,7 +93,7 @@ def get_coupon_data(session: requests.Session, coupon_code: str):
     msg = resp.get('Message', '')
     if msg == '無效的票劵' or msg.startswith('此優惠代碼目前無法使用'):
         LOG.debug('coupon code(%s) is invalid', coupon_code)
-        return None, []
+        return None, [], []
     if msg != 'OK' or not resp.get('Success'):
         msg = f'get voucher info response error, coupon code {coupon_code}, json: {resp}'
         LOG.error(msg)
@@ -102,35 +103,35 @@ def get_coupon_data(session: requests.Session, coupon_code: str):
         product_code = resp['Data']['productCode']
     except KeyError:
         LOG.error('get product code error: coupon code: %s, json: %s', coupon_code, resp)
-        return None, []
+        return None, [], []
 
     date = datetime.now(timezone(timedelta(hours=8))).strftime('%Y/%m/%d')
-    meal_periods = []
-    for period in range(1, 6):
-        resp = api_caller(
-            session,
-            'https://olo-api.kfcclub.com.tw/customer/v1/checkCouponProduct',
-            {
-                'orderDate': date,
-                'orderType': '2',
-                'mealPeriod': f'{period}',
-                'shopCode': SHOP_CODE,
-                'couponCode': coupon_code,
-                'memberId': '',
-            },
-            'check voucher valid',
-        )
-        if resp.get('Message') == 'OK' and resp.get('Success') is True:
-            meal_periods.append(period)
+    valid_combos = []
+    for order_type in (1, 2):
+        for period in range(1, 6):
+            resp = api_caller(
+                session,
+                'https://olo-api.kfcclub.com.tw/customer/v1/checkCouponProduct',
+                {
+                    'orderDate': date,
+                    'orderType': f'{order_type}',
+                    'mealPeriod': f'{period}',
+                    'shopCode': SHOP_CODE,
+                    'couponCode': coupon_code,
+                    'memberId': '',
+                },
+                'check voucher valid',
+            )
+            if resp.get('Message') == 'OK' and resp.get('Success') is True:
+                valid_combos.append((order_type, period))
 
-    if not meal_periods:
+    if not valid_combos:
         LOG.debug('coupon code(%s) is invalid in all periods', coupon_code)
-        return None, []
+        return None, [], []
 
-    valid_meal_periods = list(meal_periods)
     food_data = None
 
-    for period in list(meal_periods):
+    for order_type, period in list(valid_combos):
         resp = api_caller(
             session,
             'https://olo-api.kfcclub.com.tw/menu/v1/GetQueryFoodDetail',
@@ -139,7 +140,7 @@ def get_coupon_data(session: requests.Session, coupon_code: str):
                 'fcode': product_code,
                 'menuid': '',
                 'mealperiod': f'{period}',
-                'ordertype': '2',
+                'ordertype': f'{order_type}',
                 'orderdate': date,
             },
             'get voucher food',
@@ -154,13 +155,15 @@ def get_coupon_data(session: requests.Session, coupon_code: str):
             food_data = data
             break
 
-        valid_meal_periods.remove(period)
+        valid_combos.remove((order_type, period))
 
-    if not food_data or not valid_meal_periods:
+    if not food_data or not valid_combos:
         LOG.debug('coupon code(%s) is invalid (food detail is null for all periods)', coupon_code)
-        return None, []
+        return None, [], []
 
-    return food_data, valid_meal_periods
+    meal_periods = sorted({period for _, period in valid_combos})
+    order_types = sorted({order_type for order_type, _ in valid_combos})
+    return food_data, meal_periods, order_types
 
 
 def query_coupon(quick=False):
@@ -191,7 +194,7 @@ def query_coupon(quick=False):
 
             LOG.info('getting coupon %d...', coupon_code)
             try:
-                data, meal_periods = get_coupon_data(session, coupon_code)
+                data, meal_periods, order_types = get_coupon_data(session, coupon_code)
             except (KeyError, ValueError) as e:
                 LOG.error(str(e))
                 continue
@@ -199,7 +202,7 @@ def query_coupon(quick=False):
                 continue
 
             try:
-                food_data = convert_coupon_data(data, coupon_code, meal_periods)
+                food_data = convert_coupon_data(data, coupon_code, meal_periods, order_types)
             except (KeyError, ValueError) as e:
                 LOG.error(str(e))
                 continue

@@ -15,6 +15,7 @@ This tool interacts with KFC Taiwan's online ordering API to gather coupon infor
 
 3. **Coupon Data Collection** (for each coupon range)
    - `get_coupon_data()`: Calls `getEVoucherAPI`, `checkCouponProduct`, `GetQueryFoodDetail`
+   - `checkCouponProduct` is called for each order type (`1` = delivery, `2` = pickup) and meal period (`1`-`5`). Each coupon stores the applicable `order_types` (e.g. `[1, 2]`) and `meal_periods` as the union of valid meal periods
 
 #### Quick Mode (`--mode quick`)
 Performs an incremental update similar to main mode but reuses valid existing coupon data to speed up the collection process.
@@ -49,7 +50,7 @@ Performs an incremental update similar to main mode but reuses valid existing co
 ```json
 {
   "shopCode": "TWI104",     // Shop code (string)
-  "orderType": "2",         // Order type: "2" for delivery (string)
+  "orderType": "2",         // Order type: "1" for delivery, "2" for pickup (string)
   "platform": "1"           // Platform identifier (string)
 }
 ```
@@ -118,7 +119,7 @@ Performs an incremental update similar to main mode but reuses valid existing co
 ```json
 {
   "shopCode": "TWI104",     // Shop code (string)
-  "orderType": "2",         // Order type: "2" for delivery (string)
+  "orderType": "2",         // Order type: "1" for delivery, "2" for pickup (string)
   "orderDate": "2025/01/13", // Order date in YYYY/MM/DD format (string)
   "addQt": "0",             // Additional quota (string)
   "sdeQt": "0"              // Side quota (string)
@@ -157,7 +158,7 @@ Performs an incremental update similar to main mode but reuses valid existing co
   "voucherNo": "24693",     // Voucher/coupon code (string)
   "phone": "",              // Phone number (empty string)
   "memberId": "",           // Member ID (empty string)
-  "orderType": "2",         // Order type: "2" for delivery (string)
+  "orderType": "2",         // Order type: "1" for delivery, "2" for pickup (string)
   "mealPeriod": "3",        // Meal period: "1"=breakfast, "2"=lunch, "3"=dinner, "4"=supper (string)
   "shopCode": "TWI104"      // Shop code (string)
 }
@@ -191,7 +192,7 @@ Performs an incremental update similar to main mode but reuses valid existing co
 ```json
 {
   "orderDate": "2025/01/13", // Order date in YYYY/MM/DD format (string)
-  "orderType": "2",         // Order type: "2" for delivery (string)
+  "orderType": "2",         // Order type: "1" for delivery, "2" for pickup (string)
   "mealPeriod": "3",        // Meal period: "1"=breakfast, "2"=lunch, "3"=dinner, "4"=supper (string)
   "shopCode": "TWI104",     // Shop code (string)
   "couponCode": "24693",    // Coupon code (string)
@@ -218,7 +219,7 @@ Performs an incremental update similar to main mode but reuses valid existing co
   "fcode": "TA5484",        // Food code (string)
   "menuid": "",             // Menu ID (empty string)
   "mealperiod": "3",        // Meal period: "1"=breakfast, "2"=lunch, "3"=dinner, "4"=supper (string)
-  "ordertype": "2",         // Order type: "2" for delivery (string)
+  "ordertype": "2",         // Order type: "1" for delivery, "2" for pickup (string)
   "orderdate": "2025/01/13" // Order date in YYYY/MM/DD format (string)
 }
 ```

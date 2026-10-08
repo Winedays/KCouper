@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Search, X, Heart, SlidersHorizontal, Info, DollarSign, ChevronDown, Plus, Minus, Clock } from "lucide-react";
+import { Search, X, Heart, SlidersHorizontal, Info, DollarSign, ChevronDown, Plus, Minus, Clock, Truck } from "lucide-react";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 import { cn } from "@/lib/utils";
 import { itemFilters, type ItemFilterId } from "./ItemFilter";
-import { type ActiveFiltersMap, type MealPeriodFilterType } from "@/hooks/useCouponFilters";
+import { type ActiveFiltersMap, type MealPeriodFilterType, type OrderTypeFilterType } from "@/hooks/useCouponFilters";
 import SortSelect, { type SortOption, type SecondarySortOption } from "./SortSelect";
 import {
   Popover,
@@ -19,6 +19,12 @@ const MEAL_PERIOD_OPTIONS: { id: "breakfast" | "lunch" | "dinner"; label: string
   { id: "breakfast", label: "早餐", emoji: "🌅", time: "08:00~10:30" },
   { id: "lunch", label: "午餐", emoji: "☀️", time: "10:30~17:00" },
   { id: "dinner", label: "晚餐", emoji: "🌙", time: "17:00~23:00" },
+];
+
+/** Order type filter options */
+const ORDER_TYPE_OPTIONS: { id: "delivery" | "pickup"; label: string; emoji: string }[] = [
+  { id: "delivery", label: "外送", emoji: "🛵" },
+  { id: "pickup", label: "自取", emoji: "🏪" },
 ];
 
 /** Price range quick-select presets */
@@ -37,6 +43,8 @@ type SearchPanelProps = {
   excludeFilters?: Set<ItemFilterId>;
   mealPeriodFilter?: MealPeriodFilterType;
   onMealPeriodToggle?: (period: "breakfast" | "lunch" | "dinner") => void;
+  orderTypeFilter?: OrderTypeFilterType;
+  onOrderTypeToggle?: (type: "delivery" | "pickup") => void;
   onFilterToggle: (filter: ItemFilterId) => void;
   onFilterCountChange: (filter: ItemFilterId, delta: number) => void;
   onClearAll: () => void;
@@ -79,6 +87,8 @@ const SearchPanel = ({
   excludeFilters = new Set(),
   mealPeriodFilter = null,
   onMealPeriodToggle,
+  orderTypeFilter = null,
+  onOrderTypeToggle,
   onFilterToggle,
   onFilterCountChange,
   onClearAll,
@@ -102,6 +112,7 @@ const SearchPanel = ({
     excludeFilters.size > 0 ||
     showFavoritesOnly ||
     mealPeriodFilter !== null ||
+    orderTypeFilter !== null ||
     priceRange !== null;
 
   /** Local slider state for the custom popover */
@@ -142,6 +153,32 @@ const SearchPanel = ({
             onClick={() => onMealPeriodToggle?.(option.id)}
             aria-pressed={isActive}
             title={`${option.label} (${option.time})`}
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
+              isActive
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            )}
+          >
+            <span>{option.emoji}</span>
+            <span>{option.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  const renderOrderTypeFilters = () => (
+    <div className="flex shrink-0 items-center gap-1.5">
+      <Truck className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+      {ORDER_TYPE_OPTIONS.map((option) => {
+        const isActive = orderTypeFilter === option.id;
+        return (
+          <button
+            key={option.id}
+            onClick={() => onOrderTypeToggle?.(option.id)}
+            aria-pressed={isActive}
+            title={option.label}
             className={cn(
               "inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200",
               isActive
@@ -378,10 +415,12 @@ const SearchPanel = ({
             </div>
           </div>
 
-          {/* Desktop Row 2 (sm+): Meal Periods + Price Filters combined */}
+          {/* Desktop Row 2 (sm+): Meal Periods + Order Types + Price Filters combined */}
           <div className="hidden sm:flex items-center justify-between gap-2 pt-1">
             <div className="flex flex-1 items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {renderMealPeriodFilters()}
+              <div className="h-5 w-px bg-border shrink-0" />
+              {renderOrderTypeFilters()}
               <div className="h-5 w-px bg-border shrink-0" />
               {renderPriceFilters()}
             </div>
@@ -398,9 +437,11 @@ const SearchPanel = ({
             )}
           </div>
 
-          {/* Mobile Row 2 (< sm): Meal Period Filters */}
+          {/* Mobile Row 2 (< sm): Meal Period + Order Type Filters */}
           <div className="flex sm:hidden items-center gap-2 overflow-x-auto pb-1 scrollbar-hide pt-1">
             {renderMealPeriodFilters()}
+            <div className="h-5 w-px bg-border shrink-0" />
+            {renderOrderTypeFilters()}
           </div>
 
           {/* Mobile Row 3 (< sm): Price Filters + Clear Button */}

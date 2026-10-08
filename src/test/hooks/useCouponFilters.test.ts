@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useCouponFilters } from "@/hooks/useCouponFilters";
+import { useCouponFilters, matchOrderType } from "@/hooks/useCouponFilters";
 import type { Coupon } from "@/data/coupons";
 
 /**
@@ -214,6 +214,82 @@ describe("useCouponFilters", () => {
       act(() => result.current.handleToggleFavorites());
       expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
       expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(10001);
+    });
+  });
+
+  describe("外送/自取篩選", () => {
+    const ORDER_TYPE_COUPONS: Coupon[] = [
+      makeCoupon({ coupon_code: 1, price: 10, order_types: [2] }),
+      makeCoupon({ coupon_code: 2, price: 20, order_types: [1, 2] }),
+      makeCoupon({ coupon_code: 3, price: 30, order_types: [1] }),
+      makeCoupon({ coupon_code: 4, price: 40 }),
+    ];
+
+    it("預設不篩選", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      expect(result.current.orderTypeFilter).toBeNull();
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(4);
+    });
+
+    it("外送應顯示含外送與未標記的優惠券", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      act(() => result.current.handleOrderTypeToggle("delivery"));
+      expect(result.current.filteredAndSortedCoupons.map((c) => c.coupon_code)).toEqual([2, 3, 4]);
+    });
+
+    it("自取應顯示含自取與未標記的優惠券", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      act(() => result.current.handleOrderTypeToggle("pickup"));
+      expect(result.current.filteredAndSortedCoupons.map((c) => c.coupon_code)).toEqual([1, 2, 4]);
+    });
+
+    it("再點一次應取消篩選", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      act(() => result.current.handleOrderTypeToggle("delivery"));
+      act(() => result.current.handleOrderTypeToggle("delivery"));
+      expect(result.current.orderTypeFilter).toBeNull();
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(4);
+    });
+
+    it("切換到另一個選項應為單選", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      act(() => result.current.handleOrderTypeToggle("delivery"));
+      act(() => result.current.handleOrderTypeToggle("pickup"));
+      expect(result.current.orderTypeFilter).toBe("pickup");
+    });
+
+    it("清除篩選應重設外送/自取", () => {
+      const { result } = setup(ORDER_TYPE_COUPONS);
+      act(() => result.current.handleOrderTypeToggle("delivery"));
+      act(() => result.current.handleClearFilters());
+      expect(result.current.orderTypeFilter).toBeNull();
+    });
+
+    describe("matchOrderType", () => {
+      it("filter 為 null 時一律符合", () => {
+        expect(matchOrderType(makeCoupon({ order_types: [2] }), null)).toBe(true);
+      });
+
+      it("缺少 order_types 時一律符合", () => {
+        expect(matchOrderType(makeCoupon(), "delivery")).toBe(true);
+        expect(matchOrderType(makeCoupon(), "pickup")).toBe(true);
+      });
+
+      it("order_types 為空陣列時一律符合", () => {
+        expect(matchOrderType(makeCoupon({ order_types: [] }), "delivery")).toBe(true);
+      });
+
+      it("只有自取的券不符合外送", () => {
+        const coupon = makeCoupon({ order_types: [2] });
+        expect(matchOrderType(coupon, "pickup")).toBe(true);
+        expect(matchOrderType(coupon, "delivery")).toBe(false);
+      });
+
+      it("只有外送的券不符合自取", () => {
+        const coupon = makeCoupon({ order_types: [1] });
+        expect(matchOrderType(coupon, "delivery")).toBe(true);
+        expect(matchOrderType(coupon, "pickup")).toBe(false);
+      });
     });
   });
 

@@ -160,6 +160,43 @@ describe("SearchPanel", () => {
     });
   });
 
+  describe("外送/自取篩選", () => {
+    it("應該渲染外送與自取按鈕", () => {
+      render(<SearchPanel {...defaultProps} />);
+      expect(screen.getAllByRole("button", { name: /外送/ }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole("button", { name: /自取/ }).length).toBeGreaterThan(0);
+    });
+
+    it("點擊外送應呼叫 onOrderTypeToggle('delivery')", () => {
+      const onOrderTypeToggle = vi.fn();
+      render(<SearchPanel {...defaultProps} onOrderTypeToggle={onOrderTypeToggle} />);
+      fireEvent.click(screen.getAllByRole("button", { name: /外送/ })[0]);
+      expect(onOrderTypeToggle).toHaveBeenCalledWith("delivery");
+    });
+
+    it("點擊自取應呼叫 onOrderTypeToggle('pickup')", () => {
+      const onOrderTypeToggle = vi.fn();
+      render(<SearchPanel {...defaultProps} onOrderTypeToggle={onOrderTypeToggle} />);
+      fireEvent.click(screen.getAllByRole("button", { name: /自取/ })[0]);
+      expect(onOrderTypeToggle).toHaveBeenCalledWith("pickup");
+    });
+
+    it("選中的選項 aria-pressed 應為 true", () => {
+      render(<SearchPanel {...defaultProps} orderTypeFilter="pickup" />);
+      screen.getAllByRole("button", { name: /自取/ }).forEach((button) => {
+        expect(button).toHaveAttribute("aria-pressed", "true");
+      });
+      screen.getAllByRole("button", { name: /外送/ }).forEach((button) => {
+        expect(button).toHaveAttribute("aria-pressed", "false");
+      });
+    });
+
+    it("啟用外送/自取篩選時應該顯示清除按鈕", () => {
+      render(<SearchPanel {...defaultProps} orderTypeFilter="delivery" />);
+      expect(screen.getAllByText("清除").length).toBeGreaterThan(0);
+    });
+  });
+
   describe("結果計數", () => {
     it("應該顯示結果數量", () => {
       render(<SearchPanel {...defaultProps} resultCount={256} />);

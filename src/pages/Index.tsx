@@ -44,6 +44,8 @@ const Index = () => {
     showFavoritesOnly,
     mealPeriodFilter,
     handleMealPeriodToggle,
+    orderTypeFilter,
+    handleOrderTypeToggle,
     primarySort,
     setPrimarySort,
     secondarySort,
@@ -143,6 +145,8 @@ const Index = () => {
           excludeFilters={excludeFilters}
           mealPeriodFilter={mealPeriodFilter}
           onMealPeriodToggle={handleMealPeriodToggle}
+          orderTypeFilter={orderTypeFilter}
+          onOrderTypeToggle={handleOrderTypeToggle}
           onFilterToggle={handleFilterToggle}
           onFilterCountChange={handleFilterCountChange}
           onClearAll={handleClearFilters}

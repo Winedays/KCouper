@@ -34,6 +34,7 @@ export type CouponItem = {
  * @property {number} original_price - The original price of the coupon
  * @property {number} discount - The discount of the coupon
  * @property {number[]} [meal_periods] - Available meal periods (1: 早餐, 2: 午餐, 3: 下午茶, 4: 晚餐, 5: 宵夜)
+ * @property {number[]} [order_types] - Available order types (1: 外送, 2: 自取)
  */
 export type Coupon = {
   name: string;
@@ -46,6 +47,7 @@ export type Coupon = {
   original_price: number;
   discount: number;
   meal_periods?: number[];
+  order_types?: number[];
 };
 
 /**
