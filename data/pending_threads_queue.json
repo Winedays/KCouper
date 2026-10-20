@@ -1,1 +1,5249 @@
-[]
+[
+  {
+    "name": "16920-歲末驚喜點G",
+    "product_code": "TA10643",
+    "coupon_code": 16920,
+    "price": 74,
+    "items": [
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16904-濃湯暖心組",
+    "product_code": "TA10672",
+    "coupon_code": 16904,
+    "price": 75,
+    "items": [
+      {
+        "name": "10顆雙色轉轉QQ球+1份香酥脆薯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16919-歲末驚喜點F",
+    "product_code": "TA10642",
+    "coupon_code": 16919,
+    "price": 83,
+    "items": [
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16864-國泰APP88",
+    "product_code": "TA10624",
+    "coupon_code": 16864,
+    "price": 88,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "百事可樂(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "熱紅茶",
+            "addition_price": 3
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 5
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16866-M11好時機",
+    "product_code": "TA10638",
+    "coupon_code": 16866,
+    "price": 88,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "百事可樂(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "熱紅茶",
+            "addition_price": 3
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 5
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-02-28",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16913-卡拉情堡讚G",
+    "product_code": "TA10650",
+    "coupon_code": 16913,
+    "price": 88,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16918-歲末驚喜點E",
+    "product_code": "TA10655",
+    "coupon_code": 16918,
+    "price": 97,
+    "items": [
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16868-M11暖心點",
+    "product_code": "TA10639",
+    "coupon_code": 16868,
+    "price": 98,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-02-28",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "50546-闇黑之吻蛋撻嚐鮮券",
+    "product_code": "LB874",
+    "coupon_code": 50546,
+    "price": 101,
+    "items": [
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "闇黑之吻蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-11-02",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "16885-國票證券獨享",
+    "product_code": "TA10635",
+    "coupon_code": 16885,
+    "price": 109,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16861-遠傳雙11驚喜",
+    "product_code": "TA10623",
+    "coupon_code": 16861,
+    "price": 111,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "無糖綠茶(中)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 10
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 14
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16917-歲末驚喜點D",
+    "product_code": "TA10654",
+    "coupon_code": 16917,
+    "price": 115,
+    "items": [
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16910-卡拉情堡讚D",
+    "product_code": "TA10647",
+    "coupon_code": 16910,
+    "price": 116,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16916-歲末驚喜點C",
+    "product_code": "TA10653",
+    "coupon_code": 16916,
+    "price": 116,
+    "items": [
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16878-封王必勝食雞",
+    "product_code": "TA10628",
+    "coupon_code": 16878,
+    "price": 118,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "經典冰奶茶",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-12-20",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16880-秋冬午茶首選",
+    "product_code": "TA10617",
+    "coupon_code": 16880,
+    "price": 118,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "經典冰奶茶",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-04-30",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16882-中華電信必勝",
+    "product_code": "TA10634",
+    "coupon_code": 16882,
+    "price": 118,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "經典冰奶茶",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "無糖紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-04-07",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16907-卡拉情堡讚A",
+    "product_code": "TA10644",
+    "coupon_code": 16907,
+    "price": 119,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊4塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16912-卡拉情堡讚F",
+    "product_code": "TA10649",
+    "coupon_code": 16912,
+    "price": 123,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "鱈魚圈圈",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16915-歲末驚喜點B",
+    "product_code": "TA10652",
+    "coupon_code": 16915,
+    "price": 125,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16871-Yahoo購物激推",
+    "product_code": "TA10631",
+    "coupon_code": 16871,
+    "price": 135,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "上校雞塊4塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-02-28",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16887-國票證券元氣",
+    "product_code": "TA10637",
+    "coupon_code": 16887,
+    "price": 135,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-15",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16908-卡拉情堡讚B",
+    "product_code": "TA10645",
+    "coupon_code": 16908,
+    "price": 137,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16911-卡拉情堡讚E",
+    "product_code": "TA10648",
+    "coupon_code": 16911,
+    "price": 137,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "黃金超蝦塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16890-能量享樂餐",
+    "product_code": "TA10658",
+    "coupon_code": 16890,
+    "price": 141,
+    "items": [
+      {
+        "name": "爆脆無骨雞腿霸(不辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16886-國票證券饗宴",
+    "product_code": "TA10636",
+    "coupon_code": 16886,
+    "price": 159,
+    "items": [
+      {
+        "name": "蒜香白醬脆雞飯",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16872-Yahoo購物堡胃",
+    "product_code": "TA10632",
+    "coupon_code": 16872,
+    "price": 165,
+    "items": [
+      {
+        "name": "雙層咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-02-28",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16883-PK門市雙堡",
+    "product_code": "TA10618",
+    "coupon_code": 16883,
+    "price": 168,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(中)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 10
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 14
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-04-30",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16909-卡拉情堡讚C",
+    "product_code": "TA10646",
+    "coupon_code": 16909,
+    "price": 168,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "薯餅",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16893-青花享樂",
+    "product_code": "TA10661",
+    "coupon_code": 16893,
+    "price": 175,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "4塊雞塊+小薯",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16865-國泰APP青花椒",
+    "product_code": "TA10625",
+    "coupon_code": 16865,
+    "price": 177,
+    "items": [
+      {
+        "name": "青花椒香麻咔啦雞腿堡",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16894-青花五件組",
+    "product_code": "TA10662",
+    "coupon_code": 16894,
+    "price": 189,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "爆脆無骨雞腿霸(不辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16914-歲末驚喜點A",
+    "product_code": "TA10651",
+    "coupon_code": 16914,
+    "price": 189,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "薯餅",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16888-霸氣享樂餐",
+    "product_code": "TA10656",
+    "coupon_code": 16888,
+    "price": 193,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(中)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "香酥脆薯(大)",
+            "addition_price": 17
+          }
+        ]
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16889-元氣超值組",
+    "product_code": "TA10657",
+    "coupon_code": 16889,
+    "price": 194,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "青花椒香麻咔啦雞腿堡",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "4塊上校雞塊+1顆原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16891-秋冬能量",
+    "product_code": "TA10659",
+    "coupon_code": 16891,
+    "price": 199,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "雙層咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16901-一起午晚餐",
+    "product_code": "TA10669",
+    "coupon_code": 16901,
+    "price": 233,
+    "items": [
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "青花椒香麻咔啦雞腿堡",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "4塊上校雞塊+1顆原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16877-封王雙料冠軍",
+    "product_code": "TA10627",
+    "coupon_code": 16877,
+    "price": 245,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-07",
+    "end_date": "2026-12-20",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16881-中華電信冠軍",
+    "product_code": "TA10633",
+    "coupon_code": 16881,
+    "price": 245,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16902-今日特餐",
+    "product_code": "TA10670",
+    "coupon_code": 16902,
+    "price": 250,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "青花椒香麻咔啦雞腿堡",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "1顆原味蛋撻 +1份香酥脆薯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16892-伴伴好時光",
+    "product_code": "TA10660",
+    "coupon_code": 16892,
+    "price": 283,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16895-元氣桶特餐",
+    "product_code": "TA10663",
+    "coupon_code": 16895,
+    "price": 299,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16897-必點好時光",
+    "product_code": "TA10665",
+    "coupon_code": 16897,
+    "price": 299,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16899-歲末歡聚七件",
+    "product_code": "TA10667",
+    "coupon_code": 16899,
+    "price": 306,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "4塊雞塊+小薯",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16896-超值幸福點",
+    "product_code": "TA10664",
+    "coupon_code": 16896,
+    "price": 313,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16898-六塊歡聚點",
+    "product_code": "TA10666",
+    "coupon_code": 16898,
+    "price": 313,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16905-333特餐",
+    "product_code": "TA10673",
+    "coupon_code": 16905,
+    "price": 333,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "4塊上校雞塊+1顆原味蛋撻+10顆雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16906-派對時光333",
+    "product_code": "TA10674",
+    "coupon_code": 16906,
+    "price": 333,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "4雞塊+原蛋+小薯",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16692-全家福袋開運",
+    "product_code": "TA10626",
+    "coupon_code": 16692,
+    "price": 350,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "10顆雙色轉轉QQ球+1份香酥脆薯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16903-好物推薦",
+    "product_code": "TA10671",
+    "coupon_code": 16903,
+    "price": 374,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "4塊上校雞塊+1顆原味蛋撻+10顆雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16860-遠傳雙11繽紛",
+    "product_code": "TA10622",
+    "coupon_code": 16860,
+    "price": 388,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "10顆雙色轉轉QQ球+1顆原味蛋撻",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "瓶裝百事可樂",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16900-周末八件組",
+    "product_code": "TA10668",
+    "coupon_code": 16900,
+    "price": 392,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16884-PK互導聚堡",
+    "product_code": "TA10616",
+    "coupon_code": 16884,
+    "price": 398,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 4,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "咔啦雞腿堡(辣)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "1顆原味蛋撻 +1份香酥脆薯(小)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "2入原味蛋撻超極酥",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(中)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 10
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 14
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-04-30",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16756-台哥大歡聚",
+    "product_code": "TA10620",
+    "coupon_code": 16756,
+    "price": 399,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 3,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "26302-屈臣氏暖心",
+    "product_code": "TA10621",
+    "coupon_code": 26302,
+    "price": 449,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "玉米濃湯(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 0
+          },
+          {
+            "name": "可樂(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "冰無糖綠茶(中)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 0
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16452-台新信用卡繽紛",
+    "product_code": "TA10619",
+    "coupon_code": 16452,
+    "price": 588,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 6,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "黃金超蝦塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "鱈魚圈圈",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "薯條(大)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "瓶裝百事可樂",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2027-03-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      2
+    ]
+  },
+  {
+    "name": "16867-M11派對神器",
+    "product_code": "TA10640",
+    "coupon_code": 16867,
+    "price": 899,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 12,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 12,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "香酥脆薯(中)",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "瓶裝百事可樂",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-12-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "16869-M11爆買嚴選",
+    "product_code": "TA10641",
+    "coupon_code": 16869,
+    "price": 899,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "爆脆無骨雞腿霸(不辣)",
+        "count": 8,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊",
+        "count": 20,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 12,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "瓶裝百事可樂",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-12-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "16870-Yahoo購物半半",
+    "product_code": "TA10630",
+    "coupon_code": 16870,
+    "price": 899,
+    "items": [
+      {
+        "name": "青花椒香麻脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 5,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 12,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "上校雞塊8塊",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "薯條(大)",
+        "count": 3,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "雙色轉轉QQ球",
+        "count": 1,
+        "addition_price": 0,
+        "flavors": []
+      },
+      {
+        "name": "無糖綠茶(小)",
+        "count": 2,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "百事可樂(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "七喜(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "立頓檸檬風味紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "阿薩姆無糖紅茶(小)",
+            "addition_price": 0
+          },
+          {
+            "name": "經典熱奶茶(小)",
+            "addition_price": 2
+          },
+          {
+            "name": "無糖綠茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "百事可樂(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "七喜(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "立頓檸檬風味紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "阿薩姆無糖紅茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "經典冰奶茶",
+            "addition_price": 5
+          },
+          {
+            "name": "經典熱奶茶(中)",
+            "addition_price": 5
+          },
+          {
+            "name": "蘋果汁",
+            "addition_price": 7
+          },
+          {
+            "name": "玉米濃湯(小)",
+            "addition_price": 7
+          },
+          {
+            "name": "蜂蜜風味紅茶",
+            "addition_price": 15
+          },
+          {
+            "name": "玉米濃湯(大)",
+            "addition_price": 19
+          }
+        ]
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-12-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "16863-國泰app聖誕",
+    "product_code": "TA10629",
+    "coupon_code": 16863,
+    "price": 1088,
+    "items": [
+      {
+        "name": "咔啦脆雞(辣)",
+        "count": 18,
+        "addition_price": 0,
+        "flavors": [
+          {
+            "name": "爆脆雞",
+            "addition_price": 0
+          },
+          {
+            "name": "青花椒香麻脆雞(辣)",
+            "addition_price": 7
+          }
+        ]
+      },
+      {
+        "name": "原味蛋撻",
+        "count": 18,
+        "addition_price": 0,
+        "flavors": []
+      }
+    ],
+    "start_date": "2026-10-14",
+    "end_date": "2026-12-31",
+    "meal_periods": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "order_types": [
+      1,
+      2
+    ]
+  }
+]
