@@ -767,60 +767,6 @@
     ]
   },
   {
-    "name": "16917-歲末驚喜點D",
-    "product_code": "TA10654",
-    "coupon_code": 16917,
-    "price": 115,
-    "items": [
-      {
-        "name": "上校雞塊8塊",
-        "count": 1,
-        "addition_price": 0,
-        "flavors": []
-      },
-      {
-        "name": "原味蛋撻",
-        "count": 1,
-        "addition_price": 0,
-        "flavors": []
-      },
-      {
-        "name": "玉米濃湯(小)",
-        "count": 1,
-        "addition_price": 0,
-        "flavors": [
-          {
-            "name": "經典冰奶茶",
-            "addition_price": 0
-          },
-          {
-            "name": "可樂(中)",
-            "addition_price": 0
-          },
-          {
-            "name": "冰無糖綠茶(中)",
-            "addition_price": 0
-          },
-          {
-            "name": "立頓檸檬風味紅茶(中)",
-            "addition_price": 0
-          }
-        ]
-      }
-    ],
-    "start_date": "2026-10-14",
-    "end_date": "2027-03-31",
-    "meal_periods": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "order_types": [
-      2
-    ]
-  },
-  {
     "name": "16910-卡拉情堡讚D",
     "product_code": "TA10647",
     "coupon_code": 16910,
