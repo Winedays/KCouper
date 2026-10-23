@@ -5,6 +5,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 import { cn } from "@/lib/utils";
+import { resolvePriceInput } from "@/lib/priceRange";
 import { itemFilters, type ItemFilterId } from "./ItemFilter";
 import { type ActiveFiltersMap, type MealPeriodFilterType, type OrderTypeFilterType } from "@/hooks/useCouponFilters";
 import SortSelect, { type SortOption, type SecondarySortOption } from "./SortSelect";
@@ -117,6 +118,15 @@ const SearchPanel = ({
 
   /** Local slider state for the custom popover */
   const [sliderValue, setSliderValue] = useState<[number, number]>([priceStats.min, priceStats.max]);
+  /** Raw text being edited in the custom popover inputs */
+  const [minText, setMinText] = useState(String(priceStats.min));
+  const [maxText, setMaxText] = useState(String(priceStats.max));
+
+  const syncPriceValue = (value: [number, number]) => {
+    setSliderValue(value);
+    setMinText(String(value[0]));
+    setMaxText(String(value[1]));
+  };
 
   const handlePresetClick = (preset: [number, number]) => {
     const effectiveMax = preset[1] === 9999 ? priceStats.max : preset[1];
@@ -138,8 +148,22 @@ const SearchPanel = ({
 
   const handlePopoverOpen = (open: boolean) => {
     if (open) {
-      setSliderValue(priceRange ?? [priceStats.min, priceStats.max]);
+      syncPriceValue(priceRange ?? [priceStats.min, priceStats.max]);
     }
+  };
+
+  const handlePriceInputBlur = (side: "min" | "max") => {
+    const text = side === "min" ? minText : maxText;
+    if (text === String(sliderValue[side === "min" ? 0 : 1])) {
+      return;
+    }
+    const result = resolvePriceInput(text, sliderValue, side, priceStats);
+    if (!result) {
+      syncPriceValue(sliderValue);
+      return;
+    }
+    syncPriceValue(result);
+    handleSliderCommit(result);
   };
 
   const renderMealPeriodFilters = () => (
@@ -239,13 +263,39 @@ const SearchPanel = ({
               max={priceStats.max}
               step={10}
               value={sliderValue}
-              onValueChange={(v) => setSliderValue(v as [number, number])}
+              onValueChange={(v) => syncPriceValue(v as [number, number])}
               onValueCommit={handleSliderCommit}
-              minStepsBetweenThumbs={1}
+              minStepsBetweenThumbs={0}
             />
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>${sliderValue[0]}</span>
-              <span>${sliderValue[1]}</span>
+              <div className="flex items-center gap-1">
+                <span>$</span>
+                <Input
+                  type="number"
+                  aria-label="最低價格"
+                  className="h-8 w-20 text-xs"
+                  value={minText}
+                  onChange={(e) => setMinText(e.target.value)}
+                  onBlur={() => handlePriceInputBlur("min")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <span>$</span>
+                <Input
+                  type="number"
+                  aria-label="最高價格"
+                  className="h-8 w-20 text-xs"
+                  value={maxText}
+                  onChange={(e) => setMaxText(e.target.value)}
+                  onBlur={() => handlePriceInputBlur("max")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                  }}
+                />
+              </div>
             </div>
           </div>
         </PopoverContent>

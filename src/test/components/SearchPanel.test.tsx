@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
 import { render } from "@testing-library/react";
 import { screen, fireEvent } from "@testing-library/dom";
 import SearchPanel from "@/components/SearchPanel";
@@ -248,6 +248,86 @@ describe("SearchPanel", () => {
     it("應該渲染自訂按鈕", () => {
       render(<SearchPanel {...defaultProps} />);
       expect(screen.getByText("自訂")).toBeInTheDocument();
+    });
+  });
+  describe("自訂價格輸入框", () => {
+    beforeAll(() => {
+      // Radix Slider / Popper rely on ResizeObserver, which jsdom lacks
+      globalThis.ResizeObserver = class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      };
+    });
+
+    const openCustomPopover = () => {
+      fireEvent.click(screen.getAllByText("自訂")[0]);
+    };
+
+    it("開啟時輸入框應顯示目前範圍", () => {
+      render(<SearchPanel {...defaultProps} priceRange={[100, 300]} />);
+      openCustomPopover();
+
+      expect((screen.getByLabelText("最低價格") as HTMLInputElement).value).toBe("100");
+      expect((screen.getByLabelText("最高價格") as HTMLInputElement).value).toBe("300");
+    });
+
+    it("上限超過最大值 blur 後應套用最大值", () => {
+      const onPriceRangeChange = vi.fn();
+      render(
+        <SearchPanel {...defaultProps} priceRange={[100, 300]} onPriceRangeChange={onPriceRangeChange} />
+      );
+      openCustomPopover();
+
+      const maxInput = screen.getByLabelText("最高價格") as HTMLInputElement;
+      fireEvent.change(maxInput, { target: { value: "999" } });
+      fireEvent.focusOut(maxInput);
+
+      expect(onPriceRangeChange).toHaveBeenCalledWith([100, 500]);
+      expect(maxInput.value).toBe("500");
+    });
+
+    it("下限大於上限 blur 後應改為等於上限", () => {
+      const onPriceRangeChange = vi.fn();
+      render(
+        <SearchPanel {...defaultProps} priceRange={[100, 300]} onPriceRangeChange={onPriceRangeChange} />
+      );
+      openCustomPopover();
+
+      const minInput = screen.getByLabelText("最低價格") as HTMLInputElement;
+      fireEvent.change(minInput, { target: { value: "400" } });
+      fireEvent.focusOut(minInput);
+
+      expect(onPriceRangeChange).toHaveBeenCalledWith([300, 300]);
+      expect(minInput.value).toBe("300");
+    });
+
+    it("輸入空白 blur 後應恢復原值且不觸發篩選", () => {
+      const onPriceRangeChange = vi.fn();
+      render(
+        <SearchPanel {...defaultProps} priceRange={[100, 300]} onPriceRangeChange={onPriceRangeChange} />
+      );
+      openCustomPopover();
+
+      const minInput = screen.getByLabelText("最低價格") as HTMLInputElement;
+      fireEvent.change(minInput, { target: { value: "" } });
+      fireEvent.focusOut(minInput);
+
+      expect(onPriceRangeChange).not.toHaveBeenCalled();
+      expect(minInput.value).toBe("100");
+    });
+
+    it("輸入框文字與原本的值相同時 blur 應直接略過不觸發篩選", () => {
+      const onPriceRangeChange = vi.fn();
+      render(
+        <SearchPanel {...defaultProps} priceRange={[100, 300]} onPriceRangeChange={onPriceRangeChange} />
+      );
+      openCustomPopover();
+
+      const minInput = screen.getByLabelText("最低價格") as HTMLInputElement;
+      fireEvent.focusOut(minInput);
+
+      expect(onPriceRangeChange).not.toHaveBeenCalled();
     });
   });
 });
