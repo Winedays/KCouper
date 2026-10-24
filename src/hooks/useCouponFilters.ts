@@ -100,6 +100,56 @@ export const matchOrderType = (coupon: Coupon, filter: OrderTypeFilterType): boo
   return coupon.order_types.includes(2);
 };
 
+/**
+ * Generate a normalized signature for a coupon based on its items, meal_periods, and order_types.
+ */
+export const getCouponSignature = (coupon: Coupon): string => {
+  const itemsSig = [...coupon.items]
+    .map((item) => {
+      const flavorsSig = [...(item.flavors ?? [])]
+        .sort((a, b) => a.name.localeCompare(b.name) || a.addition_price - b.addition_price)
+        .map((f) => `${f.name}:${f.addition_price}`)
+        .join(",");
+      return `${item.name}:${item.count}:${item.addition_price}:[${flavorsSig}]`;
+    })
+    .sort()
+    .join("|");
+
+  const mealPeriodsSig = [...(coupon.meal_periods ?? [])].sort((a, b) => a - b).join(",");
+  const orderTypesSig = [...(coupon.order_types ?? [])].sort((a, b) => a - b).join(",");
+
+  return `${itemsSig}#mp:${mealPeriodsSig}#ot:${orderTypesSig}`;
+};
+
+/**
+ * Determine whether candidate coupon should be kept over current coupon.
+ * Priority: lowest price > latest end_date > smallest coupon_code
+ */
+const isBetterCoupon = (candidate: Coupon, current: Coupon): boolean => {
+  if (candidate.price !== current.price) {
+    return candidate.price < current.price;
+  }
+  if (candidate.end_date !== current.end_date) {
+    return candidate.end_date > current.end_date;
+  }
+  return candidate.coupon_code < current.coupon_code;
+};
+
+/**
+ * Deduplicate coupons that share the exact same items, meal_periods, and order_types.
+ */
+export const deduplicateCoupons = (coupons: Coupon[]): Coupon[] => {
+  const bestBySignature = new Map<string, Coupon>();
+  for (const coupon of coupons) {
+    const sig = getCouponSignature(coupon);
+    const existing = bestBySignature.get(sig);
+    if (!existing || isBetterCoupon(coupon, existing)) {
+      bestBySignature.set(sig, coupon);
+    }
+  }
+  return Array.from(bestBySignature.values());
+};
+
 export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStates, setFilterStates] = useState<Record<ItemFilterId, FilterState>>({} as Record<ItemFilterId, FilterState>);
@@ -145,6 +195,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     setPrimarySort(newPrimary);
   }, []);
   const [searchAllOptions, setSearchAllOptions] = useState(false);
+  const [hideDuplicates, setHideDuplicates] = useState(true);
   const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
 
   /** Min and max price across all coupons, for Slider bounds */
@@ -278,7 +329,9 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
       return matchesFilter && matchesSearch;
     });
 
-    return [...filtered].sort((a, b) => {
+    const deduplicated = hideDuplicates ? deduplicateCoupons(filtered) : filtered;
+
+    return [...deduplicated].sort((a, b) => {
       const primaryResult = compareCouponsByOption(a, b, primarySort);
       if (primaryResult !== 0) return primaryResult;
 
@@ -292,7 +345,7 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
 
       return a.coupon_code - b.coupon_code;
     });
-  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, mealPeriodFilter, orderTypeFilter, favorites, primarySort, secondarySort, searchAllOptions, priceRange]);
+  }, [coupons, searchQuery, activeFilters, excludeFilters, showFavoritesOnly, mealPeriodFilter, orderTypeFilter, favorites, primarySort, secondarySort, searchAllOptions, hideDuplicates, priceRange]);
 
   return {
     searchQuery,
@@ -313,6 +366,8 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
     setSortBy: handlePrimarySortChange,
     searchAllOptions,
     setSearchAllOptions,
+    hideDuplicates,
+    setHideDuplicates,
     priceRange,
     setPriceRange,
     priceStats,

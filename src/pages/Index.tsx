@@ -54,6 +54,8 @@ const Index = () => {
     setSortBy,
     searchAllOptions,
     setSearchAllOptions,
+    hideDuplicates,
+    setHideDuplicates,
     priceRange,
     setPriceRange,
     priceStats,
@@ -141,6 +143,8 @@ const Index = () => {
           onSearchChange={setSearchQuery}
           searchAllOptions={searchAllOptions}
           onSearchAllOptionsChange={setSearchAllOptions}
+          hideDuplicates={hideDuplicates}
+          onHideDuplicatesChange={setHideDuplicates}
           activeFilters={activeFilters}
           excludeFilters={excludeFilters}
           mealPeriodFilter={mealPeriodFilter}

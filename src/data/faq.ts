@@ -91,6 +91,13 @@ export const FAQ_ITEMS: FaqItem[] = [
     category: "search",
   },
   {
+    id: "hide-duplicates",
+    question: "「過濾重複優惠券」開關是做什麼的？",
+    answer:
+      "肯德基常有不同代碼但內容完全相同的優惠券。開啟此功能（預設開啟）後，當餐點內容、供應時段與取餐方式皆相同時，系統會依「價格最低 ➔ 到期日最晚」的優先順序，只保留最划算的一張優惠券。此外，若你開啟「收藏」篩選或直接輸入特定優惠碼搜尋，系統仍會正常顯示該張優惠券而不受過濾影響。",
+    category: "search",
+  },
+  {
     id: "sort-options",
     question: "如何排序優惠券？",
     answer:

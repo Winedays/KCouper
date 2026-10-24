@@ -40,6 +40,8 @@ type SearchPanelProps = {
   onSearchChange: (query: string) => void;
   searchAllOptions: boolean;
   onSearchAllOptionsChange: (value: boolean) => void;
+  hideDuplicates?: boolean;
+  onHideDuplicatesChange?: (value: boolean) => void;
   activeFilters: ActiveFiltersMap;
   excludeFilters?: Set<ItemFilterId>;
   mealPeriodFilter?: MealPeriodFilterType;
@@ -84,6 +86,8 @@ const SearchPanel = ({
   onSearchChange,
   searchAllOptions,
   onSearchAllOptionsChange,
+  hideDuplicates = true,
+  onHideDuplicatesChange,
   activeFilters,
   excludeFilters = new Set(),
   mealPeriodFilter = null,
@@ -330,19 +334,35 @@ const SearchPanel = ({
             )}
           </div>
 
-          {/* Search all options toggle */}
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="search-all-options-panel"
-              checked={searchAllOptions}
-              onCheckedChange={(checked) => onSearchAllOptionsChange(checked === true)}
-            />
-            <Label
-              htmlFor="search-all-options-panel"
-              className="cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-            >
-              搜尋所有選項
-            </Label>
+          {/* Search options toggles */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="search-all-options-panel"
+                checked={searchAllOptions}
+                onCheckedChange={(checked) => onSearchAllOptionsChange(checked === true)}
+              />
+              <Label
+                htmlFor="search-all-options-panel"
+                className="cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+              >
+                搜尋所有選項
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="hide-duplicates-panel"
+                checked={hideDuplicates}
+                onCheckedChange={(checked) => onHideDuplicatesChange?.(checked === true)}
+              />
+              <Label
+                htmlFor="hide-duplicates-panel"
+                className="cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+              >
+                過濾重複優惠券
+              </Label>
+            </div>
           </div>
 
           {/* Sort select */}

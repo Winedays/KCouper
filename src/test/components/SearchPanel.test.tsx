@@ -76,7 +76,7 @@ describe("SearchPanel", () => {
 
     it("應該顯示勾選狀態", () => {
       render(<SearchPanel {...defaultProps} searchAllOptions={true} />);
-      const checkbox = screen.getByRole("checkbox");
+      const checkbox = screen.getByLabelText("搜尋所有選項");
       expect(checkbox).toBeChecked();
     });
 
@@ -84,10 +84,41 @@ describe("SearchPanel", () => {
       const onSearchAllOptionsChange = vi.fn();
       render(<SearchPanel {...defaultProps} onSearchAllOptionsChange={onSearchAllOptionsChange} />);
       
-      const checkbox = screen.getByRole("checkbox");
+      const checkbox = screen.getByLabelText("搜尋所有選項");
       fireEvent.click(checkbox);
       
       expect(onSearchAllOptionsChange).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe("過濾重複優惠券", () => {
+    it("應該渲染過濾重複優惠券勾選框且預設為勾選", () => {
+      render(<SearchPanel {...defaultProps} />);
+      const checkbox = screen.getByLabelText("過濾重複優惠券");
+      expect(checkbox).toBeInTheDocument();
+      expect(checkbox).toBeChecked();
+    });
+
+    it("當 hideDuplicates 為 false 時應顯示未勾選狀態", () => {
+      render(<SearchPanel {...defaultProps} hideDuplicates={false} />);
+      const checkbox = screen.getByLabelText("過濾重複優惠券");
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it("點擊應該呼叫 onHideDuplicatesChange", () => {
+      const onHideDuplicatesChange = vi.fn();
+      render(
+        <SearchPanel
+          {...defaultProps}
+          hideDuplicates={true}
+          onHideDuplicatesChange={onHideDuplicatesChange}
+        />
+      );
+
+      const checkbox = screen.getByLabelText("過濾重複優惠券");
+      fireEvent.click(checkbox);
+
+      expect(onHideDuplicatesChange).toHaveBeenCalledWith(false);
     });
   });
 

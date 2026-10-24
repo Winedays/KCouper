@@ -310,9 +310,24 @@ describe("useCouponFilters", () => {
 
     it("當主排序欄位數值相同時，應依據副排序選項排序", () => {
       const samePriceCoupons: Coupon[] = [
-        makeCoupon({ coupon_code: 30003, price: 100, discount: 6.5 }),
-        makeCoupon({ coupon_code: 10001, price: 100, discount: 5.0 }),
-        makeCoupon({ coupon_code: 20002, price: 100, discount: 5.5 }),
+        makeCoupon({
+          coupon_code: 30003,
+          price: 100,
+          discount: 6.5,
+          items: [{ name: "原味蛋撻", count: 1, addition_price: 0, flavors: [] }],
+        }),
+        makeCoupon({
+          coupon_code: 10001,
+          price: 100,
+          discount: 5.0,
+          items: [{ name: "上校雞塊", count: 4, addition_price: 0, flavors: [] }],
+        }),
+        makeCoupon({
+          coupon_code: 20002,
+          price: 100,
+          discount: 5.5,
+          items: [{ name: "咔啦脆雞", count: 2, addition_price: 0, flavors: [] }],
+        }),
       ];
       const { result } = renderHook(() => useCouponFilters(samePriceCoupons, EMPTY_FAVORITES));
 
@@ -327,9 +342,24 @@ describe("useCouponFilters", () => {
 
     it("當副排序為 none 時，主排序數值相同的項目應退回依 coupon_code 升冪排序", () => {
       const samePriceCoupons: Coupon[] = [
-        makeCoupon({ coupon_code: 30003, price: 100, discount: 5.0 }),
-        makeCoupon({ coupon_code: 10001, price: 100, discount: 6.5 }),
-        makeCoupon({ coupon_code: 20002, price: 100, discount: 5.5 }),
+        makeCoupon({
+          coupon_code: 30003,
+          price: 100,
+          discount: 5.0,
+          items: [{ name: "原味蛋撻", count: 1, addition_price: 0, flavors: [] }],
+        }),
+        makeCoupon({
+          coupon_code: 10001,
+          price: 100,
+          discount: 6.5,
+          items: [{ name: "上校雞塊", count: 4, addition_price: 0, flavors: [] }],
+        }),
+        makeCoupon({
+          coupon_code: 20002,
+          price: 100,
+          discount: 5.5,
+          items: [{ name: "咔啦脆雞", count: 2, addition_price: 0, flavors: [] }],
+        }),
       ];
       const { result } = renderHook(() => useCouponFilters(samePriceCoupons, EMPTY_FAVORITES));
 
@@ -422,6 +452,95 @@ describe("useCouponFilters", () => {
       
       act(() => result.current.handleClearFilters());
       expect(result.current.excludeFilters.size).toBe(0);
+    });
+  });
+
+  describe("過濾重複優惠券 (hideDuplicates)", () => {
+    const DUPLICATE_COUPONS: Coupon[] = [
+      makeCoupon({
+        coupon_code: 16217,
+        name: "16217-夏日金囍",
+        price: 38,
+        end_date: "2026-12-30",
+        meal_periods: [2, 3, 4, 5],
+        order_types: [2],
+        items: [
+          { name: "雙色轉轉QQ球", count: 1, addition_price: 0, flavors: [] },
+          { name: "冰無糖綠茶(小)", count: 1, addition_price: 0, flavors: [{ name: "百事可樂(小)", addition_price: 0 }] },
+        ],
+      }),
+      makeCoupon({
+        coupon_code: 16412,
+        name: "16412-特賣會避暑",
+        price: 39,
+        end_date: "2027-01-31",
+        meal_periods: [2, 3, 4, 5],
+        order_types: [2],
+        items: [
+          { name: "冰無糖綠茶(小)", count: 1, addition_price: 0, flavors: [{ name: "百事可樂(小)", addition_price: 0 }] },
+          { name: "雙色轉轉QQ球", count: 1, addition_price: 0, flavors: [] },
+        ],
+      }),
+    ];
+
+    it("預設 hideDuplicates 應為 true，且相同內容時優先保留價格最低者", () => {
+      const { result } = setup(DUPLICATE_COUPONS);
+      expect(result.current.hideDuplicates).toBe(true);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+      expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(16217);
+    });
+
+    it("當價格相同時，應優先保留到期日期最晚者", () => {
+      const samePriceDiffDate: Coupon[] = [
+        makeCoupon({ coupon_code: 1001, price: 50, end_date: "2026-11-30" }),
+        makeCoupon({ coupon_code: 1002, price: 50, end_date: "2026-12-31" }),
+      ];
+      const { result } = setup(samePriceDiffDate);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+      expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(1002);
+    });
+
+    it("當價格與到期日皆相同時，應優先保留 coupon_code 較小者", () => {
+      const tieCoupons: Coupon[] = [
+        makeCoupon({ coupon_code: 26833, price: 85, end_date: "2026-10-31" }),
+        makeCoupon({ coupon_code: 26832, price: 85, end_date: "2026-10-31" }),
+      ];
+      const { result } = setup(tieCoupons);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+      expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(26832);
+    });
+
+    it("當支援的時段 (meal_periods) 不同時，應視為不同優惠券並同時保留", () => {
+      const diffMealPeriods: Coupon[] = [
+        makeCoupon({ coupon_code: 1001, price: 38, meal_periods: [1] }),
+        makeCoupon({ coupon_code: 1002, price: 39, meal_periods: [2, 3, 4, 5] }),
+      ];
+      const { result } = setup(diffMealPeriods);
+      act(() => result.current.setMealPeriodFilter(null));
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(2);
+    });
+
+    it("當支援的取餐方式 (order_types) 不同時，應視為不同優惠券並同時保留", () => {
+      const diffOrderTypes: Coupon[] = [
+        makeCoupon({ coupon_code: 1001, price: 38, order_types: [1] }),
+        makeCoupon({ coupon_code: 1002, price: 39, order_types: [2] }),
+      ];
+      const { result } = setup(diffOrderTypes);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(2);
+    });
+
+    it("當關閉 hideDuplicates 時，應顯示所有重複優惠券", () => {
+      const { result } = setup(DUPLICATE_COUPONS);
+      act(() => result.current.setHideDuplicates(false));
+      expect(result.current.hideDuplicates).toBe(false);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(2);
+    });
+
+    it("當直接以較貴的優惠碼搜尋 (如 16412) 時，即使 hideDuplicates 為 true 仍應顯示該券", () => {
+      const { result } = setup(DUPLICATE_COUPONS);
+      act(() => result.current.setSearchQuery("16412"));
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+      expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(16412);
     });
   });
 });
