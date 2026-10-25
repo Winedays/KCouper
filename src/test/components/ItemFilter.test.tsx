@@ -24,13 +24,12 @@ describe("filterMatchRules", () => {
   it("漢堡類規則應該包含正確的品項", () => {
     expect(filterMatchRules["咔啦雞堡"]).toContain("咔啦雞腿堡");
     expect(filterMatchRules["花生熔岩雞腿堡"]).toContain("花生熔岩卡啦雞腿堡");
-    expect(filterMatchRules["烤雞腿堡"]).toContain("紐奧良烙烤雞腿堡");
   });
 });
 
 describe("itemFilters", () => {
-  it("應該有 14 個篩選項目", () => {
-    expect(itemFilters.length).toBe(14);
+  it("應該有 12 個篩選項目", () => {
+    expect(itemFilters.length).toBe(12);
   });
 
   it("每個篩選都應該有 id、label 和 emoji", () => {
@@ -43,7 +42,7 @@ describe("itemFilters", () => {
 
   it("漢堡類應該使用 🍔 emoji", () => {
     const burgerFilters = itemFilters.filter((f) =>
-      ["咔啦雞堡", "花生熔岩雞腿堡", "椒麻雞腿堡", "烤雞腿堡"].includes(f.id)
+      ["咔啦雞堡", "花生熔岩雞腿堡", "椒麻雞腿堡"].includes(f.id)
     );
     burgerFilters.forEach((filter) => {
       expect(filter.emoji).toBe("🍔");
