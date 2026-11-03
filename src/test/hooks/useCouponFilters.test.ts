@@ -205,6 +205,107 @@ describe("useCouponFilters", () => {
       expect(Object.keys(result.current.activeFilters).length).toBe(0);
       expect(result.current.filteredAndSortedCoupons).toHaveLength(3);
     });
+
+    it("應解析名稱中的數量：2塊咔啦脆雞(辣) 在篩選炸雞 x2 時應匹配", () => {
+      const coupons = [
+        makeCoupon({
+          coupon_code: 40001,
+          items: [{ name: "2塊咔啦脆雞(辣)", count: 1, addition_price: 0, flavors: [] }],
+        }),
+      ];
+      const { result } = setup(coupons);
+
+      act(() => {
+        result.current.handleFilterToggle("炸雞");
+        result.current.handleFilterCountChange("炸雞", 1);
+      });
+      expect(result.current.activeFilters["炸雞"]).toBe(2);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+      expect(result.current.filteredAndSortedCoupons[0].coupon_code).toBe(40001);
+
+      act(() => result.current.handleFilterCountChange("炸雞", 1));
+      expect(result.current.activeFilters["炸雞"]).toBe(3);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(0);
+    });
+
+    it("應解析名稱中的數量：2入原味蛋撻 與 2入原味蛋撻超極酥 在篩選蛋撻 x2 時應匹配", () => {
+      const coupons = [
+        makeCoupon({
+          coupon_code: 40002,
+          price: 80,
+          items: [{ name: "2入原味蛋撻", count: 1, addition_price: 0, flavors: [] }],
+        }),
+        makeCoupon({
+          coupon_code: 40003,
+          price: 90,
+          items: [{ name: "2入原味蛋撻超極酥", count: 1, addition_price: 0, flavors: [] }],
+        }),
+      ];
+      const { result } = setup(coupons);
+
+      act(() => {
+        result.current.handleFilterToggle("蛋撻");
+        result.current.handleFilterCountChange("蛋撻", 1);
+      });
+      expect(result.current.activeFilters["蛋撻"]).toBe(2);
+      expect(result.current.filteredAndSortedCoupons.map((c) => c.coupon_code)).toEqual([40002, 40003]);
+
+      act(() => result.current.handleFilterCountChange("蛋撻", 1));
+      expect(result.current.activeFilters["蛋撻"]).toBe(3);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(0);
+    });
+
+    it("應支援 + 組合品項拆分，且 QQ球 排除名稱數量解析（10顆雙色轉轉QQ球 視為 1 份）", () => {
+      const coupons = [
+        makeCoupon({
+          coupon_code: 40004,
+          items: [{ name: "10顆雙色轉轉QQ球+1顆原味蛋撻", count: 1, addition_price: 0, flavors: [] }],
+        }),
+      ];
+      const { result } = setup(coupons);
+
+      // 篩選 QQ球 x1 應匹配，x2 不應匹配
+      act(() => result.current.handleFilterToggle("QQ球"));
+      expect(result.current.activeFilters["QQ球"]).toBe(1);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+
+      act(() => result.current.handleFilterCountChange("QQ球", 1));
+      expect(result.current.activeFilters["QQ球"]).toBe(2);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(0);
+
+      // 重設並篩選 蛋撻 x1 應匹配，x2 不應匹配
+      act(() => {
+        result.current.handleClearFilters();
+        result.current.handleFilterToggle("蛋撻");
+      });
+      expect(result.current.activeFilters["蛋撻"]).toBe(1);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+
+      act(() => result.current.handleFilterCountChange("蛋撻", 1));
+      expect(result.current.activeFilters["蛋撻"]).toBe(2);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(0);
+    });
+
+    it("應解析名稱中的數量：上校雞塊4塊 (count=1) 在篩選雞塊 x4 時應匹配", () => {
+      const coupons = [
+        makeCoupon({
+          coupon_code: 40005,
+          items: [{ name: "上校雞塊4塊", count: 1, addition_price: 0, flavors: [] }],
+        }),
+      ];
+      const { result } = setup(coupons);
+
+      act(() => {
+        result.current.handleFilterToggle("雞塊");
+        result.current.handleFilterCountChange("雞塊", 3);
+      });
+      expect(result.current.activeFilters["雞塊"]).toBe(4);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(1);
+
+      act(() => result.current.handleFilterCountChange("雞塊", 1));
+      expect(result.current.activeFilters["雞塊"]).toBe(5);
+      expect(result.current.filteredAndSortedCoupons).toHaveLength(0);
+    });
   });
 
   describe("收藏篩選", () => {

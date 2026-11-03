@@ -49,7 +49,7 @@ const EXCLUDE_ITEMS_REGEX = new RegExp(EXCLUDE_ITEMS.join('|'));
 /**
  * Units to look for in price calculation, e.g. "2塊", "3份"
  */
-const UNIT_WORD = [
+export const UNIT_WORD = [
     '塊',
     '份',
     '顆',

@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { type Coupon } from "@/data/coupons";
 import { type ItemFilterId, filterMatchRules } from "@/components/ItemFilter";
 import { type SortOption, type SecondarySortOption } from "@/components/SortSelect";
+import { UNIT_WORD } from "@/hooks/useCoupons";
 
 /**
  * Active filters map: filter ID → minimum required count
@@ -47,6 +48,25 @@ const checkNameMatchesFilter = (name: string, filter: ItemFilterId): boolean => 
   const matchPatterns = filterMatchRules[filter];
   if (!matchPatterns) return false;
   return matchPatterns.some((pattern) => name.includes(pattern));
+};
+
+const ITEM_QUANTITY_REGEX = new RegExp(`([1-9][0-9]*)(?:${UNIT_WORD.join("|")})`);
+
+const extractMatchedQuantity = (name: string, filter: ItemFilterId): number => {
+  const subItems = name.split("+").map((s) => s.trim());
+
+  let matchedMultiplier = 0;
+  for (const subItem of subItems) {
+    if (checkNameMatchesFilter(subItem, filter)) {
+      if (filter === "QQ球") {
+        matchedMultiplier += 1;
+      } else {
+        const match = subItem.match(ITEM_QUANTITY_REGEX);
+        matchedMultiplier += match ? parseInt(match[1], 10) : 1;
+      }
+    }
+  }
+  return matchedMultiplier;
 };
 
 export type MealPeriodFilterType = "breakfast" | "lunch" | "dinner" | null;
@@ -305,11 +325,19 @@ export const useCouponFilters = (coupons: Coupon[], favorites: Set<number>) => {
         filterEntries.every(([filter, minCount]) => {
           // Sum up count of all matching items
           const totalCount = coupon.items.reduce((sum, item) => {
-            const nameMatches = checkNameMatchesFilter(item.name, filter);
-            const flavorMatches = searchAllOptions && item.flavors?.some(
-              (flavor) => checkNameMatchesFilter(flavor.name, filter)
-            );
-            return sum + (nameMatches || flavorMatches ? item.count : 0);
+            const itemMultiplier = extractMatchedQuantity(item.name, filter);
+            if (itemMultiplier > 0) {
+              return sum + item.count * itemMultiplier;
+            }
+            if (searchAllOptions && item.flavors) {
+              for (const flavor of item.flavors) {
+                const flavorMultiplier = extractMatchedQuantity(flavor.name, filter);
+                if (flavorMultiplier > 0) {
+                  return sum + item.count * flavorMultiplier;
+                }
+              }
+            }
+            return sum;
           }, 0);
           return totalCount >= minCount;
         });
