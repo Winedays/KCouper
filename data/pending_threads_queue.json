@@ -63,63 +63,6 @@
     ]
   },
   {
-    "name": "16758-萊爾富袋萊",
-    "product_code": "TA10871",
-    "coupon_code": 16758,
-    "price": 388,
-    "items": [
-      {
-        "name": "青花椒香麻脆雞(辣)",
-        "count": 2,
-        "addition_price": 0,
-        "flavors": []
-      },
-      {
-        "name": "咔啦脆雞(辣)",
-        "count": 3,
-        "addition_price": 0,
-        "flavors": [
-          {
-            "name": "爆脆雞",
-            "addition_price": 0
-          },
-          {
-            "name": "青花椒香麻脆雞(辣)",
-            "addition_price": 7
-          }
-        ]
-      },
-      {
-        "name": "2入原味蛋撻",
-        "count": 2,
-        "addition_price": 0,
-        "flavors": []
-      },
-      {
-        "name": "瓶裝百事可樂",
-        "count": 1,
-        "addition_price": 0,
-        "flavors": [
-          {
-            "name": "4杯小可",
-            "addition_price": 0
-          }
-        ]
-      }
-    ],
-    "start_date": "2026-11-17",
-    "end_date": "2027-04-30",
-    "meal_periods": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "order_types": [
-      2
-    ]
-  },
-  {
     "name": "16999-AAA驚喜點",
     "product_code": "TA10869",
     "coupon_code": 16999,
